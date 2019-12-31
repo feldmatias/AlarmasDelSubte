@@ -105,3 +105,4 @@ dist
 
 /.idea/
 /build/
+/config/Config.d.ts
