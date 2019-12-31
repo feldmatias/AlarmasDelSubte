@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "tsc": "tsc",
-    "postinstall": "node-config-ts",
     "start": "cross-env NODE_ENV=development ts-node-dev --respawn --transpileOnly src/app.ts",
     "prod": "cross-env NODE_ENV=production tsc && node ./build/src/app.js",
     "pretest": "eslint src/**/*.ts tests/**/*.ts",
