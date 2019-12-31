@@ -7,7 +7,7 @@
     "start": "cross-env NODE_ENV=development ts-node-dev --respawn --transpileOnly src/app.ts",
     "prod": "cross-env NODE_ENV=production tsc && node ./build/src/app.js",
     "pretest": "eslint src/**/*.ts tests/**/*.ts",
-    "test": "cross-env NODE_ENV=test  mocha -r ts-node/register tests/**/*.ts"
+    "test": "cross-env NODE_ENV=test  mocha -r ts-node/register --colors tests/**/*.ts"
   },
   "dependencies": {
     "@types/config": "0.0.36",
