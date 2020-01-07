@@ -1,5 +1,4 @@
 import config from 'config';
-import {DatabaseType} from "typeorm/driver/types/DatabaseType";
 
 interface Config {
     db: DbConfig
@@ -7,7 +6,7 @@ interface Config {
 }
 
 interface DbConfig {
-    type: DatabaseType
+    type: string
     name: string
 }
 
