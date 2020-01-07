@@ -11,7 +11,7 @@ app.get('/', function (req, res) {
     res.send('Hello World!');
 });
 
-const bootstrap = async () => {
+const bootstrap: () => Promise<void> = async () => {
     await Db.create();
 
     app.listen(3000, function () {
