@@ -1,7 +1,8 @@
 export default {
     config: {
         db: {
-            name: "test"
-        }
+            type: "sqlite",
+            name: "test.db"
+        },
     }
 };

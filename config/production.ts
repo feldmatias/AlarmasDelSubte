@@ -1,7 +1,12 @@
 export default {
     config: {
         db: {
-            name: "production"
+            type: "sqlite",
+            name: "prod.db"
+        },
+
+        src: {
+            fileExtension: ".js"
         }
     }
 };

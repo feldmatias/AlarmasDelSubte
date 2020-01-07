@@ -1,7 +1,12 @@
 export default {
     config: {
         db: {
-            name: "default"
+            type: "sqlite",
+            name: "dev.db"
+        },
+
+        src: {
+            fileExtension: ".ts"
         }
     }
 };

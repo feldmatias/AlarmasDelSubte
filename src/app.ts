@@ -1,5 +1,6 @@
+import "reflect-metadata";
 import express from 'express';
-import {Config} from '../config/config'
+import {Db} from "./db/Db";
 
 
 // Create a new express application instance
@@ -10,9 +11,12 @@ app.get('/', function (req, res) {
     res.send('Hello World!');
 });
 
+const bootstrap = async () => {
+    await Db.create();
 
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
-    console.log(process.env.NODE_ENV);
-    console.log(Config.db.name);
-});
+    app.listen(3000, function () {
+        console.log('App listening on port 3000!');
+    });
+}
+
+bootstrap();

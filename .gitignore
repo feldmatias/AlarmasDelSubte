@@ -106,3 +106,4 @@ dist
 /.idea/
 /build/
 /config/Config.d.ts
+/dev.db
