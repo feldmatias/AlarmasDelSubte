@@ -2,7 +2,7 @@ export default {
     config: {
         db: {
             type: "sqlite",
-            name: "test.db"
+            name: ":memory:"
         },
     }
 };

@@ -1,8 +1,10 @@
-import {createConnection} from "typeorm";
+import {createConnection, useContainer} from "typeorm";
 import {Config} from "../../config/config";
+import {Container} from "typedi";
 
 export class Db {
     static async create(): Promise<void> {
+        useContainer(Container);
         const dbType: any = Config.db.type;
         await createConnection({
             type: dbType,

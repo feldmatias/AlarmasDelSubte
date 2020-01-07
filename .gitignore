@@ -107,3 +107,4 @@ dist
 /build/
 /config/Config.d.ts
 /dev.db
+/test.db
