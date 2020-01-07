@@ -10,9 +10,9 @@ export class Db {
             type: dbType,
             database: Config.db.name,
             entities: [
-                "./**/entities/**/*" + Config.src.fileExtension
+                "./src/**/entities/**/*" + Config.src.fileExtension
             ],
-            migrations: ["./**/migration/*" + Config.src.fileExtension],
+            migrations: [__dirname + "/migration/*" + Config.src.fileExtension],
             synchronize: false,
             logging: false,
             migrationsRun: true
