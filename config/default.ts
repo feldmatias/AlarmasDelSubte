@@ -7,6 +7,10 @@ export default {
 
         src: {
             fileExtension: ".ts"
+        },
+
+        graphql: {
+            graphiql: true
         }
     }
 };

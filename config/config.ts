@@ -3,6 +3,7 @@ import config from 'config';
 interface Config {
     db: DbConfig
     src: SrcConfig
+    graphql: GraphqlConfig
 }
 
 interface DbConfig {
@@ -12,6 +13,10 @@ interface DbConfig {
 
 interface SrcConfig {
     fileExtension: string
+}
+
+interface GraphqlConfig {
+    graphiql: boolean
 }
 
 const appConfig = config.get('config') as Config;

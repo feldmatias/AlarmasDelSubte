@@ -4,5 +4,9 @@ export default {
             type: "sqlite",
             name: ":memory:"
         },
+
+        graphql: {
+            graphiql: false
+        }
     }
 };

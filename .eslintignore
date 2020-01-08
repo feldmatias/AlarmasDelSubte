@@ -1,2 +1,2 @@
-src/db
+src/db/migration
 tests/setup.ts
