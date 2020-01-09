@@ -3,7 +3,6 @@ import {Field, ID, ObjectType} from "type-graphql";
 import {UserInput} from "./UserInput";
 import {Md5} from "ts-md5";
 import {TokenGenerator} from "ts-token-generator";
-import {IsNotEmpty} from "class-validator";
 
 @Entity()
 @ObjectType()

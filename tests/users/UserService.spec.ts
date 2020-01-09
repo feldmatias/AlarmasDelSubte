@@ -3,7 +3,6 @@ import {UserService} from "../../src/users/UserService";
 import {Container} from "typedi";
 import {expect} from "chai";
 import {UserRepository} from "../../src/users/UserRepository";
-import {User} from "../../src/users/entities/User";
 import {UserValidator} from "../../src/users/UserValidator";
 
 const USERNAME = "username";
@@ -69,7 +68,7 @@ describe("User Service", () => {
 
             it("50 different users should have different tokens", async () => {
                 const usersAmount = 50;
-                let tokens = new Set();
+                const tokens = new Set();
 
                 for (let i = 0; i < usersAmount; i++) {
                     const user = getDefaultUserInput(i);
