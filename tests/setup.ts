@@ -1,11 +1,13 @@
 import {Db} from "../src/db/Db";
+import {before} from "mocha"
+import {getConnection} from "typeorm";
 
-const prepare = require('mocha-prepare');
 
-prepare(function (done: () => void) {
-    // called before loading of test cases
-    Db.create().then(() => {
-        done();
-    });
-
+before(async () => {
+    await Db.create();
 });
+
+beforeEach(async () => {
+    await getConnection().dropDatabase();
+    await getConnection().runMigrations();
+})

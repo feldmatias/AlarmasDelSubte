@@ -1,6 +1,9 @@
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 import {Field, ID, ObjectType} from "type-graphql";
 import {UserInput} from "./UserInput";
+import {Md5} from "ts-md5";
+import {TokenGenerator} from "ts-token-generator";
+import {IsNotEmpty} from "class-validator";
 
 @Entity()
 @ObjectType()
@@ -15,7 +18,7 @@ export class User {
     username!: string;
 
     @Column()
-    password!: string;
+    private password!: string;
 
     @Column()
     @Field()
@@ -29,7 +32,11 @@ export class User {
 
     private initialize(userInput: UserInput): void {
         this.username = userInput.username;
-        this.password = userInput.password;
-        this.token = "token";
+        this.password = Md5.hashStr(userInput.password) as string;
+        this.token = new TokenGenerator().generate();
+    }
+
+    public getPassword(): string {
+        return this.password;
     }
 }

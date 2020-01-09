@@ -14,4 +14,12 @@ export class UserRepository {
         await this.repository.save(user);
         return user;
     }
+
+    async findByToken(token: string): Promise<User | undefined> {
+        return await this.repository.findOne({token: token});
+    }
+
+    async checkUsernameExists(username: string): Promise<boolean> {
+        return await this.repository.count({username: username}) > 0;
+    }
 }
