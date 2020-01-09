@@ -3,7 +3,7 @@ import express from 'express';
 import {Db} from "./db/Db";
 import {Config} from "../config/config";
 import graphqlHTTP from "express-graphql";
-import {GraphQL} from "../graphql/GraphQL";
+import {GraphQL} from "./graphql/GraphQL";
 
 
 // Create a new express application instance

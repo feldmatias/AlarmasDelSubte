@@ -1,5 +1,5 @@
 import {buildSchema} from "type-graphql";
-import {Config} from "../config/config";
+import {Config} from "../../config/config";
 import {Container} from "typedi";
 import {GraphQLSchema} from "graphql";
 

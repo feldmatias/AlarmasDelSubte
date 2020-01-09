@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {GraphQL} from "../../graphql/GraphQL";
+import {GraphQL} from "../../src/graphql/GraphQL";
 
 describe('GraphQL', () => {
 

@@ -11,7 +11,7 @@ export class Db {
             type: dbType,
             database: Config.db.name,
             entities: [
-                "./src/**/entities/**/*" + Config.src.fileExtension
+                process.cwd() + "/src/**/entities/**/*" + Config.src.fileExtension
             ],
             migrations: [__dirname + "/migration/*" + Config.src.fileExtension],
             synchronize: false,
