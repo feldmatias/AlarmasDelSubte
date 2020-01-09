@@ -13,7 +13,6 @@ export class UserResolver {
     async user(): Promise<User> {
         const user = new User();
         user.username = "test";
-        user.password = "dasd";
         user.token = "dasd";
         await this.repository.save(user);
         return user;
