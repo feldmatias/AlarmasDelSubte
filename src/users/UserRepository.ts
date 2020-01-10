@@ -22,4 +22,8 @@ export class UserRepository {
     async checkUsernameExists(username: string): Promise<boolean> {
         return await this.repository.count({username: username}) > 0;
     }
+
+    async findByUsername(username: string): Promise<User | undefined> {
+        return await this.repository.findOne({username: username});
+    }
 }
