@@ -1,8 +1,8 @@
 import {Service} from "typedi";
 import {UserRepository} from "./UserRepository";
 import {UserInput} from "./entities/UserInput";
-import {Result} from "../utils/Result";
 import {Validator} from "../utils/Validator";
+import {ValidationResult} from "../utils/ValidationResult";
 
 @Service()
 export class UserValidator {
@@ -14,13 +14,13 @@ export class UserValidator {
     constructor(private userRepository: UserRepository) {
     }
 
-    public async validate(userInput: UserInput): Promise<Result<UserInput>> {
+    public async validate(userInput: UserInput): Promise<ValidationResult> {
         if (!this.validateUserPassword(userInput.password)) {
-            return Result.Error(UserValidator.INVALID_PASSWORD_ERROR);
+            return ValidationResult.Error(UserValidator.INVALID_PASSWORD_ERROR);
         }
 
         if (!await this.validateUniqueUsername(userInput.username)) {
-            return Result.Error(UserValidator.NOT_UNIQUE_USERNAME_ERROR);
+            return ValidationResult.Error(UserValidator.NOT_UNIQUE_USERNAME_ERROR);
         }
 
         const validated = await Validator.validate(userInput);
@@ -28,7 +28,7 @@ export class UserValidator {
             return validated;
         }
 
-        return Result.Success(userInput);
+        return ValidationResult.Success();
     }
 
     private validateUserPassword(password: string): boolean {
