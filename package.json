@@ -22,7 +22,6 @@
     "express": "~4.16.1",
     "express-graphql": "^0.9.0",
     "graphql": "^14.5.8",
-    "morgan": "~1.9.1",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^4.1.1",
     "ts-md5": "^1.2.7",

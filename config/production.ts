@@ -7,10 +7,6 @@ export default {
 
         src: {
             fileExtension: ".js"
-        },
-
-        graphql: {
-            graphiql: false
         }
     }
 };
