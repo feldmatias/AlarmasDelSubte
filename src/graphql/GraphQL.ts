@@ -10,6 +10,7 @@ export class GraphQL {
             resolvers: [process.cwd() + "/src/**/resolvers/**/*" + Config.src.fileExtension],
             emitSchemaFile: __dirname + "/schema.gql",
             container: Container,
+            validate: false
         });
     }
 }
