@@ -3,6 +3,10 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Mutation {
+  registerUser(userInput: UserInput!): User!
+}
+
 type Query {
   user: User!
 }
@@ -11,4 +15,9 @@ type User {
   id: ID!
   username: String!
   token: String!
+}
+
+input UserInput {
+  username: String!
+  password: String!
 }

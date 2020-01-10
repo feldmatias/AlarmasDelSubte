@@ -8,7 +8,7 @@ export class GraphQL {
     static async createSchema(): Promise<GraphQLSchema> {
         return await buildSchema({
             resolvers: [process.cwd() + "/src/**/resolvers/**/*" + Config.src.fileExtension],
-            emitSchemaFile: "./graphql//schema.gql",
+            emitSchemaFile: __dirname + "/schema.gql",
             container: Container,
         });
     }

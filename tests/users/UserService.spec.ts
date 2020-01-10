@@ -66,8 +66,8 @@ describe("User Service", () => {
                 expect(savedUser1.getData().token).to.not.eq(savedUser2.getData().token);
             });
 
-            it("50 different users should have different tokens", async () => {
-                const usersAmount = 50;
+            it("15 different users should have different tokens", async () => {
+                const usersAmount = 15;
                 const tokens = new Set();
 
                 for (let i = 0; i < usersAmount; i++) {
