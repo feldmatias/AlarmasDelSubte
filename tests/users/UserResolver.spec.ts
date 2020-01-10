@@ -69,6 +69,32 @@ describe("User Resolver", () => {
                     .to.eventually.be.rejectedWith(ErrorHelper.DEFAULT_ERROR_MESSAGE);
             });
         });
+    });
+
+    context("Login user", () => {
+
+        it("should return logged in user", async () => {
+            const user = new User();
+            user.username = USERNAME;
+            user.token = TOKEN;
+
+            when(service.login(anyOfClass(UserInput))).thenResolve(Result.Success(user));
+
+            const result = await resolver.login(new UserInput());
+            expect(result.username).to.eq(USERNAME);
+            expect(result.token).to.eq(TOKEN);
+        });
+
+        context("errors", () => {
+
+            it("should raise error when invalid login", async () => {
+                when(service.login(anyOfClass(UserInput)))
+                    .thenResolve(Result.Error(UserService.LOGIN_ERROR));
+
+                await expect(resolver.login(new UserInput()))
+                    .to.eventually.be.rejectedWith(UserErrorHelper.INVALID_LOGIN_MESSAGE);
+            });
+        });
 
     });
 });

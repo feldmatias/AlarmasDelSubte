@@ -10,14 +10,13 @@ export class UserResolver {
     constructor(private service: UserService) {
     }
 
-    //TODO: remove this
     @Query(() => User)
-     async user(): Promise<User> {
-         const user = new User();
-         user.username = "test";
-         user.token = "dasd";
-         user.id = 1;
-         return user;
+     async login(@Arg("userInput") userInput: UserInput): Promise<User> {
+        const result = await this.service.login(userInput);
+        if (!result.isSuccessful()) {
+            throw new Error(UserErrorHelper.getErrorMessage(result.getError()));
+        }
+        return result.getData();
      }
 
     @Mutation(() => User)

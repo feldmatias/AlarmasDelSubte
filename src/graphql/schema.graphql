@@ -8,7 +8,7 @@ type Mutation {
 }
 
 type Query {
-  user: User!
+  login(userInput: UserInput!): User!
 }
 
 type User {
