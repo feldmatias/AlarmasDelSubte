@@ -35,7 +35,7 @@ export class User {
         this.token = new TokenGenerator().generate();
     }
 
-    public getPassword(): string {
-        return this.password;
+    public checkPassword(otherPassword: string): boolean {
+        return this.password == Md5.hashStr(otherPassword) as string;
     }
 }

@@ -45,11 +45,10 @@ describe("User Service", () => {
                 expect(savedUser.getData().username).to.eq(USERNAME);
             });
 
-            it("created user should have hashed password", async () => {
+            it("created user should have correct password", async () => {
                 const user = getDefaultUserInput();
                 const savedUser = await service.registerUser(user);
-                expect(savedUser.getData().getPassword()).to.not.be.undefined;
-                expect(savedUser.getData().getPassword()).to.not.eq(PASSWORD);
+                expect(savedUser.getData().checkPassword(PASSWORD)).to.be.true;
             });
 
             it("created user should have token", async () => {
