@@ -15,7 +15,10 @@ export class UserFixture {
         return user;
     };
 
-    public static async createUser(input: UserInput): Promise<User> {
+    public static async createUser(input?: UserInput): Promise<User> {
+        if (!input) {
+            input = this.getDefaultUserInput();
+        }
         const user = new User(input);
         return await Container.get(UserRepository).createUser(user);
     }

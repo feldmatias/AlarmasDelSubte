@@ -5,8 +5,7 @@ import {Container} from "typedi";
 export class Db {
     static async create(): Promise<void> {
         useContainer(Container);
-        /* eslint-disable  @typescript-eslint/no-explicit-any */
-        const dbType: any = Config.db.type;
+        const dbType: any = Config.db.type; // eslint-disable-line  @typescript-eslint/no-explicit-any
         await createConnection({
             type: dbType,
             database: Config.db.name,
