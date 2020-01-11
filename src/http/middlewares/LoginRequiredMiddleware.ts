@@ -15,6 +15,10 @@ export class LoginRequiredMiddleware implements MiddlewareInterface<RequestConte
     constructor(private userRepository: UserRepository) {
     }
 
+    /**
+     * For queries and mutations that are not excluded, current logged user is set to the context.
+     * If no logged user is found, it will throw an error.
+     */
     async use({context, info}: ResolverData<RequestContext>, next: NextFn): Promise<any> { // eslint-disable-line  @typescript-eslint/no-explicit-any
         const queryType = info.schema.getQueryType();
         const mutationType = info.schema.getMutationType();
