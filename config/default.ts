@@ -6,7 +6,8 @@ export default {
         },
 
         src: {
-            fileExtension: ".ts"
+            fileExtension: ".ts",
+            folder: ""
         }
     }
 };

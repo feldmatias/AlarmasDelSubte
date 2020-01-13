@@ -108,3 +108,4 @@ dist
 /config/Config.d.ts
 /dev.db
 /test.db
+/prod.db

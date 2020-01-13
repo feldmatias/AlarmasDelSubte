@@ -6,7 +6,8 @@ export default {
         },
 
         src: {
-            fileExtension: ".js"
+            fileExtension: ".js",
+            folder: "/build"
         }
     }
 };

@@ -12,6 +12,7 @@ interface DbConfig {
 
 interface SrcConfig {
     fileExtension: string
+    folder: string
 }
 
 const appConfig = config.get('config') as Config;
