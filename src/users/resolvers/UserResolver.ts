@@ -4,7 +4,7 @@ import {UserInput} from "../entities/UserInput";
 import {UserService} from "../UserService";
 import UserErrorHelper from "../UserErrorHelper";
 
-@Resolver(User)
+@Resolver()
 export class UserResolver {
 
     constructor(private service: UserService) {

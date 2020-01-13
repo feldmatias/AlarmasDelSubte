@@ -42,7 +42,7 @@ describe("Subway Service", () => {
 
             const subways = await service.getAll();
 
-            let lines = new Array<string>();
+            const lines = new Array<string>();
             for (let i = 0; i < count; i++) {
                 lines.push(subways[i].line);
             }

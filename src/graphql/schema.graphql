@@ -3,12 +3,25 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
 type Mutation {
   registerUser(userInput: UserInput!): User!
 }
 
 type Query {
+  getSubways: [Subway!]!
   login(userInput: UserInput!): User!
+}
+
+type Subway {
+  line: String!
+  icon: String!
+  status: String!
+  updatedAt: DateTime!
 }
 
 type User {

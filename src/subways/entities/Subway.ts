@@ -1,7 +1,8 @@
 import {Column, Entity, PrimaryColumn, UpdateDateColumn} from "typeorm";
-import {Field} from "type-graphql";
+import {Field, ObjectType} from "type-graphql";
 
 @Entity()
+@ObjectType()
 export class Subway {
 
     static readonly NORMAL_STATUS = "Normal";
