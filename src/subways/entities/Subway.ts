@@ -1,11 +1,10 @@
 import {Column, Entity, PrimaryColumn, UpdateDateColumn} from "typeorm";
 import {Field, ObjectType} from "type-graphql";
+import {SubwayStatus, SubwayStatusHelper} from "../../../tests/subways/SubwayStatus";
 
 @Entity()
 @ObjectType()
 export class Subway {
-
-    static readonly NORMAL_STATUS = "Normal";
 
     @PrimaryColumn()
     @Field()
@@ -15,11 +14,15 @@ export class Subway {
     @Field()
     icon!: string;
 
-    @Column({default: Subway.NORMAL_STATUS})
+    @Column({default: SubwayStatusHelper.NORMAL_STATUS_MESSAGE})
     @Field()
     status!: string;
 
     @UpdateDateColumn()
     @Field()
     updatedAt!: Date;
+
+    getStatusType(): SubwayStatus {
+        return SubwayStatusHelper.getSubwayStatus(this.status);
+    }
 }
