@@ -1,6 +1,6 @@
 import {UserInput} from "../../src/users/entities/UserInput";
 import {User} from "../../src/users/entities/User";
-import { expect } from "chai";
+import {expect} from "chai";
 import {Md5} from "ts-md5";
 
 const USERNAME = "username";

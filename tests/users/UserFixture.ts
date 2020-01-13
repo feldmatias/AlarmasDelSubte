@@ -1,7 +1,6 @@
 import {User} from "../../src/users/entities/User";
 import {UserInput} from "../../src/users/entities/UserInput";
-import {UserRepository} from "../../src/users/UserRepository";
-import {Container} from "typedi";
+import {getConnection} from "typeorm";
 
 export class UserFixture {
 
@@ -20,6 +19,6 @@ export class UserFixture {
             input = this.getDefaultUserInput();
         }
         const user = new User(input);
-        return await Container.get(UserRepository).createUser(user);
+        return await getConnection().getRepository(User).save(user);
     }
 }

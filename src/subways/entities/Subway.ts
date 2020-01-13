@@ -19,6 +19,6 @@ export class Subway {
     status!: string;
 
     @UpdateDateColumn()
-    @Field(() => Date)
+    @Field()
     updatedAt!: Date;
 }

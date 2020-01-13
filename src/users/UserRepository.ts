@@ -11,8 +11,7 @@ export class UserRepository {
     }
 
     async createUser(user: User): Promise<User> {
-        await this.repository.save(user);
-        return user;
+        return await this.repository.save(user);
     }
 
     async findByToken(token: string): Promise<User | undefined> {
