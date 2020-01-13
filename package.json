@@ -9,7 +9,7 @@
     "pretest": "eslint --fix src/**/*.ts tests/**/*.ts",
     "test": "cross-env NODE_ENV=test nyc mocha -r ts-node/register --colors --file tests/setup.ts tests/**/*.ts",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "migrations": "ts-node node_modules\\typeorm\\cli.js migration:generate"
+    "migrations:generate": "ts-node node_modules\\typeorm\\cli.js migration:generate"
   },
   "dependencies": {
     "@types/config": "0.0.36",
@@ -31,7 +31,8 @@
     "typedi": "^0.8.0",
     "typeorm": "^0.2.22",
     "typeorm-typedi-extensions": "^0.2.3",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "typescript-string-operations": "^1.3.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.7",

@@ -4,4 +4,4 @@
 [![Coverage Status](https://coveralls.io/repos/github/feldmatias/AlarmasDelSubte/badge.svg?branch=master&a=1)](https://coveralls.io/github/feldmatias/AlarmasDelSubte?branch=master)
 
 ### Generate migrations
-npm run migrations -- -n <migration name>
+npm run migrations:generate -- -n \<migration name\>
