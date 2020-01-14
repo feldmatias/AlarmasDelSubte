@@ -16,4 +16,4 @@ beforeEach(async () => {
     await getConnection().dropDatabase();
     await getConnection().runMigrations();
     await getConnection().getRepository(Subway).clear(); // Clear all default generated subways
-})
+});

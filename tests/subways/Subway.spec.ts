@@ -21,14 +21,14 @@ describe("Subway", () => {
                 expect(subway.statusType()).to.eq(SubwayStatus.Normal);
             });
 
-            it(`should be NORMAL when status starts with '${status}' in the middle`, () => {
+            it(`should be NORMAL when status starts with '${status}'`, () => {
                 const subway = new Subway();
                 subway.status = `${status} status`;
 
                 expect(subway.statusType()).to.eq(SubwayStatus.Normal);
             });
 
-            it(`should be NORMAL when status ends with '${status}' in the middle`, () => {
+            it(`should be NORMAL when status ends with '${status}'`, () => {
                 const subway = new Subway();
                 subway.status = `some ${status}`;
 
@@ -51,14 +51,14 @@ describe("Subway", () => {
                 expect(subway.statusType()).to.eq(SubwayStatus.Limited);
             });
 
-            it(`should be LIMITED when status starts with '${status}' in the middle`, () => {
+            it(`should be LIMITED when status starts with '${status}'`, () => {
                 const subway = new Subway();
                 subway.status = `${status} status`;
 
                 expect(subway.statusType()).to.eq(SubwayStatus.Limited);
             });
 
-            it(`should be LIMITED when status ends with '${status}' in the middle`, () => {
+            it(`should be LIMITED when status ends with '${status}'`, () => {
                 const subway = new Subway();
                 subway.status = `some ${status}`;
 
