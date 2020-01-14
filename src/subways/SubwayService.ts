@@ -10,6 +10,6 @@ export class SubwayService {
     }
 
     async getAll(): Promise<Array<Subway>> {
-        return await this.repository.getAll();
+        return await this.repository.getAllOrdered();
     }
 }

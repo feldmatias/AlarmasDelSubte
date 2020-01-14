@@ -56,7 +56,7 @@ describe("Subway Resolver", () => {
             }
         });
 
-        it("returns subways ordered by line", async () => {
+        it("returns subways in the order service returns them", async () => {
             const subway1 = new Subway();
             subway1.line = "1";
             const subway2 = new Subway();
@@ -65,8 +65,8 @@ describe("Subway Resolver", () => {
 
             const subways = await resolver.getSubways();
 
-            expect(subways[0].line).to.eq(subway1.line);
-            expect(subways[1].line).to.eq(subway2.line);
+            expect(subways[0].line).to.eq(subway2.line);
+            expect(subways[1].line).to.eq(subway1.line);
         });
 
     });

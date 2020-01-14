@@ -9,7 +9,11 @@ export class SubwayRepository {
     constructor(@InjectRepository(Subway) private repository: Repository<Subway>) {
     }
 
-    async getAll(): Promise<Array<Subway>> {
-        return this.repository.find();
+    async getAllOrdered(): Promise<Array<Subway>> {
+        return this.repository.find({
+            order: {
+                line: "ASC"
+            }
+        });
     }
 }

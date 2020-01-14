@@ -52,6 +52,18 @@ describe("Subway Service", () => {
             }
         });
 
+        it("returns 3 subways ordered by line", async () => {
+            await SubwayFixture.createSubway("2");
+            await SubwayFixture.createSubway("1");
+            await SubwayFixture.createSubway("3");
+
+            const subways = await service.getAll();
+
+            expect(subways[0].line).to.eq("1");
+            expect(subways[1].line).to.eq("2");
+            expect(subways[2].line).to.eq("3");
+        });
+
     });
 
 });

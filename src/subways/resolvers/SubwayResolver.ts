@@ -10,9 +10,6 @@ export class SubwayResolver {
 
     @Query(() => [Subway])
     async getSubways(): Promise<Array<Subway>> {
-        let subways = await this.service.getAll();
-        return subways.sort((a, b) => {
-            return a.line.localeCompare(b.line);
-        })
+        return await this.service.getAll();
     }
 }
