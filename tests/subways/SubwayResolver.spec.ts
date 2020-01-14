@@ -56,6 +56,19 @@ describe("Subway Resolver", () => {
             }
         });
 
+        it("returns subways ordered by line", async () => {
+            const subway1 = new Subway();
+            subway1.line = "1";
+            const subway2 = new Subway();
+            subway1.line = "2";
+            when(service.getAll()).thenResolve([subway2, subway1]);
+
+            const subways = await resolver.getSubways();
+
+            expect(subways[0].line).to.eq(subway1.line);
+            expect(subways[1].line).to.eq(subway2.line);
+        });
+
     });
 
 });
