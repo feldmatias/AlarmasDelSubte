@@ -1,6 +1,6 @@
 import {Column, Entity, PrimaryColumn, UpdateDateColumn} from "typeorm";
 import {Field, ObjectType} from "type-graphql";
-import {SubwayStatus, SubwayStatusHelper} from "../../../tests/subways/SubwayStatus";
+import {SubwayStatus, SubwayStatusHelper} from "../SubwayStatus";
 
 @Entity()
 @ObjectType()

@@ -1,6 +1,6 @@
 import {Subway} from "../../src/subways/entities/Subway";
 import {expect} from "chai";
-import {SubwayStatus} from "./SubwayStatus";
+import {SubwayStatus} from "../../src/subways/SubwayStatus";
 
 describe("Subway", () => {
 

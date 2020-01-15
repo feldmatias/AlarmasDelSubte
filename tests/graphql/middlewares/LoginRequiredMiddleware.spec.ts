@@ -1,16 +1,16 @@
 import {Container} from "typedi";
-import {LoginRequiredMiddleware} from "../../src/http/middlewares/LoginRequiredMiddleware";
+import {LoginRequiredMiddleware} from "../../../src/graphql/middlewares/LoginRequiredMiddleware";
 import {instance, mock, when} from "ts-mockito";
 import {GraphQLSchema} from "graphql/type/schema";
 import {GraphQLObjectType, GraphQLResolveInfo} from "graphql";
 import {NextFn} from "type-graphql/dist/interfaces/Middleware";
-import {RequestContext} from "../../src/http/RequestContext";
+import {RequestContext} from "../../../src/graphql/RequestContext";
 import {ArgsDictionary} from "type-graphql";
 import {expect} from "chai";
-import {User} from "../../src/users/entities/User";
-import {UserFixture} from "../users/UserFixture";
+import {User} from "../../../src/users/entities/User";
+import {UserFixture} from "../../users/UserFixture";
 import {fail} from "assert";
-import {ErrorHelper} from "../../src/utils/ErrorHelper";
+import {ErrorHelper} from "../../../src/utils/ErrorHelper";
 import {constants} from "http2";
 
 const QUERY_TYPE = new GraphQLObjectType({

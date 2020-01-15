@@ -2,8 +2,8 @@ import {buildSchema, registerEnumType} from "type-graphql";
 import {Config} from "../../config/config";
 import {Container} from "typedi";
 import {GraphQLSchema} from "graphql";
-import {LoginRequiredMiddleware} from "../http/middlewares/LoginRequiredMiddleware";
-import {SubwayStatus} from "../../tests/subways/SubwayStatus";
+import {LoginRequiredMiddleware} from "./middlewares/LoginRequiredMiddleware";
+import {SubwayStatus} from "../subways/SubwayStatus";
 
 export class GraphQL {
 
