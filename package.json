@@ -6,8 +6,8 @@
     "tsc": "tsc",
     "start": "cross-env NODE_ENV=development ts-node-dev --respawn --transpileOnly src/app.ts",
     "prod": "tsc && cross-env NODE_ENV=production node ./build/src/app.js",
-    "pretest": "eslint --fix --max-warnings 0 src/**/*.ts tests/**/*.ts",
-    "test": "cross-env NODE_ENV=test nyc mocha -r ts-node/register --colors --recursive --file tests/setup.ts tests/**/*.ts",
+    "pretest": "eslint --fix --max-warnings 0 'src/**/*.ts' 'tests/**/*.ts'",
+    "test": "cross-env NODE_ENV=test nyc mocha -r ts-node/register --colors --file tests/setup.ts 'tests/**/*.ts'",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "migrations:generate": "ts-node node_modules\\typeorm\\cli.js migration:generate"
   },
