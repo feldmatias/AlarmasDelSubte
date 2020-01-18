@@ -78,7 +78,7 @@ describe("User Service", () => {
 
                 const savedUser = await service.registerUser(user);
                 expect(savedUser.isSuccessful()).to.be.false;
-                expect(savedUser.getError()).to.eq(UserValidator.INVALID_PASSWORD_ERROR);
+                expect(savedUser.getError()).to.eq(UserInput.INVALID_PASSWORD_ERROR);
             });
 
             it("can not create user with password length 5", async () => {
@@ -87,7 +87,7 @@ describe("User Service", () => {
 
                 const savedUser = await service.registerUser(user);
                 expect(savedUser.isSuccessful()).to.be.false;
-                expect(savedUser.getError()).to.eq(UserValidator.INVALID_PASSWORD_ERROR);
+                expect(savedUser.getError()).to.eq(UserInput.INVALID_PASSWORD_ERROR);
             });
 
             it("can create user with password length 6", async () => {

@@ -39,7 +39,7 @@ describe("User Resolver", () => {
 
             it("should raise error when invalid password", async () => {
                 when(service.registerUser(anyOfClass(UserInput)))
-                    .thenResolve(Result.Error(UserValidator.INVALID_PASSWORD_ERROR));
+                    .thenResolve(Result.Error(UserInput.INVALID_PASSWORD_ERROR));
 
                 await expect(resolver.registerUser(new UserInput()))
                     .to.eventually.be.rejectedWith(UserErrorHelper.INVALID_PASSWORD_MESSAGE);
