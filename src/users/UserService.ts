@@ -16,7 +16,7 @@ export class UserService {
     async registerUser(userInput: UserInput): Promise<Result<User>> {
         const validation = await this.userValidator.validate(userInput);
         if (!validation.isSuccessful()) {
-            return Result.Error(validation.getError())
+            return Result.Error(validation.getError());
         }
 
         const user = new User(userInput);
