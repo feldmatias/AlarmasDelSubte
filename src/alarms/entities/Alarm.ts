@@ -2,19 +2,20 @@ import {Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn
 import {Field, ID, ObjectType} from "type-graphql";
 import {Subway} from "../../subways/entities/Subway";
 import {User} from "../../users/entities/User";
-import {ArrayNotEmpty, Contains, IsDefined, IsIn, IsMilitaryTime, IsNotEmpty} from "class-validator";
+import {ArrayNotEmpty, Contains, IsDefined, IsMilitaryTime, IsNotEmpty, Validate} from "class-validator";
+import {AlarmDaysValidation} from "../validation/AlarmDaysValidation";
 
-@Entity()
-@ObjectType()
-export class Alarm {
-
-    static VALID_DAYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-
+export class AlarmErrors {
     static INVALID_NAME_ERROR = "INVALID_ALARM_NAME_ERROR";
     static INVALID_DAYS_ERROR = "INVALID_ALARM_DAYS_ERROR";
     static INVALID_TIME_RANGE_ERROR = "INVALID_ALARM_TIME_RANGE_ERROR";
     static INVALID_SUBWAYS_ERROR = "INVALID_ALARM_SUBWAYS_ERROR";
     static INVALID_OWNER_ERROR = "INVALID_ALARM_OWNER_ERROR";
+}
+
+@Entity()
+@ObjectType()
+export class Alarm {
 
     @PrimaryGeneratedColumn()
     @Field(() => ID)
@@ -22,34 +23,33 @@ export class Alarm {
 
     @Column()
     @Field()
-    @IsNotEmpty({message: Alarm.INVALID_NAME_ERROR})
+    @IsNotEmpty({message: AlarmErrors.INVALID_NAME_ERROR})
     name!: string;
 
     @Column("simple-array")
     @Field(() => [String])
-    @ArrayNotEmpty({message: Alarm.INVALID_DAYS_ERROR})
-    @IsIn(Alarm.VALID_DAYS, {each: true, message: Alarm.INVALID_DAYS_ERROR})
+    @Validate(AlarmDaysValidation)
     days!: string[];
 
     @Column()
     @Field()
-    @Contains(":", {message: Alarm.INVALID_TIME_RANGE_ERROR})
-    @IsMilitaryTime({message: Alarm.INVALID_TIME_RANGE_ERROR})
+    @Contains(":", {message: AlarmErrors.INVALID_TIME_RANGE_ERROR})
+    @IsMilitaryTime({message: AlarmErrors.INVALID_TIME_RANGE_ERROR})
     start!: string;
 
     @Column()
     @Field()
-    @Contains(":", {message: Alarm.INVALID_TIME_RANGE_ERROR})
-    @IsMilitaryTime({message: Alarm.INVALID_TIME_RANGE_ERROR})
+    @Contains(":", {message: AlarmErrors.INVALID_TIME_RANGE_ERROR})
+    @IsMilitaryTime({message: AlarmErrors.INVALID_TIME_RANGE_ERROR})
     end!: string;
 
     @ManyToMany(() => Subway, {onDelete: "CASCADE"})
     @JoinTable()
     @Field(() => [Subway])
-    @ArrayNotEmpty({message: Alarm.INVALID_SUBWAYS_ERROR})
+    @ArrayNotEmpty({message: AlarmErrors.INVALID_SUBWAYS_ERROR})
     subways!: Subway[];
 
     @ManyToOne(() => User, {onDelete: "CASCADE"})
-    @IsDefined({message: Alarm.INVALID_OWNER_ERROR})
+    @IsDefined({message: AlarmErrors.INVALID_OWNER_ERROR})
     owner!: User;
 }

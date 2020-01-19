@@ -1,6 +1,6 @@
 import {Service} from "typedi";
 import {AlarmRepository} from "./AlarmRepository";
-import {Alarm} from "./entities/Alarm";
+import {Alarm, AlarmErrors} from "./entities/Alarm";
 import {Result} from "../utils/Result";
 import {Validator} from "../utils/Validator";
 import {AlarmInput} from "./entities/AlarmInput";
@@ -31,7 +31,7 @@ export class AlarmService {
         }
 
         if (alarm.start >= alarm.end) {
-            return Result.Error(Alarm.INVALID_TIME_RANGE_ERROR);
+            return Result.Error(AlarmErrors.INVALID_TIME_RANGE_ERROR);
         }
 
         const saved = await this.repository.save(alarm);
