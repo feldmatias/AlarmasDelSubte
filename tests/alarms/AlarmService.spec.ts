@@ -51,13 +51,26 @@ describe("Alarm Service", () => {
         it("should return alarm with correct properties ", async () => {
             const created = await service.create(getDefaultAlarm());
             const id = created.getData().id;
-            delete (created.getData() as AlarmInput).subwayLines;
-            delete created.getData().owner;
+            const expected = created.getData();
 
             const alarm = await service.get(id);
 
             expect(alarm).to.not.be.undefined;
-            expect(alarm).to.deep.eq(created.getData());
+            expect(alarm?.name).to.eq(expected.name);
+            expect(alarm?.start).to.eq(expected.start);
+            expect(alarm?.end).to.eq(expected.end);
+            expect(alarm?.days).to.deep.eq(expected.days);
+        });
+
+        it("should return alarm with correct subways", async () => {
+            const created = await service.create(getDefaultAlarm());
+            const id = created.getData().id;
+            const expected = created.getData();
+
+            const alarm = await service.get(id);
+
+            expect(alarm).to.not.be.undefined;
+            expect(alarm?.subways).to.deep.eq(expected.subways);
         });
     });
 
