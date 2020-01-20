@@ -22,7 +22,7 @@ export class Subway {
     @Field()
     updatedAt!: Date;
 
-    @Field(() => SubwayStatus)
+    @Field(_type => SubwayStatus)
     statusType(): SubwayStatus {
         return SubwayStatusHelper.getSubwayStatus(this.status);
     }

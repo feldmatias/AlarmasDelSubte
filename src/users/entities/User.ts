@@ -9,7 +9,7 @@ import {TokenGenerator} from "ts-token-generator";
 export class User {
 
     @PrimaryGeneratedColumn()
-    @Field(() => ID)
+    @Field(_type => ID)
     id!: number;
 
     @Column({unique: true})

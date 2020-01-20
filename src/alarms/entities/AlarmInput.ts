@@ -5,7 +5,7 @@ import {Subway} from "../../subways/entities/Subway";
 @InputType()
 export class AlarmInput extends Alarm implements Partial<Alarm> {
 
-    @Field(() => [String])
+    @Field(_type => [String])
     subwayLines!: string[];
 
     setSubways(subways: Array<Subway>): void {

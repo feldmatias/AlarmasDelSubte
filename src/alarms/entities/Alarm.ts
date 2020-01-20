@@ -2,8 +2,10 @@ import {Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn
 import {Field, ID, ObjectType} from "type-graphql";
 import {Subway} from "../../subways/entities/Subway";
 import {User} from "../../users/entities/User";
-import {ArrayNotEmpty, Contains, IsDefined, IsMilitaryTime, IsNotEmpty, Validate} from "class-validator";
+import {ArrayNotEmpty, IsDefined, IsNotEmpty, Validate} from "class-validator";
 import {AlarmDaysValidation} from "../validation/AlarmDaysValidation";
+import {AlarmTimeValidation} from "../validation/AlarmTimeValidation";
+import {AlarmEndTimeValidation} from "../validation/AlarmEndTimeValidation";
 
 export class AlarmErrors {
     static INVALID_NAME_ERROR = "INVALID_ALARM_NAME_ERROR";
@@ -18,7 +20,7 @@ export class AlarmErrors {
 export class Alarm {
 
     @PrimaryGeneratedColumn()
-    @Field(() => ID)
+    @Field(_type => ID)
     id!: number;
 
     @Column()
@@ -27,29 +29,27 @@ export class Alarm {
     name!: string;
 
     @Column("simple-array")
-    @Field(() => [String])
+    @Field(_type => [String])
     @Validate(AlarmDaysValidation)
     days!: string[];
 
     @Column()
     @Field()
-    @Contains(":", {message: AlarmErrors.INVALID_TIME_RANGE_ERROR})
-    @IsMilitaryTime({message: AlarmErrors.INVALID_TIME_RANGE_ERROR})
+    @Validate(AlarmTimeValidation)
     start!: string;
 
     @Column()
     @Field()
-    @Contains(":", {message: AlarmErrors.INVALID_TIME_RANGE_ERROR})
-    @IsMilitaryTime({message: AlarmErrors.INVALID_TIME_RANGE_ERROR})
+    @Validate(AlarmEndTimeValidation)
     end!: string;
 
-    @ManyToMany(() => Subway, {onDelete: "CASCADE"})
+    @ManyToMany(_type => Subway, {onDelete: "CASCADE"})
     @JoinTable()
-    @Field(() => [Subway])
+    @Field(_type => [Subway])
     @ArrayNotEmpty({message: AlarmErrors.INVALID_SUBWAYS_ERROR})
     subways!: Subway[];
 
-    @ManyToOne(() => User, {onDelete: "CASCADE"})
+    @ManyToOne(_type => User, {onDelete: "CASCADE"})
     @IsDefined({message: AlarmErrors.INVALID_OWNER_ERROR})
     owner!: User;
 }

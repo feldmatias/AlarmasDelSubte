@@ -10,7 +10,7 @@ export class UserResolver {
     constructor(private service: UserService) {
     }
 
-    @Query(() => User)
+    @Query(_returns => User)
     async login(@Arg("userInput") userInput: UserInput): Promise<User> {
         const result = await this.service.login(userInput);
         if (!result.isSuccessful()) {
@@ -19,7 +19,7 @@ export class UserResolver {
         return result.getData();
     }
 
-    @Mutation(() => User)
+    @Mutation(_returns => User)
     public async registerUser(@Arg("userInput") userInput: UserInput): Promise<User> {
         const result = await this.service.registerUser(userInput);
         if (!result.isSuccessful()) {

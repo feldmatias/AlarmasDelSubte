@@ -8,7 +8,7 @@ export class SubwayResolver {
     constructor(private service: SubwayService) {
     }
 
-    @Query(() => [Subway])
+    @Query(_returns => [Subway])
     async getSubways(): Promise<Array<Subway>> {
         return await this.service.getAll();
     }
