@@ -18,14 +18,16 @@ describe("Alarm Service", () => {
     let defaultSubway: Subway;
     let defaultUser: User;
 
-    function getDefaultAlarm(): AlarmInput {
+    function getDefaultAlarm(withOwner = true): AlarmInput {
         const alarm = new AlarmInput();
         alarm.name = "alarm";
         alarm.days = ["friday", "monday"];
         alarm.start = "10:30";
         alarm.end = "12:46";
         alarm.subwayLines = [defaultSubway.line];
-        alarm.owner = defaultUser;
+        if (withOwner) {
+            alarm.setOwner(defaultUser);
+        }
         return alarm;
     }
 
@@ -316,8 +318,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm without owner', async () => {
-                const alarm = getDefaultAlarm();
-                delete alarm.owner;
+                const alarm = getDefaultAlarm(false);
 
                 const result = await service.create(alarm);
 

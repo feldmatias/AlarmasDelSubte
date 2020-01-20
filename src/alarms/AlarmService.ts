@@ -18,12 +18,14 @@ export class AlarmService {
         return await this.repository.get(alarmId);
     }
 
-    public async create(alarm: AlarmInput): Promise<Result<Alarm>> {
-        const subways = await this.subwayRepository.findByLines(alarm.subwayLines);
-        if (subways.length != alarm.subwayLines.length) {
+    public async create(alarmInput: AlarmInput): Promise<Result<Alarm>> {
+        const subways = await this.subwayRepository.findByLines(alarmInput.subwayLines);
+        if (subways.length != alarmInput.subwayLines.length) {
             return Result.Error(AlarmService.SUBWAY_NOT_FOUND_ERROR);
         }
-        alarm.setSubways(subways);
+        alarmInput.setSubways(subways);
+
+        const alarm = new Alarm(alarmInput);
 
         const validation = await Validator.validate(alarm);
         if (!validation.isSuccessful()) {

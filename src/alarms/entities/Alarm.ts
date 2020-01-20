@@ -9,6 +9,7 @@ import {AlarmEndTimeValidation} from "../validation/AlarmEndTimeValidation";
 import {AlarmNameValidation} from "../validation/AlarmNameValidation";
 import {AlarmSubwaysValidation} from "../validation/AlarmSubwaysValidation";
 import {AlarmOwnerValidation} from "../validation/AlarmOwnerValidation";
+import {AlarmInput} from "./AlarmInput";
 
 @Entity()
 @ObjectType()
@@ -47,4 +48,19 @@ export class Alarm {
     @ManyToOne(_type => User, {onDelete: "CASCADE"})
     @Validate(AlarmOwnerValidation)
     owner!: User;
+
+    constructor(alarmInput?: AlarmInput) {
+        if (alarmInput) {
+            this.initialize(alarmInput);
+        }
+    }
+
+    private initialize(alarmInput: AlarmInput): void {
+        this.name = alarmInput.name;
+        this.days = alarmInput.days;
+        this.start = alarmInput.start;
+        this.end = alarmInput.end;
+        this.subways = alarmInput.getSubways();
+        this.owner = alarmInput.getOwner();
+    }
 }

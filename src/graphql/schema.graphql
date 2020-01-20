@@ -13,6 +13,10 @@ type Alarm {
 }
 
 input AlarmInput {
+  name: String!
+  days: [String!]!
+  start: String!
+  end: String!
   subwayLines: [String!]!
 }
 
