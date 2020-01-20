@@ -7,6 +7,7 @@ import {AlarmNameValidation} from "../../src/alarms/validation/AlarmNameValidati
 import {AlarmSubwaysValidation} from "../../src/alarms/validation/AlarmSubwaysValidation";
 import {AlarmOwnerValidation} from "../../src/alarms/validation/AlarmOwnerValidation";
 import {AlarmFixture} from "./AlarmFixture";
+import {User} from "../../src/users/entities/User";
 
 describe("Alarm Service", () => {
 
@@ -19,26 +20,39 @@ describe("Alarm Service", () => {
     context("get alarm", () => {
 
         it("should return undefined if alarm does not exist", async () => {
-            const alarm = await service.get(123);
+            const alarm = await service.get(123, new User());
+            expect(alarm).to.be.undefined;
+        });
+
+        it("should return undefined if is not alarm's owner ", async () => {
+            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const created = await service.create(alarmInput);
+            const id = created.getData().id;
+
+
+            const alarm = await service.get(id, new User());
+
             expect(alarm).to.be.undefined;
         });
 
         it("should return alarm with correct id ", async () => {
-            const created = await service.create(await AlarmFixture.getDefaultAlarmInput());
+            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const created = await service.create(alarmInput);
             const id = created.getData().id;
 
-            const alarm = await service.get(id);
+            const alarm = await service.get(id, alarmInput.getOwner());
 
             expect(alarm).to.not.be.undefined;
             expect(alarm?.id).to.eq(id);
         });
 
         it("should return alarm with correct properties ", async () => {
-            const created = await service.create(await AlarmFixture.getDefaultAlarmInput());
+            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const created = await service.create(alarmInput);
             const id = created.getData().id;
             const expected = created.getData();
 
-            const alarm = await service.get(id);
+            const alarm = await service.get(id, alarmInput.getOwner());
 
             expect(alarm).to.not.be.undefined;
             expect(alarm?.name).to.eq(expected.name);
@@ -48,11 +62,12 @@ describe("Alarm Service", () => {
         });
 
         it("should return alarm with correct subways", async () => {
-            const created = await service.create(await AlarmFixture.getDefaultAlarmInput());
+            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const created = await service.create(alarmInput);
             const id = created.getData().id;
             const expected = created.getData();
 
-            const alarm = await service.get(id);
+            const alarm = await service.get(id, alarmInput.getOwner());
 
             expect(alarm).to.not.be.undefined;
             expect(alarm?.subways).to.deep.eq(expected.subways);
@@ -78,10 +93,11 @@ describe("Alarm Service", () => {
         });
 
         it("should be able to get created alarm ", async () => {
-            const created = await service.create(await AlarmFixture.getDefaultAlarmInput());
+            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const created = await service.create(alarmInput);
             const id = created.getData().id;
 
-            const alarm = await service.get(id);
+            const alarm = await service.get(id, alarmInput.getOwner());
 
             expect(alarm).to.not.be.undefined;
         });

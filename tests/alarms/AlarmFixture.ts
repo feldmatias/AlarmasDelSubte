@@ -7,7 +7,7 @@ export class AlarmFixture {
     public static async getDefaultAlarmInput(withOwner = true): Promise<AlarmInput> {
         const defaultSubway = await SubwayFixture.createSubway();
 
-        let alarm = new AlarmInput();
+        const alarm = new AlarmInput();
         alarm.name = "alarm";
         alarm.days = ["friday", "monday"];
         alarm.start = "10:30";

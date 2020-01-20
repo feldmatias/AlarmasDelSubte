@@ -5,6 +5,7 @@ import {Result} from "../utils/Result";
 import {Validator} from "../utils/Validator";
 import {AlarmInput} from "./entities/AlarmInput";
 import {SubwayRepository} from "../subways/SubwayRepository";
+import {User} from "../users/entities/User";
 
 @Service()
 export class AlarmService {
@@ -14,8 +15,12 @@ export class AlarmService {
     constructor(private repository: AlarmRepository, private subwayRepository: SubwayRepository) {
     }
 
-    public async get(alarmId: number): Promise<Alarm | undefined> {
-        return await this.repository.get(alarmId);
+    public async get(alarmId: number, owner: User): Promise<Alarm | undefined> {
+        const alarm = await this.repository.get(alarmId);
+        if (alarm && owner.equals(alarm.owner)) {
+            return alarm;
+        }
+        return undefined;
     }
 
     public async create(alarmInput: AlarmInput): Promise<Result<Alarm>> {

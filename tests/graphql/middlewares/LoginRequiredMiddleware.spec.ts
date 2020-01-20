@@ -124,7 +124,7 @@ describe("Login Required Middleware", () => {
                 if (!requestContext.user) {
                     fail();
                 }
-                expect(requestContext.user.id).to.eq(user.id);
+                expect(requestContext.user.equals(user)).to.be.true;
                 expect(requestContext.user.token).to.eq(user.token);
             });
 

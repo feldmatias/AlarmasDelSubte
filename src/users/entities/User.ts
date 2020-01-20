@@ -10,7 +10,7 @@ export class User {
 
     @PrimaryGeneratedColumn()
     @Field(_type => ID)
-    id!: number;
+    private id!: number;
 
     @Column({unique: true})
     @Field()
@@ -37,5 +37,9 @@ export class User {
 
     public checkPassword(otherPassword: string): boolean {
         return this.password == Md5.hashStr(otherPassword) as string;
+    }
+
+    equals(other: User): boolean {
+        return this.id === other.id;
     }
 }

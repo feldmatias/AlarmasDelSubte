@@ -15,6 +15,6 @@ export class AlarmRepository {
     }
 
     async get(alarmId: number): Promise<Alarm | undefined> {
-        return await this.repository.findOne({id: alarmId}, {relations: ["subways"]});
+        return await this.repository.findOne({id: alarmId}, {relations: ["subways", "owner"]});
     }
 }

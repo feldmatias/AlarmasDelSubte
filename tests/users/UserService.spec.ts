@@ -29,7 +29,7 @@ describe("User Service", () => {
             it("created user should have id", async () => {
                 const user = UserFixture.getDefaultUserInput();
                 const savedUser = await service.registerUser(user);
-                expect(savedUser.getData().id).to.not.be.undefined;
+                expect(savedUser.getData()).to.have.property("id");
             });
 
             it("created user should have correct username", async () => {
