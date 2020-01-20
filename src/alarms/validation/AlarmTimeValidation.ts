@@ -1,8 +1,9 @@
 import {ValidationArguments, Validator, ValidatorConstraint, ValidatorConstraintInterface} from "class-validator";
-import {AlarmErrors} from "../entities/Alarm";
 
 @ValidatorConstraint()
 export class AlarmTimeValidation implements ValidatorConstraintInterface {
+
+    static ERROR = "INVALID_ALARM_TIME_RANGE_ERROR";
 
     validate(time: string, _args: ValidationArguments): boolean {
         const validator = new Validator();
@@ -10,7 +11,7 @@ export class AlarmTimeValidation implements ValidatorConstraintInterface {
     }
 
     defaultMessage(): string {
-        return AlarmErrors.INVALID_TIME_RANGE_ERROR;
+        return AlarmTimeValidation.ERROR;
     }
 
 }

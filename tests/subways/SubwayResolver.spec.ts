@@ -37,7 +37,7 @@ describe("Subway Resolver", () => {
         it("should return n subway if service returns n subways", async () => {
             const count = 10;
             const mock = new Array<Subway>();
-            const expected = new Array<string>()
+            const expected = new Array<string>();
 
             for (let i = 0; i < count; i++) {
                 const subway = new Subway();

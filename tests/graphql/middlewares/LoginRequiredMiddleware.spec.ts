@@ -44,11 +44,11 @@ function getRequestContext(token = ""): RequestContext {
 
         header(header: string): string {
             if (header != constants.HTTP2_HEADER_AUTHORIZATION) {
-                throw new Error("Tried to obtain invalid header. Only able to obtain header: " + constants.HTTP2_HEADER_AUTHORIZATION)
+                throw new Error("Tried to obtain invalid header. Only able to obtain header: " + constants.HTTP2_HEADER_AUTHORIZATION);
             }
             return token;
         }
-    }
+    };
 }
 
 describe("Login Required Middleware", () => {

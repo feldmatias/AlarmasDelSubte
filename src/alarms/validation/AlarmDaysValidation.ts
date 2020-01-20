@@ -1,10 +1,10 @@
 import {Validator, ValidatorConstraint, ValidatorConstraintInterface} from "class-validator";
-import {AlarmErrors} from "../entities/Alarm";
 
 @ValidatorConstraint()
 export class AlarmDaysValidation implements ValidatorConstraintInterface {
 
     static VALID_DAYS: string[] = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    static ERROR = "INVALID_ALARM_DAYS_ERROR";
 
     validate(days: string[]): boolean {
         const validator = new Validator();
@@ -15,7 +15,7 @@ export class AlarmDaysValidation implements ValidatorConstraintInterface {
     }
 
     defaultMessage(): string {
-        return AlarmErrors.INVALID_DAYS_ERROR;
+        return AlarmDaysValidation.ERROR;
     }
 
 }

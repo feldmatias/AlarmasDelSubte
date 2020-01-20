@@ -2,18 +2,13 @@ import {Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn
 import {Field, ID, ObjectType} from "type-graphql";
 import {Subway} from "../../subways/entities/Subway";
 import {User} from "../../users/entities/User";
-import {ArrayNotEmpty, IsDefined, IsNotEmpty, Validate} from "class-validator";
+import {Validate} from "class-validator";
 import {AlarmDaysValidation} from "../validation/AlarmDaysValidation";
 import {AlarmTimeValidation} from "../validation/AlarmTimeValidation";
 import {AlarmEndTimeValidation} from "../validation/AlarmEndTimeValidation";
-
-export class AlarmErrors {
-    static INVALID_NAME_ERROR = "INVALID_ALARM_NAME_ERROR";
-    static INVALID_DAYS_ERROR = "INVALID_ALARM_DAYS_ERROR";
-    static INVALID_TIME_RANGE_ERROR = "INVALID_ALARM_TIME_RANGE_ERROR";
-    static INVALID_SUBWAYS_ERROR = "INVALID_ALARM_SUBWAYS_ERROR";
-    static INVALID_OWNER_ERROR = "INVALID_ALARM_OWNER_ERROR";
-}
+import {AlarmNameValidation} from "../validation/AlarmNameValidation";
+import {AlarmSubwaysValidation} from "../validation/AlarmSubwaysValidation";
+import {AlarmOwnerValidation} from "../validation/AlarmOwnerValidation";
 
 @Entity()
 @ObjectType()
@@ -25,7 +20,7 @@ export class Alarm {
 
     @Column()
     @Field()
-    @IsNotEmpty({message: AlarmErrors.INVALID_NAME_ERROR})
+    @Validate(AlarmNameValidation)
     name!: string;
 
     @Column("simple-array")
@@ -46,10 +41,10 @@ export class Alarm {
     @ManyToMany(_type => Subway, {onDelete: "CASCADE"})
     @JoinTable()
     @Field(_type => [Subway])
-    @ArrayNotEmpty({message: AlarmErrors.INVALID_SUBWAYS_ERROR})
+    @Validate(AlarmSubwaysValidation)
     subways!: Subway[];
 
     @ManyToOne(_type => User, {onDelete: "CASCADE"})
-    @IsDefined({message: AlarmErrors.INVALID_OWNER_ERROR})
+    @Validate(AlarmOwnerValidation)
     owner!: User;
 }

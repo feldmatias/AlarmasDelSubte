@@ -1,13 +1,16 @@
 import {Container} from "typedi";
 import {AlarmService} from "../../src/alarms/AlarmService";
 import {expect} from "chai";
-import {AlarmErrors} from "../../src/alarms/entities/Alarm";
 import {Subway} from "../../src/subways/entities/Subway";
 import {SubwayFixture} from "../subways/SubwayFixture";
 import {AlarmInput} from "../../src/alarms/entities/AlarmInput";
 import {User} from "../../src/users/entities/User";
 import {UserFixture} from "../users/UserFixture";
 import {AlarmDaysValidation} from "../../src/alarms/validation/AlarmDaysValidation";
+import {AlarmTimeValidation} from "../../src/alarms/validation/AlarmTimeValidation";
+import {AlarmNameValidation} from "../../src/alarms/validation/AlarmNameValidation";
+import {AlarmSubwaysValidation} from "../../src/alarms/validation/AlarmSubwaysValidation";
+import {AlarmOwnerValidation} from "../../src/alarms/validation/AlarmOwnerValidation";
 
 describe("Alarm Service", () => {
 
@@ -111,7 +114,7 @@ describe("Alarm Service", () => {
                 const result = await service.create(alarm);
 
                 expect(result.isSuccessful()).to.be.false;
-                expect(result.getError()).to.eq(AlarmErrors.INVALID_NAME_ERROR);
+                expect(result.getError()).to.eq(AlarmNameValidation.ERROR);
             });
 
             it('should not create alarm without days', async () => {
@@ -121,7 +124,7 @@ describe("Alarm Service", () => {
                 const result = await service.create(alarm);
 
                 expect(result.isSuccessful()).to.be.false;
-                expect(result.getError()).to.eq(AlarmErrors.INVALID_DAYS_ERROR);
+                expect(result.getError()).to.eq(AlarmDaysValidation.ERROR);
             });
 
             it('should not create alarm with invalid day', async () => {
@@ -131,7 +134,7 @@ describe("Alarm Service", () => {
                 const result = await service.create(alarm);
 
                 expect(result.isSuccessful()).to.be.false;
-                expect(result.getError()).to.eq(AlarmErrors.INVALID_DAYS_ERROR);
+                expect(result.getError()).to.eq(AlarmDaysValidation.ERROR);
             });
 
             it('should not create alarm with invalid days', async () => {
@@ -141,7 +144,7 @@ describe("Alarm Service", () => {
                 const result = await service.create(alarm);
 
                 expect(result.isSuccessful()).to.be.false;
-                expect(result.getError()).to.eq(AlarmErrors.INVALID_DAYS_ERROR);
+                expect(result.getError()).to.eq(AlarmDaysValidation.ERROR);
             });
 
             it('should not create alarm with valid and invalid day', async () => {
@@ -151,7 +154,7 @@ describe("Alarm Service", () => {
                 const result = await service.create(alarm);
 
                 expect(result.isSuccessful()).to.be.false;
-                expect(result.getError()).to.eq(AlarmErrors.INVALID_DAYS_ERROR);
+                expect(result.getError()).to.eq(AlarmDaysValidation.ERROR);
             });
 
             it('should create alarm with all valid days', async () => {
@@ -179,7 +182,7 @@ describe("Alarm Service", () => {
                 const result = await service.create(alarm);
 
                 expect(result.isSuccessful()).to.be.false;
-                expect(result.getError()).to.eq(AlarmErrors.INVALID_TIME_RANGE_ERROR);
+                expect(result.getError()).to.eq(AlarmTimeValidation.ERROR);
             });
 
             it('should not create alarm with no start time', async () => {
@@ -189,7 +192,7 @@ describe("Alarm Service", () => {
                 const result = await service.create(alarm);
 
                 expect(result.isSuccessful()).to.be.false;
-                expect(result.getError()).to.eq(AlarmErrors.INVALID_TIME_RANGE_ERROR);
+                expect(result.getError()).to.eq(AlarmTimeValidation.ERROR);
             });
 
             ["1", "123", "60", "61", "-1", "-10", "69", "70"].forEach(minutes => {
@@ -200,7 +203,7 @@ describe("Alarm Service", () => {
                     const result = await service.create(alarm);
 
                     expect(result.isSuccessful()).to.be.false;
-                    expect(result.getError()).to.eq(AlarmErrors.INVALID_TIME_RANGE_ERROR);
+                    expect(result.getError()).to.eq(AlarmTimeValidation.ERROR);
                 });
             });
 
@@ -212,7 +215,7 @@ describe("Alarm Service", () => {
                     const result = await service.create(alarm);
 
                     expect(result.isSuccessful()).to.be.false;
-                    expect(result.getError()).to.eq(AlarmErrors.INVALID_TIME_RANGE_ERROR);
+                    expect(result.getError()).to.eq(AlarmTimeValidation.ERROR);
                 });
             });
 
@@ -223,7 +226,7 @@ describe("Alarm Service", () => {
                 const result = await service.create(alarm);
 
                 expect(result.isSuccessful()).to.be.false;
-                expect(result.getError()).to.eq(AlarmErrors.INVALID_TIME_RANGE_ERROR);
+                expect(result.getError()).to.eq(AlarmTimeValidation.ERROR);
             });
 
             it('should not create alarm with no end time', async () => {
@@ -233,7 +236,7 @@ describe("Alarm Service", () => {
                 const result = await service.create(alarm);
 
                 expect(result.isSuccessful()).to.be.false;
-                expect(result.getError()).to.eq(AlarmErrors.INVALID_TIME_RANGE_ERROR);
+                expect(result.getError()).to.eq(AlarmTimeValidation.ERROR);
             });
 
             ["1", "123", "60", "61", "-1", "-10", "69", "70"].forEach(minutes => {
@@ -244,7 +247,7 @@ describe("Alarm Service", () => {
                     const result = await service.create(alarm);
 
                     expect(result.isSuccessful()).to.be.false;
-                    expect(result.getError()).to.eq(AlarmErrors.INVALID_TIME_RANGE_ERROR);
+                    expect(result.getError()).to.eq(AlarmTimeValidation.ERROR);
                 });
             });
 
@@ -256,7 +259,7 @@ describe("Alarm Service", () => {
                     const result = await service.create(alarm);
 
                     expect(result.isSuccessful()).to.be.false;
-                    expect(result.getError()).to.eq(AlarmErrors.INVALID_TIME_RANGE_ERROR);
+                    expect(result.getError()).to.eq(AlarmTimeValidation.ERROR);
                 });
             });
 
@@ -268,7 +271,7 @@ describe("Alarm Service", () => {
                 const result = await service.create(alarm);
 
                 expect(result.isSuccessful()).to.be.false;
-                expect(result.getError()).to.eq(AlarmErrors.INVALID_TIME_RANGE_ERROR);
+                expect(result.getError()).to.eq(AlarmTimeValidation.ERROR);
             });
 
             it('should not create alarm with end time equal start time', async () => {
@@ -279,7 +282,7 @@ describe("Alarm Service", () => {
                 const result = await service.create(alarm);
 
                 expect(result.isSuccessful()).to.be.false;
-                expect(result.getError()).to.eq(AlarmErrors.INVALID_TIME_RANGE_ERROR);
+                expect(result.getError()).to.eq(AlarmTimeValidation.ERROR);
             });
 
             it('should not create alarm without subways', async () => {
@@ -289,7 +292,7 @@ describe("Alarm Service", () => {
                 const result = await service.create(alarm);
 
                 expect(result.isSuccessful()).to.be.false;
-                expect(result.getError()).to.eq(AlarmErrors.INVALID_SUBWAYS_ERROR);
+                expect(result.getError()).to.eq(AlarmSubwaysValidation.ERROR);
             });
 
             it('should not create alarm with unexistant subways', async () => {
@@ -319,7 +322,7 @@ describe("Alarm Service", () => {
                 const result = await service.create(alarm);
 
                 expect(result.isSuccessful()).to.be.false;
-                expect(result.getError()).to.eq(AlarmErrors.INVALID_OWNER_ERROR);
+                expect(result.getError()).to.eq(AlarmOwnerValidation.ERROR);
             });
         });
 

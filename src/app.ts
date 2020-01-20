@@ -19,7 +19,7 @@ const bootstrap: () => Promise<void> = async () => {
             schema: schema,
             graphiql: false,
             customFormatErrorFn: (error) => {
-                return error.message
+                return error.message;
             }
         }),
     );
