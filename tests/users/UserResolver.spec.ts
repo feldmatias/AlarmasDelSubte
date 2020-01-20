@@ -5,9 +5,11 @@ import {User} from "../../src/users/entities/User";
 import {UserResolver} from "../../src/users/resolvers/UserResolver";
 import {UserInput} from "../../src/users/entities/UserInput";
 import {expect} from "chai";
-import {UserValidator} from "../../src/users/UserValidator";
+import {UserValidator} from "../../src/users/validation/UserValidator";
 import UserErrorHelper from "../../src/users/UserErrorHelper";
 import {ErrorHelper} from "../../src/utils/ErrorHelper";
+import {UserPasswordValidation} from "../../src/users/validation/UserPasswordValidation";
+import {UserUsernameValidation} from "../../src/users/validation/UserUsernameValidation";
 
 const USERNAME = "username";
 const TOKEN = "token";
@@ -39,7 +41,7 @@ describe("User Resolver", () => {
 
             it("should raise error when invalid password", async () => {
                 when(service.registerUser(anyOfClass(UserInput)))
-                    .thenResolve(Result.Error(UserInput.INVALID_PASSWORD_ERROR));
+                    .thenResolve(Result.Error(UserPasswordValidation.ERROR));
 
                 await expect(resolver.registerUser(new UserInput()))
                     .to.eventually.be.rejectedWith(UserErrorHelper.INVALID_PASSWORD_MESSAGE);
@@ -47,7 +49,7 @@ describe("User Resolver", () => {
 
             it("should raise error when invalid username", async () => {
                 when(service.registerUser(anyOfClass(UserInput)))
-                    .thenResolve(Result.Error(UserInput.INVALID_USERNAME_ERROR));
+                    .thenResolve(Result.Error(UserUsernameValidation.ERROR));
 
                 await expect(resolver.registerUser(new UserInput()))
                     .to.eventually.be.rejectedWith(UserErrorHelper.INVALID_USERNAME_MESSAGE);

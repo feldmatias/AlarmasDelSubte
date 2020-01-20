@@ -3,7 +3,7 @@ import {UserRepository} from "./UserRepository";
 import {UserInput} from "./entities/UserInput";
 import {User} from "./entities/User";
 import {Result} from "../utils/Result";
-import {UserValidator} from "./UserValidator";
+import {UserValidator} from "./validation/UserValidator";
 
 @Service()
 export class UserService {

@@ -1,10 +1,11 @@
-import {UserInput} from "../../src/users/entities/UserInput";
 import {UserService} from "../../src/users/UserService";
 import {Container} from "typedi";
 import {expect} from "chai";
 import {UserRepository} from "../../src/users/UserRepository";
-import {UserValidator} from "../../src/users/UserValidator";
+import {UserValidator} from "../../src/users/validation/UserValidator";
 import {UserFixture} from "./UserFixture";
+import {UserUsernameValidation} from "../../src/users/validation/UserUsernameValidation";
+import {UserPasswordValidation} from "../../src/users/validation/UserPasswordValidation";
 
 
 describe("User Service", () => {
@@ -78,7 +79,7 @@ describe("User Service", () => {
 
                 const savedUser = await service.registerUser(user);
                 expect(savedUser.isSuccessful()).to.be.false;
-                expect(savedUser.getError()).to.eq(UserInput.INVALID_PASSWORD_ERROR);
+                expect(savedUser.getError()).to.eq(UserPasswordValidation.ERROR);
             });
 
             it("can not create user with password length 5", async () => {
@@ -87,7 +88,7 @@ describe("User Service", () => {
 
                 const savedUser = await service.registerUser(user);
                 expect(savedUser.isSuccessful()).to.be.false;
-                expect(savedUser.getError()).to.eq(UserInput.INVALID_PASSWORD_ERROR);
+                expect(savedUser.getError()).to.eq(UserPasswordValidation.ERROR);
             });
 
             it("can create user with password length 6", async () => {
@@ -115,7 +116,7 @@ describe("User Service", () => {
 
                 const result = await service.registerUser(user);
                 expect(result.isSuccessful()).to.be.false;
-                expect(result.getError()).to.eq(UserInput.INVALID_USERNAME_ERROR);
+                expect(result.getError()).to.eq(UserUsernameValidation.ERROR);
             });
         });
     });

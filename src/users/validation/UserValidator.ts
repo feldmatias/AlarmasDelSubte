@@ -1,8 +1,8 @@
 import {Service} from "typedi";
-import {UserRepository} from "./UserRepository";
-import {UserInput} from "./entities/UserInput";
-import {Validator} from "../utils/Validator";
-import {ValidationResult} from "../utils/ValidationResult";
+import {UserRepository} from "../UserRepository";
+import {UserInput} from "../entities/UserInput";
+import {Validator} from "../../utils/Validator";
+import {ValidationResult} from "../../utils/ValidationResult";
 
 @Service()
 export class UserValidator {
