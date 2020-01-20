@@ -7,7 +7,7 @@ export class UserFixture {
     public static USERNAME = "username";
     public static PASSWORD = "password";
 
-    public static getDefaultUserInput = (index?: number): UserInput => {
+    public static getDefaultUserInput(index?: number): UserInput {
         const user = new UserInput();
         user.username = UserFixture.USERNAME + (index ? index : "");
         user.password = UserFixture.PASSWORD;
