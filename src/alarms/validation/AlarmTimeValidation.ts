@@ -3,7 +3,7 @@ import {ValidationArguments, Validator, ValidatorConstraint, ValidatorConstraint
 @ValidatorConstraint()
 export class AlarmTimeValidation implements ValidatorConstraintInterface {
 
-    static ERROR = "INVALID_ALARM_TIME_RANGE_ERROR";
+    static readonly ERROR = "INVALID_ALARM_TIME_RANGE_ERROR";
 
     validate(time: string, _args: ValidationArguments): boolean {
         const validator = new Validator();

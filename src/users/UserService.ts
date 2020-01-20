@@ -8,7 +8,7 @@ import {UserValidator} from "./validation/UserValidator";
 @Service()
 export class UserService {
 
-    public static LOGIN_ERROR = "LOGIN_ERROR";
+    static readonly LOGIN_ERROR = "LOGIN_ERROR";
 
     constructor(private repository: UserRepository, private userValidator: UserValidator) {
     }

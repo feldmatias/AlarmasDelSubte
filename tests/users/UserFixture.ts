@@ -4,8 +4,8 @@ import {getConnection} from "typeorm";
 
 export class UserFixture {
 
-    public static USERNAME = "username";
-    public static PASSWORD = "password";
+    static readonly USERNAME = "username";
+    static readonly PASSWORD = "password";
 
     public static getDefaultUserInput(index?: number): UserInput {
         const user = new UserInput();
@@ -20,5 +20,12 @@ export class UserFixture {
         }
         const user = new User(input);
         return await getConnection().getRepository(User).save(user);
+    }
+
+    public static async createUserWithUsername(username: string): Promise<User> {
+        const input = this.getDefaultUserInput();
+        input.username = username;
+
+        return await this.createUser(input);
     }
 }

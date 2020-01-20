@@ -10,7 +10,7 @@ import {User} from "../users/entities/User";
 @Service()
 export class AlarmService {
 
-    static SUBWAY_NOT_FOUND_ERROR = "SUBWAY_NOT_FOUND_ERROR";
+    static readonly SUBWAY_NOT_FOUND_ERROR = "SUBWAY_NOT_FOUND_ERROR";
 
     constructor(private repository: AlarmRepository, private subwayRepository: SubwayRepository) {
     }

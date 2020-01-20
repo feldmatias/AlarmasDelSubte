@@ -9,8 +9,8 @@ import {Service} from "typedi";
 @Service()
 export class LoginRequiredMiddleware implements MiddlewareInterface<RequestContext> {
 
-    static EXCLUDED_QUERIES = ['login'];
-    static EXCLUDED_MUTATIONS = ['registerUser'];
+    static readonly EXCLUDED_QUERIES = ['login'];
+    static readonly EXCLUDED_MUTATIONS = ['registerUser'];
 
     constructor(private userRepository: UserRepository) {
     }

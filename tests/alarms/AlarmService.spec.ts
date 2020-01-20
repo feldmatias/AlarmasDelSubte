@@ -8,6 +8,7 @@ import {AlarmSubwaysValidation} from "../../src/alarms/validation/AlarmSubwaysVa
 import {AlarmOwnerValidation} from "../../src/alarms/validation/AlarmOwnerValidation";
 import {AlarmFixture} from "./AlarmFixture";
 import {User} from "../../src/users/entities/User";
+import {UserFixture} from "../users/UserFixture";
 
 describe("Alarm Service", () => {
 
@@ -29,8 +30,9 @@ describe("Alarm Service", () => {
             const created = await service.create(alarmInput);
             const id = created.getData().id;
 
+            const otherUser = await UserFixture.createUserWithUsername("other user");
 
-            const alarm = await service.get(id, new User());
+            const alarm = await service.get(id, otherUser);
 
             expect(alarm).to.be.undefined;
         });

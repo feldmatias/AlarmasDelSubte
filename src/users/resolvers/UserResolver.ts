@@ -2,7 +2,7 @@ import {User} from "../entities/User";
 import {Arg, Mutation, Query, Resolver} from "type-graphql";
 import {UserInput} from "../entities/UserInput";
 import {UserService} from "../UserService";
-import UserErrorHelper from "../UserErrorHelper";
+import UserErrorHelper from "./UserErrorHelper";
 
 @Resolver()
 export class UserResolver {

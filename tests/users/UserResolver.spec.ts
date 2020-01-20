@@ -6,7 +6,7 @@ import {UserResolver} from "../../src/users/resolvers/UserResolver";
 import {UserInput} from "../../src/users/entities/UserInput";
 import {expect} from "chai";
 import {UserValidator} from "../../src/users/validation/UserValidator";
-import UserErrorHelper from "../../src/users/UserErrorHelper";
+import UserErrorHelper from "../../src/users/resolvers/UserErrorHelper";
 import {ErrorHelper} from "../../src/utils/ErrorHelper";
 import {UserPasswordValidation} from "../../src/users/validation/UserPasswordValidation";
 import {UserUsernameValidation} from "../../src/users/validation/UserUsernameValidation";

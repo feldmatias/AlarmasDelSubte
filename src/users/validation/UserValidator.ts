@@ -7,7 +7,7 @@ import {ValidationResult} from "../../utils/ValidationResult";
 @Service()
 export class UserValidator {
 
-    public static NOT_UNIQUE_USERNAME_ERROR = "NOT_UNIQUE_USERNAME";
+    static readonly NOT_UNIQUE_USERNAME_ERROR = "NOT_UNIQUE_USERNAME";
 
     constructor(private userRepository: UserRepository) {
     }

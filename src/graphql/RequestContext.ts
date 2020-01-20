@@ -1,7 +1,8 @@
 import {User} from "../users/entities/User";
 
 export interface RequestContext {
-    user?: User;
+    user: User;
 
     header(header: string): string;
+
 }

@@ -3,7 +3,7 @@ import {Validator, ValidatorConstraint, ValidatorConstraintInterface} from "clas
 @ValidatorConstraint()
 export class UserUsernameValidation implements ValidatorConstraintInterface {
 
-    static ERROR = "INVALID_USERNAME";
+    static readonly ERROR = "INVALID_USERNAME";
 
     validate(username: string): boolean {
         const validator = new Validator();

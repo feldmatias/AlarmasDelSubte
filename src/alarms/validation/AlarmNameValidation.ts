@@ -3,7 +3,7 @@ import {Validator, ValidatorConstraint, ValidatorConstraintInterface} from "clas
 @ValidatorConstraint()
 export class AlarmNameValidation implements ValidatorConstraintInterface {
 
-    static ERROR = "INVALID_ALARM_NAME_ERROR";
+    static readonly ERROR = "INVALID_ALARM_NAME_ERROR";
 
     validate(name: string): boolean {
         const validator = new Validator();

@@ -39,7 +39,7 @@ function getMockInfo(fieldName: string, type: GraphQLObjectType): GraphQLResolve
 }
 
 function getRequestContext(token = ""): RequestContext {
-    return new class implements RequestContext {
+    return new class implements Partial<RequestContext> {
         user?: User;
 
         header(header: string): string {
@@ -48,7 +48,7 @@ function getRequestContext(token = ""): RequestContext {
             }
             return token;
         }
-    };
+    } as RequestContext;
 }
 
 describe("Login Required Middleware", () => {

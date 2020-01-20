@@ -26,6 +26,7 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 type Mutation {
+  createAlarm(alarmInput: AlarmInput!): Alarm!
   registerUser(userInput: UserInput!): User!
 }
 

@@ -3,9 +3,9 @@ import {Validator, ValidatorConstraint, ValidatorConstraintInterface} from "clas
 @ValidatorConstraint()
 export class UserPasswordValidation implements ValidatorConstraintInterface {
 
-    static ERROR = "INVALID_PASSWORD";
+    static readonly ERROR = "INVALID_PASSWORD";
 
-    private static PASSWORD_MIN_LENGTH = 6;
+    private static readonly PASSWORD_MIN_LENGTH = 6;
 
     validate(password: string): boolean {
         const validator = new Validator();

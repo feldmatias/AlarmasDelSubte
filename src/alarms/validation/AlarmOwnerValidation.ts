@@ -4,7 +4,7 @@ import {User} from "../../users/entities/User";
 @ValidatorConstraint()
 export class AlarmOwnerValidation implements ValidatorConstraintInterface {
 
-    static ERROR = "INVALID_ALARM_OWNER_ERROR";
+    static readonly ERROR = "INVALID_ALARM_OWNER_ERROR";
 
     validate(owner?: User): boolean {
         const validator = new Validator();

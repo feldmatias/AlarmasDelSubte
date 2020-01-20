@@ -1,8 +1,8 @@
-import {ErrorHelper} from "../utils/ErrorHelper";
-import {UserValidator} from "./validation/UserValidator";
-import {UserService} from "./UserService";
-import {UserUsernameValidation} from "./validation/UserUsernameValidation";
-import {UserPasswordValidation} from "./validation/UserPasswordValidation";
+import {ErrorHelper} from "../../utils/ErrorHelper";
+import {UserValidator} from "../validation/UserValidator";
+import {UserService} from "../UserService";
+import {UserUsernameValidation} from "../validation/UserUsernameValidation";
+import {UserPasswordValidation} from "../validation/UserPasswordValidation";
 
 class UserErrorHelper extends ErrorHelper {
 

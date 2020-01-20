@@ -3,8 +3,8 @@ import {Validator, ValidatorConstraint, ValidatorConstraintInterface} from "clas
 @ValidatorConstraint()
 export class AlarmDaysValidation implements ValidatorConstraintInterface {
 
-    static VALID_DAYS: string[] = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-    static ERROR = "INVALID_ALARM_DAYS_ERROR";
+    static readonly VALID_DAYS: string[] = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    static readonly ERROR = "INVALID_ALARM_DAYS_ERROR";
 
     validate(days: string[]): boolean {
         const validator = new Validator();
