@@ -10,6 +10,7 @@ import {AlarmNameValidation} from "../validation/AlarmNameValidation";
 import {AlarmSubwaysValidation} from "../validation/AlarmSubwaysValidation";
 import {AlarmOwnerValidation} from "../validation/AlarmOwnerValidation";
 import {AlarmInput} from "./AlarmInput";
+import {AlarmPartialInput} from "./AlarmPartialInput";
 
 @Entity()
 @ObjectType()
@@ -55,12 +56,17 @@ export class Alarm {
         }
     }
 
-    private initialize(alarmInput: AlarmInput): void {
-        this.name = alarmInput.name;
-        this.days = alarmInput.days;
-        this.start = alarmInput.start;
-        this.end = alarmInput.end;
-        this.subways = alarmInput.getSubways();
+    private initialize(alarmInput: AlarmInput|AlarmPartialInput): void {
+        this.name = alarmInput.name ? alarmInput.name : this.name;
+        this.days = alarmInput.days ? alarmInput.days : this.days;
+        this.start = alarmInput.start ? alarmInput.start : this.start;
+        this.end = alarmInput.end ? alarmInput.end : this.end;
+        const subwaysInput = alarmInput.getSubways();
+        this.subways = subwaysInput ? subwaysInput : this.subways;
         this.owner = alarmInput.getOwner();
+    }
+
+    update(alarmInput: AlarmPartialInput): void {
+        this.initialize(alarmInput);
     }
 }
