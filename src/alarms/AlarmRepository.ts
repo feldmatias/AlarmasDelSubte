@@ -21,9 +21,12 @@ export class AlarmRepository {
 
     async getForUser(user: User): Promise<Array<Alarm>> {
         return await this.repository.find({
-            owner: {
-                id: user.id
-            }
+            where: {
+                owner: {
+                    id: user.id
+                }
+            },
+            relations: ["subways"]
         });
     }
 

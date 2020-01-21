@@ -145,6 +145,15 @@ describe("Alarm Service", () => {
             expect(otherUserAlarms[0].name).to.eq(otherUser.username);
         });
 
+        it("should return alarms with subways", async () => {
+            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const created = await service.create(alarmInput);
+
+            const alarms = await service.getAll(alarmInput.getOwner());
+
+            expect(alarms).to.have.length(1);
+            expect(alarms[0].subways).to.deep.eq(created.getData().subways);
+        });
     });
 
     context("create alarm", () => {
@@ -420,6 +429,18 @@ describe("Alarm Service", () => {
 
             const alarm = await service.get(id, alarmInput.getOwner());
             expect(alarm).to.be.undefined;
+        });
+
+        it("should not be able to get deleted alarm in getAll", async () => {
+            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const created = await service.create(alarmInput);
+            const id = created.getData().id;
+
+            const result = await service.delete(id, alarmInput.getOwner());
+            expect(result.isSuccessful()).to.be.true;
+
+            const alarms = await service.getAll(alarmInput.getOwner());
+            expect(alarms).to.be.empty;
         });
 
         it("should not be able to delete unexistant alarm", async () => {
