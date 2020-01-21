@@ -105,4 +105,32 @@ describe("Alarm Resolver", () => {
 
     });
 
+    context("Get alarm", () => {
+
+        const ALARM_ID = 123;
+
+        let requestContext: RequestContext;
+        beforeEach(async () => {
+            requestContext = await RequestContextMock.mock();
+        });
+
+        it("should return alarm if exists", async () => {
+            const alarm = new Alarm();
+            alarm.name = ALARM_NAME;
+
+            when(service.get(ALARM_ID, requestContext.user)).thenResolve(alarm);
+
+            const result = await resolver.getAlarm(ALARM_ID, requestContext);
+            expect(result.name).to.eq(ALARM_NAME);
+        });
+
+        it("should throw error if alarm does not exist", async () => {
+            when(service.get(ALARM_ID, requestContext.user)).thenResolve(undefined);
+
+            await expect(resolver.getAlarm(ALARM_ID, requestContext))
+                .to.eventually.be.rejectedWith(AlarmErrorHelper.ALARM_NOT_FOUND_ERROR_MESSAGE);
+        });
+
+    });
+
 });

@@ -14,6 +14,7 @@ class AlarmErrorHelper extends ErrorHelper {
     public readonly INVALID_ALARM_SUBWAYS_MESSAGE = "La alarma debe tener al menos un subte";
     public readonly INVALID_ALARM_OWNER_MESSAGE = "La alarma debe pertenecer a un usuario";
     public readonly SUBWAY_NOT_FOUND_MESSAGE = "El subte seleccionado para la alarma no existe";
+    public readonly ALARM_NOT_FOUND_ERROR_MESSAGE = "La alarma seleccionada no existe";
 
     protected errors = new Map([
         [AlarmNameValidation.ERROR, this.INVALID_ALARM_NAME_MESSAGE],

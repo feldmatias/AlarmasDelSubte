@@ -1,4 +1,4 @@
-import {Arg, Ctx, Mutation, Resolver} from "type-graphql";
+import {Arg, Ctx, Mutation, Query, Resolver} from "type-graphql";
 import {AlarmService} from "../AlarmService";
 import {Alarm} from "../entities/Alarm";
 import {AlarmInput} from "../entities/AlarmInput";
@@ -21,5 +21,14 @@ export class AlarmResolver {
             throw new Error(AlarmErrorHelper.getErrorMessage(result.getError()));
         }
         return result.getData();
+    }
+
+    @Query(_returns => Alarm)
+    async getAlarm(@Arg("id") id: number, @Ctx() context: RequestContext): Promise<Alarm> {
+        const alarm = await this.service.get(id, context.user);
+        if (!alarm) {
+            throw new Error(AlarmErrorHelper.ALARM_NOT_FOUND_ERROR_MESSAGE);
+        }
+        return alarm;
     }
 }
