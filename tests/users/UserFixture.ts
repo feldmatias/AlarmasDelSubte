@@ -4,8 +4,8 @@ import {getConnection} from "typeorm";
 
 export class UserFixture {
 
-    static readonly USERNAME = "username";
-    static readonly PASSWORD = "password";
+    public static readonly USERNAME = "username";
+    public static readonly PASSWORD = "password";
 
     public static getDefaultUserInput(index?: number): UserInput {
         const user = new UserInput();

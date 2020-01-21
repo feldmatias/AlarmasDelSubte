@@ -3,16 +3,16 @@ import {Validator, ValidatorConstraint, ValidatorConstraintInterface} from "clas
 @ValidatorConstraint()
 export class UserPasswordValidation implements ValidatorConstraintInterface {
 
-    static readonly ERROR = "INVALID_PASSWORD";
+    public static readonly ERROR = "INVALID_PASSWORD";
 
     private static readonly PASSWORD_MIN_LENGTH = 6;
 
-    validate(password: string): boolean {
+    public validate(password: string): boolean {
         const validator = new Validator();
         return validator.minLength(password, UserPasswordValidation.PASSWORD_MIN_LENGTH);
     }
 
-    defaultMessage(): string {
+    public defaultMessage(): string {
         return UserPasswordValidation.ERROR;
     }
 

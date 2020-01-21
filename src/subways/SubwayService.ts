@@ -6,10 +6,10 @@ import {SubwayRepository} from "./SubwayRepository";
 @Service()
 export class SubwayService {
 
-    constructor(private repository: SubwayRepository) {
+    public constructor(private repository: SubwayRepository) {
     }
 
-    async getAll(): Promise<Array<Subway>> {
+    public async getAll(): Promise<Array<Subway>> {
         return await this.repository.getAllOrdered();
     }
 }

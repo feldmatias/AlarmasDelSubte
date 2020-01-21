@@ -6,37 +6,37 @@ import {User} from "../../users/entities/User";
 export class AlarmInput {
 
     @Field()
-    name!: string;
+    public name!: string;
 
     @Field(_type => [String])
-    days!: string[];
+    public days!: string[];
 
     @Field()
-    start!: string;
+    public start!: string;
 
     @Field()
-    end!: string;
+    public end!: string;
 
     @Field(_type => [String])
-    subwayLines!: string[];
+    public subwayLines!: string[];
 
     private subways!: Subway[];
 
     private owner!: User;
 
-    setSubways(subways: Array<Subway>): void {
+    public setSubways(subways: Array<Subway>): void {
         this.subways = subways;
     }
 
-    getSubways(): Subway[] {
+    public getSubways(): Subway[] {
         return this.subways;
     }
 
-    setOwner(owner: User): void {
+    public setOwner(owner: User): void {
         this.owner = owner;
     }
 
-    getOwner(): User {
+    public getOwner(): User {
         return this.owner;
     }
 }

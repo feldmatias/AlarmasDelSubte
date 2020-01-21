@@ -7,7 +7,7 @@ import {SubwayStatus} from "../subways/SubwayStatus";
 
 export class GraphQL {
 
-    static async createSchema(): Promise<GraphQLSchema> {
+    public static async createSchema(): Promise<GraphQLSchema> {
 
         registerEnumType(SubwayStatus, {
             name: "SubwayStatus"

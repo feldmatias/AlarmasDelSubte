@@ -8,11 +8,11 @@ import AlarmErrorHelper from "./AlarmErrorHelper";
 @Resolver()
 export class AlarmResolver {
 
-    constructor(private service: AlarmService) {
+    public constructor(private service: AlarmService) {
     }
 
     @Mutation(_returns => Alarm)
-    async createAlarm(@Arg("alarmInput") alarmInput: AlarmInput,
+    public async createAlarm(@Arg("alarmInput") alarmInput: AlarmInput,
                       @Ctx() context: RequestContext): Promise<Alarm> {
         alarmInput.setOwner(context.user);
 
@@ -25,7 +25,7 @@ export class AlarmResolver {
     }
 
     @Query(_returns => Alarm)
-    async getAlarm(@Arg("id", _type => ID) id: number,
+    public async getAlarm(@Arg("id", _type => ID) id: number,
                    @Ctx() context: RequestContext): Promise<Alarm> {
         const alarm = await this.service.get(id, context.user);
         if (!alarm) {
@@ -35,12 +35,12 @@ export class AlarmResolver {
     }
 
     @Query(_returns => [Alarm])
-    async getAlarms(@Ctx() context: RequestContext): Promise<Array<Alarm>> {
+    public async getAlarms(@Ctx() context: RequestContext): Promise<Array<Alarm>> {
         return await this.service.getAll(context.user);
     }
 
     @Mutation(_returns => ID)
-    async deleteAlarm(@Arg("id", _type => ID) id: number,
+    public async deleteAlarm(@Arg("id", _type => ID) id: number,
                       @Ctx() context: RequestContext): Promise<number> {
         const result = await this.service.delete(id, context.user);
 

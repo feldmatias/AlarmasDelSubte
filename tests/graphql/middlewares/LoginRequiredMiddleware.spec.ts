@@ -40,9 +40,9 @@ function getMockInfo(fieldName: string, type: GraphQLObjectType): GraphQLResolve
 
 function getRequestContext(token = ""): RequestContext {
     return new class implements Partial<RequestContext> {
-        user?: User;
+        public user?: User;
 
-        header(header: string): string {
+        public header(header: string): string {
             if (header != constants.HTTP2_HEADER_AUTHORIZATION) {
                 throw new Error("Tried to obtain invalid header. Only able to obtain header: " + constants.HTTP2_HEADER_AUTHORIZATION);
             }

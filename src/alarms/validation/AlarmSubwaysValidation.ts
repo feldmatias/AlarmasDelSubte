@@ -4,14 +4,14 @@ import {Subway} from "../../subways/entities/Subway";
 @ValidatorConstraint()
 export class AlarmSubwaysValidation implements ValidatorConstraintInterface {
 
-    static readonly ERROR = "INVALID_ALARM_SUBWAYS_ERROR";
+    public static readonly ERROR = "INVALID_ALARM_SUBWAYS_ERROR";
 
-    validate(subways: Subway[]): boolean {
+    public validate(subways: Subway[]): boolean {
         const validator = new Validator();
         return validator.arrayNotEmpty(subways);
     }
 
-    defaultMessage(): string {
+    public defaultMessage(): string {
         return AlarmSubwaysValidation.ERROR;
     }
 

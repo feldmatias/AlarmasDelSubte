@@ -6,12 +6,12 @@ export enum SubwayStatus {
 
 export class SubwayStatusHelper {
 
-    static readonly NORMAL_STATUS_MESSAGE = "Normal";
+    public static readonly NORMAL_STATUS_MESSAGE = "Normal";
 
     private static readonly NORMAL_STATUS_OPTIONS = ["normal", "habitual", "completo"];
     private static readonly LIMITED_STATUS_OPTIONS = ["limitado", "demora", "no se detienen"];
 
-    static getSubwayStatus(status: string): SubwayStatus {
+    public static getSubwayStatus(status: string): SubwayStatus {
         const currentStatus = status.toLowerCase();
 
         if (this.checkStatus(currentStatus, this.NORMAL_STATUS_OPTIONS)) {

@@ -7,9 +7,9 @@ import {ValidationResult} from "../../utils/ValidationResult";
 @Service()
 export class UserValidator {
 
-    static readonly NOT_UNIQUE_USERNAME_ERROR = "NOT_UNIQUE_USERNAME";
+    public static readonly NOT_UNIQUE_USERNAME_ERROR = "NOT_UNIQUE_USERNAME";
 
-    constructor(private userRepository: UserRepository) {
+    public constructor(private userRepository: UserRepository) {
     }
 
     public async validate(userInput: UserInput): Promise<ValidationResult> {

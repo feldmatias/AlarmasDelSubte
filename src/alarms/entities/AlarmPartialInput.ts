@@ -6,37 +6,37 @@ import {User} from "../../users/entities/User";
 export class AlarmPartialInput {
 
     @Field({nullable: true})
-    name?: string;
+    public name?: string;
 
     @Field(_type => [String], {nullable: true})
-    days?: string[];
+    public days?: string[];
 
     @Field({nullable: true})
-    start?: string;
+    public start?: string;
 
     @Field({nullable: true})
-    end?: string;
+    public end?: string;
 
     @Field(_type => [String], {nullable: true})
-    subwayLines?: string[];
+    public subwayLines?: string[];
 
     private subways?: Subway[];
 
     private owner!: User;
 
-    setSubways(subways: Array<Subway>): void {
+    public setSubways(subways: Array<Subway>): void {
         this.subways = subways;
     }
 
-    getSubways(): Subway[] | undefined {
+    public getSubways(): Subway[] | undefined {
         return this.subways;
     }
 
-    setOwner(owner: User): void {
+    public setOwner(owner: User): void {
         this.owner = owner;
     }
 
-    getOwner(): User {
+    public getOwner(): User {
         return this.owner;
     }
 }

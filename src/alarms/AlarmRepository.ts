@@ -8,18 +8,18 @@ import {User} from "../users/entities/User";
 @Service()
 export class AlarmRepository {
 
-    constructor(@InjectRepository(Alarm) private repository: Repository<Alarm>) {
+    public constructor(@InjectRepository(Alarm) private repository: Repository<Alarm>) {
     }
 
-    async save(alarm: Alarm): Promise<Alarm> {
+    public async save(alarm: Alarm): Promise<Alarm> {
         return this.repository.save(alarm);
     }
 
-    async get(alarmId: number): Promise<Alarm | undefined> {
+    public async get(alarmId: number): Promise<Alarm | undefined> {
         return await this.repository.findOne({id: alarmId}, {relations: ["subways", "owner"]});
     }
 
-    async getForUser(user: User): Promise<Array<Alarm>> {
+    public async getForUser(user: User): Promise<Array<Alarm>> {
         return await this.repository.find({
             where: {
                 owner: {
@@ -30,7 +30,7 @@ export class AlarmRepository {
         });
     }
 
-    async delete(alarm: Alarm): Promise<void> {
+    public async delete(alarm: Alarm): Promise<void> {
         await this.repository.remove(alarm);
     }
 }

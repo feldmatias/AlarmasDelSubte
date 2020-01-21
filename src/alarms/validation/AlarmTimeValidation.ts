@@ -3,14 +3,14 @@ import {ValidationArguments, Validator, ValidatorConstraint, ValidatorConstraint
 @ValidatorConstraint()
 export class AlarmTimeValidation implements ValidatorConstraintInterface {
 
-    static readonly ERROR = "INVALID_ALARM_TIME_RANGE_ERROR";
+    public static readonly ERROR = "INVALID_ALARM_TIME_RANGE_ERROR";
 
-    validate(time: string, _args: ValidationArguments): boolean {
+    public validate(time: string, _args: ValidationArguments): boolean {
         const validator = new Validator();
         return validator.isMilitaryTime(time) && validator.contains(time, ":");
     }
 
-    defaultMessage(): string {
+    public defaultMessage(): string {
         return AlarmTimeValidation.ERROR;
     }
 

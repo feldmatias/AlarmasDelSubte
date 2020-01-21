@@ -10,10 +10,10 @@ import {User} from "../users/entities/User";
 @Service()
 export class AlarmService {
 
-    static readonly ALARM_NOT_FOUND_ERROR = "ALARM_NOT_FOUND_ERROR";
-    static readonly SUBWAY_NOT_FOUND_ERROR = "SUBWAY_NOT_FOUND_ERROR";
+    public static readonly ALARM_NOT_FOUND_ERROR = "ALARM_NOT_FOUND_ERROR";
+    public static readonly SUBWAY_NOT_FOUND_ERROR = "SUBWAY_NOT_FOUND_ERROR";
 
-    constructor(private repository: AlarmRepository, private subwayRepository: SubwayRepository) {
+    public constructor(private repository: AlarmRepository, private subwayRepository: SubwayRepository) {
     }
 
     public async get(alarmId: number, owner: User): Promise<Alarm | undefined> {
@@ -46,7 +46,7 @@ export class AlarmService {
         return Result.Success(saved);
     }
 
-    async delete(alarmId: number, owner: User): Promise<Result<number>> {
+    public async delete(alarmId: number, owner: User): Promise<Result<number>> {
         const alarm = await this.get(alarmId, owner);
         if (!alarm) {
             return Result.Error(AlarmService.ALARM_NOT_FOUND_ERROR);

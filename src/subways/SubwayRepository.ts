@@ -6,10 +6,10 @@ import {In, Repository} from "typeorm";
 @Service()
 export class SubwayRepository {
 
-    constructor(@InjectRepository(Subway) private repository: Repository<Subway>) {
+    public constructor(@InjectRepository(Subway) private repository: Repository<Subway>) {
     }
 
-    async getAllOrdered(): Promise<Array<Subway>> {
+    public async getAllOrdered(): Promise<Array<Subway>> {
         return this.repository.find({
             order: {
                 line: "ASC"
@@ -17,7 +17,7 @@ export class SubwayRepository {
         });
     }
 
-    async findByLines(lines: string[]): Promise<Array<Subway>> {
+    public async findByLines(lines: string[]): Promise<Array<Subway>> {
         return await this.repository.find({
             where: {line: In(lines)}
         });

@@ -18,39 +18,39 @@ export class Alarm {
 
     @PrimaryGeneratedColumn()
     @Field(_type => ID)
-    id!: number;
+    public id!: number;
 
     @Column()
     @Field()
     @Validate(AlarmNameValidation)
-    name!: string;
+    public name!: string;
 
     @Column("simple-array")
     @Field(_type => [String])
     @Validate(AlarmDaysValidation)
-    days!: string[];
+    public days!: string[];
 
     @Column()
     @Field()
     @Validate(AlarmTimeValidation)
-    start!: string;
+    public start!: string;
 
     @Column()
     @Field()
     @Validate(AlarmEndTimeValidation)
-    end!: string;
+    public end!: string;
 
     @ManyToMany(_type => Subway, {onDelete: "CASCADE"})
     @JoinTable()
     @Field(_type => [Subway])
     @Validate(AlarmSubwaysValidation)
-    subways!: Subway[];
+    public subways!: Subway[];
 
     @ManyToOne(_type => User, {onDelete: "CASCADE"})
     @Validate(AlarmOwnerValidation)
-    owner!: User;
+    public owner!: User;
 
-    constructor(alarmInput?: AlarmInput) {
+    public constructor(alarmInput?: AlarmInput) {
         if (alarmInput) {
             this.initialize(alarmInput);
         }
@@ -66,7 +66,7 @@ export class Alarm {
         this.owner = alarmInput.getOwner();
     }
 
-    update(alarmInput: AlarmPartialInput): void {
+    public update(alarmInput: AlarmPartialInput): void {
         this.initialize(alarmInput);
     }
 }

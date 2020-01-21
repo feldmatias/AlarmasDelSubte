@@ -7,11 +7,11 @@ import UserErrorHelper from "./UserErrorHelper";
 @Resolver()
 export class UserResolver {
 
-    constructor(private service: UserService) {
+    public constructor(private service: UserService) {
     }
 
     @Query(_returns => User)
-    async login(@Arg("userInput") userInput: UserInput): Promise<User> {
+    public async login(@Arg("userInput") userInput: UserInput): Promise<User> {
         const result = await this.service.login(userInput);
         if (!result.isSuccessful()) {
             throw new Error(UserErrorHelper.getErrorMessage(result.getError()));

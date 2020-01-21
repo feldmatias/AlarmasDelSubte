@@ -8,9 +8,9 @@ export class UserInput {
 
     @Field()
     @Validate(UserUsernameValidation)
-    username!: string;
+    public username!: string;
 
     @Field()
     @Validate(UserPasswordValidation)
-    password!: string;
+    public password!: string;
 }

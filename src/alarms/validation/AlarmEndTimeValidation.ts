@@ -5,7 +5,7 @@ import {Alarm} from "../entities/Alarm";
 @ValidatorConstraint()
 export class AlarmEndTimeValidation extends AlarmTimeValidation {
 
-    validate(endTime: string, args: ValidationArguments): boolean {
+    public validate(endTime: string, args: ValidationArguments): boolean {
         if (!super.validate(endTime, args)) {
             return false;
         }

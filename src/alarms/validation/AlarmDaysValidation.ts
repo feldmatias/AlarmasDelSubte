@@ -3,10 +3,10 @@ import {Validator, ValidatorConstraint, ValidatorConstraintInterface} from "clas
 @ValidatorConstraint()
 export class AlarmDaysValidation implements ValidatorConstraintInterface {
 
-    static readonly VALID_DAYS: string[] = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-    static readonly ERROR = "INVALID_ALARM_DAYS_ERROR";
+    public static readonly VALID_DAYS: string[] = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    public static readonly ERROR = "INVALID_ALARM_DAYS_ERROR";
 
-    validate(days: string[]): boolean {
+    public validate(days: string[]): boolean {
         const validator = new Validator();
         return validator.arrayNotEmpty(days) && days.every(day => {
                 return AlarmDaysValidation.VALID_DAYS.includes(day);
@@ -14,7 +14,7 @@ export class AlarmDaysValidation implements ValidatorConstraintInterface {
         );
     }
 
-    defaultMessage(): string {
+    public defaultMessage(): string {
         return AlarmDaysValidation.ERROR;
     }
 

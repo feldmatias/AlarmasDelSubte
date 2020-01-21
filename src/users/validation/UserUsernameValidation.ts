@@ -3,14 +3,14 @@ import {Validator, ValidatorConstraint, ValidatorConstraintInterface} from "clas
 @ValidatorConstraint()
 export class UserUsernameValidation implements ValidatorConstraintInterface {
 
-    static readonly ERROR = "INVALID_USERNAME";
+    public static readonly ERROR = "INVALID_USERNAME";
 
-    validate(username: string): boolean {
+    public validate(username: string): boolean {
         const validator = new Validator();
         return validator.isNotEmpty(username);
     }
 
-    defaultMessage(): string {
+    public defaultMessage(): string {
         return UserUsernameValidation.ERROR;
     }
 
