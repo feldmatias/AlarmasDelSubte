@@ -10,7 +10,7 @@ export class User {
 
     @PrimaryGeneratedColumn()
     @Field(_type => ID)
-    private id!: number;
+    id!: number;
 
     @Column({unique: true})
     @Field()

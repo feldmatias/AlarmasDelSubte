@@ -23,6 +23,10 @@ export class AlarmService {
         return undefined;
     }
 
+    public async getAll(owner: User): Promise<Array<Alarm>> {
+        return await this.repository.getForUser(owner);
+    }
+
     public async create(alarmInput: AlarmInput): Promise<Result<Alarm>> {
         const subways = await this.subwayRepository.findByLines(alarmInput.subwayLines);
         if (subways.length != alarmInput.subwayLines.length) {

@@ -32,6 +32,7 @@ type Mutation {
 
 type Query {
   getAlarm(id: Int!): Alarm!
+  getAlarms: [Alarm!]!
   getSubways: [Subway!]!
   login(userInput: UserInput!): User!
 }

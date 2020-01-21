@@ -76,6 +76,78 @@ describe("Alarm Service", () => {
         });
     });
 
+    context("get all alarms", () => {
+
+        it("should return empty array if no alarm exist for that user", async () => {
+            const alarms = await service.getAll(new User());
+            expect(alarms).to.be.empty;
+        });
+
+        it("should return one alarm if one alarm exists for that user", async () => {
+            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            await service.create(alarmInput);
+
+            const alarms = await service.getAll(alarmInput.getOwner());
+
+            expect(alarms).to.have.length(1);
+            expect(alarms[0].name).to.eq(alarmInput.name);
+        });
+
+        it("should return n alarms if they exist for that user", async () => {
+            const count = 10;
+            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+
+            for (let i = 0; i < count; i++) {
+                alarmInput.name = i.toString();
+                await service.create(alarmInput);
+            }
+
+            const alarms = await service.getAll(alarmInput.getOwner());
+            const alarmNames = alarms.map(alarm => alarm.name);
+
+            expect(alarms).to.have.length(count);
+            for (let i = 0; i < count; i++) {
+                expect(alarmNames).to.include(i.toString());
+            }
+        });
+
+        it("should not return alarms that belong to other user", async () => {
+            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            await service.create(alarmInput);
+
+            const otherUser = await UserFixture.createUserWithUsername("other user");
+
+            const alarms = await service.getAll(otherUser);
+
+            expect(alarms).to.be.empty;
+        });
+
+        it("should return only user's alarms", async () => {
+            const user = await UserFixture.createUserWithUsername("user");
+            const otherUser = await UserFixture.createUserWithUsername("other user");
+
+            const alarmInput = await AlarmFixture.getDefaultAlarmInput(false);
+
+            alarmInput.setOwner(user);
+            alarmInput.name = user.username;
+            await service.create(alarmInput);
+
+            alarmInput.setOwner(otherUser);
+            alarmInput.name = otherUser.username;
+            await service.create(alarmInput);
+
+            const userAlarms = await service.getAll(user);
+            const otherUserAlarms = await service.getAll(otherUser);
+
+            expect(userAlarms).to.have.length(1);
+            expect(otherUserAlarms).to.have.length(1);
+
+            expect(userAlarms[0].name).to.eq(user.username);
+            expect(otherUserAlarms[0].name).to.eq(otherUser.username);
+        });
+
+    });
+
     context("create alarm", () => {
 
         it("should create valid alarm successfully", async () => {

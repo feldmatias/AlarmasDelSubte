@@ -31,4 +31,9 @@ export class AlarmResolver {
         }
         return alarm;
     }
+
+    @Query(_returns => [Alarm])
+    async getAlarms(@Ctx() context: RequestContext): Promise<Array<Alarm>> {
+        return await this.service.getAll(context.user);
+    }
 }

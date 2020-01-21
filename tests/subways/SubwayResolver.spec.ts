@@ -20,7 +20,7 @@ describe("Subway Resolver", () => {
 
             const subways = await resolver.getSubways();
 
-            expect(subways).to.have.length(0);
+            expect(subways).to.be.empty;
         });
 
         it("should return subway if service returns a subway", async () => {
@@ -34,16 +34,14 @@ describe("Subway Resolver", () => {
             expect(subways[0].line).to.eq("A");
         });
 
-        it("should return n subway if service returns n subways", async () => {
+        it("should return n subways if service returns n subways", async () => {
             const count = 10;
             const mock = new Array<Subway>();
-            const expected = new Array<string>();
 
             for (let i = 0; i < count; i++) {
                 const subway = new Subway();
                 subway.line = i.toString();
                 mock.push(subway);
-                expected.push(subway.line);
             }
 
             when(service.getAll()).thenResolve(mock);
@@ -51,8 +49,9 @@ describe("Subway Resolver", () => {
             const subways = await resolver.getSubways();
 
             expect(subways).to.have.length(count);
+            const subwayLines = subways.map(subway => subway.line);
             for (let i = 0; i < count; i++) {
-                expect(expected).to.include(subways[i].line);
+                expect(subwayLines).to.include(i.toString());
             }
         });
 

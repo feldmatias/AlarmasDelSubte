@@ -20,17 +20,14 @@ describe("Alarm Resolver", () => {
 
     let service: AlarmService;
     let resolver: AlarmResolver;
-    beforeEach(() => {
+    let requestContext: RequestContext;
+    beforeEach(async () => {
         service = mock(AlarmService);
         resolver = new AlarmResolver(instance(service));
+        requestContext = await RequestContextMock.mock();
     });
 
     context("Create alarm", () => {
-
-        let requestContext: RequestContext;
-        beforeEach(async () => {
-            requestContext = await RequestContextMock.mock();
-        });
 
         it("should return created alarm", async () => {
             const alarm = new Alarm();
@@ -109,11 +106,6 @@ describe("Alarm Resolver", () => {
 
         const ALARM_ID = 123;
 
-        let requestContext: RequestContext;
-        beforeEach(async () => {
-            requestContext = await RequestContextMock.mock();
-        });
-
         it("should return alarm if exists", async () => {
             const alarm = new Alarm();
             alarm.name = ALARM_NAME;
@@ -131,6 +123,49 @@ describe("Alarm Resolver", () => {
                 .to.eventually.be.rejectedWith(AlarmErrorHelper.ALARM_NOT_FOUND_ERROR_MESSAGE);
         });
 
+    });
+
+    context("Get all alarms", () => {
+
+        it("should return empty array if service returns empty array", async () => {
+            when(service.getAll(requestContext.user)).thenResolve([]);
+
+            const alarms = await resolver.getAlarms(requestContext);
+
+            expect(alarms).to.be.empty;
+        });
+
+        it("should return alarm if service returns an alarm", async () => {
+            const alarm = new Alarm();
+            alarm.name = "alarm";
+            when(service.getAll(requestContext.user)).thenResolve([alarm]);
+
+            const alarms = await resolver.getAlarms(requestContext);
+
+            expect(alarms).to.have.length(1);
+            expect(alarms[0].name).to.eq("alarm");
+        });
+
+        it("should return n alarms if service returns n alarms", async () => {
+            const count = 10;
+            const mock = new Array<Alarm>();
+
+            for (let i = 0; i < count; i++) {
+                const alarm = new Alarm();
+                alarm.name = i.toString();
+                mock.push(alarm);
+            }
+
+            when(service.getAll(requestContext.user)).thenResolve(mock);
+
+            const alarms = await resolver.getAlarms(requestContext);
+
+            expect(alarms).to.have.length(count);
+            const alarmNames = alarms.map(alarm => alarm.name);
+            for (let i = 0; i < count; i++) {
+                expect(alarmNames).to.include(i.toString());
+            }
+        });
     });
 
 });
