@@ -22,7 +22,8 @@ class AlarmErrorHelper extends ErrorHelper {
         [AlarmTimeValidation.ERROR, this.INVALID_ALARM_TIME_RANGE_MESSAGE],
         [AlarmSubwaysValidation.ERROR, this.INVALID_ALARM_SUBWAYS_MESSAGE],
         [AlarmOwnerValidation.ERROR, this.INVALID_ALARM_OWNER_MESSAGE],
-        [AlarmService.SUBWAY_NOT_FOUND_ERROR, this.SUBWAY_NOT_FOUND_MESSAGE]
+        [AlarmService.SUBWAY_NOT_FOUND_ERROR, this.SUBWAY_NOT_FOUND_MESSAGE],
+        [AlarmService.ALARM_NOT_FOUND_ERROR, this.ALARM_NOT_FOUND_ERROR_MESSAGE]
     ]);
 
 }

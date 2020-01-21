@@ -26,4 +26,8 @@ export class AlarmRepository {
             }
         });
     }
+
+    async delete(alarm: Alarm): Promise<void> {
+        await this.repository.remove(alarm);
+    }
 }

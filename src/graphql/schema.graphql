@@ -27,11 +27,12 @@ scalar DateTime
 
 type Mutation {
   createAlarm(alarmInput: AlarmInput!): Alarm!
+  deleteAlarm(id: ID!): ID!
   registerUser(userInput: UserInput!): User!
 }
 
 type Query {
-  getAlarm(id: Int!): Alarm!
+  getAlarm(id: ID!): Alarm!
   getAlarms: [Alarm!]!
   getSubways: [Subway!]!
   login(userInput: UserInput!): User!

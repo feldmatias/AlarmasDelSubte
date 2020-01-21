@@ -168,4 +168,25 @@ describe("Alarm Resolver", () => {
         });
     });
 
+    context("Delete alarm", () => {
+
+        const ALARM_ID = 927;
+
+        it("should return deleted alarm id", async () => {
+            when(service.delete(ALARM_ID, requestContext.user)).thenResolve(Result.Success(ALARM_ID));
+
+            const result = await resolver.deleteAlarm(ALARM_ID, requestContext);
+            expect(result).to.eq(ALARM_ID);
+        });
+
+        it("should throw error if alarm not found", async () => {
+            when(service.delete(ALARM_ID, requestContext.user))
+                .thenResolve(Result.Error(AlarmService.ALARM_NOT_FOUND_ERROR));
+
+            await expect(resolver.deleteAlarm(ALARM_ID, requestContext))
+                .to.eventually.be.rejectedWith(AlarmErrorHelper.ALARM_NOT_FOUND_ERROR_MESSAGE);
+        });
+
+    });
+
 });

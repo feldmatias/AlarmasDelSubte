@@ -1,6 +1,8 @@
 import {AlarmInput} from "../../src/alarms/entities/AlarmInput";
 import {SubwayFixture} from "../subways/SubwayFixture";
 import {UserFixture} from "../users/UserFixture";
+import {Alarm} from "../../src/alarms/entities/Alarm";
+import {getRepository} from "typeorm";
 
 export class AlarmFixture {
 
@@ -21,4 +23,10 @@ export class AlarmFixture {
 
         return alarm;
     };
+
+    public static async createAlarm(): Promise<Alarm> {
+        const alarmInput = await this.getDefaultAlarmInput();
+        const alarm = new Alarm(alarmInput);
+        return await getRepository(Alarm).save(alarm);
+    }
 }

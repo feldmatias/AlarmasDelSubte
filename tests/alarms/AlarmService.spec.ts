@@ -21,14 +21,14 @@ describe("Alarm Service", () => {
     context("get alarm", () => {
 
         it("should return undefined if alarm does not exist", async () => {
-            const alarm = await service.get(123, new User());
+            const user = await UserFixture.createUser();
+            const alarm = await service.get(123, user);
             expect(alarm).to.be.undefined;
         });
 
         it("should return undefined if is not alarm's owner ", async () => {
-            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
-            const created = await service.create(alarmInput);
-            const id = created.getData().id;
+            const created = await AlarmFixture.createAlarm();
+            const id = created.id;
 
             const otherUser = await UserFixture.createUserWithUsername("other user");
 
@@ -112,8 +112,7 @@ describe("Alarm Service", () => {
         });
 
         it("should not return alarms that belong to other user", async () => {
-            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
-            await service.create(alarmInput);
+            await AlarmFixture.createAlarm();
 
             const otherUser = await UserFixture.createUserWithUsername("other user");
 
@@ -394,6 +393,51 @@ describe("Alarm Service", () => {
                 expect(result.isSuccessful()).to.be.false;
                 expect(result.getError()).to.eq(AlarmOwnerValidation.ERROR);
             });
+        });
+
+    });
+
+    context("delete alarm", () => {
+
+        it("should delete alarm successfully", async () => {
+            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const created = await service.create(alarmInput);
+            const id = created.getData().id;
+
+            const result = await service.delete(id, alarmInput.getOwner());
+
+            expect(result.isSuccessful()).to.be.true;
+            expect(result.getData()).to.eq(id);
+        });
+
+        it("should not be able to get deleted alarm", async () => {
+            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const created = await service.create(alarmInput);
+            const id = created.getData().id;
+
+            const result = await service.delete(id, alarmInput.getOwner());
+            expect(result.isSuccessful()).to.be.true;
+
+            const alarm = await service.get(id, alarmInput.getOwner());
+            expect(alarm).to.be.undefined;
+        });
+
+        it("should not be able to delete unexistant alarm", async () => {
+            const user = await UserFixture.createUser();
+            const result = await service.delete(123, user);
+
+            expect(result.isSuccessful()).to.be.false;
+            expect(result.getError()).to.eq(AlarmService.ALARM_NOT_FOUND_ERROR);
+        });
+
+        it("should not be able to delete other user's alarm", async () => {
+            const alarm = await AlarmFixture.createAlarm();
+            const otherUser = await UserFixture.createUserWithUsername("other user");
+
+            const result = await service.delete(alarm.id, otherUser);
+
+            expect(result.isSuccessful()).to.be.false;
+            expect(result.getError()).to.eq(AlarmService.ALARM_NOT_FOUND_ERROR);
         });
 
     });
