@@ -13,6 +13,8 @@ import {AlarmDaysValidation} from "../../src/alarms/validation/AlarmDaysValidati
 import {AlarmTimeValidation} from "../../src/alarms/validation/AlarmTimeValidation";
 import {AlarmSubwaysValidation} from "../../src/alarms/validation/AlarmSubwaysValidation";
 import {AlarmOwnerValidation} from "../../src/alarms/validation/AlarmOwnerValidation";
+import {AlarmPartialInput} from "../../src/alarms/entities/AlarmPartialInput";
+import {ErrorHelper} from "../../src/utils/ErrorHelper";
 
 const ALARM_NAME = "alarm";
 
@@ -95,7 +97,108 @@ describe("Alarm Resolver", () => {
                     .thenResolve(Result.Error(AlarmService.SUBWAY_NOT_FOUND_ERROR));
 
                 await expect(resolver.createAlarm(new AlarmInput(), requestContext))
-                    .to.eventually.be.rejectedWith(AlarmErrorHelper.SUBWAY_NOT_FOUND_MESSAGE);
+                    .to.eventually.be.rejectedWith(AlarmErrorHelper.SUBWAY_NOT_FOUND_ERROR_MESSAGE);
+            });
+
+            it("should raise default error when unknown error", async () => {
+                when(service.create(anyOfClass(AlarmInput)))
+                    .thenResolve(Result.Error("error"));
+
+                await expect(resolver.createAlarm(new AlarmInput(), requestContext))
+                    .to.eventually.be.rejectedWith(ErrorHelper.DEFAULT_ERROR_MESSAGE);
+            });
+
+        });
+
+    });
+
+    context("Edit alarm", () => {
+
+        const ALARM_ID = 90;
+
+        it("should return edited alarm", async () => {
+            const alarm = new Alarm();
+            alarm.name = ALARM_NAME;
+
+            when(service.edit(ALARM_ID, anyOfClass(AlarmPartialInput))).thenResolve(Result.Success(alarm));
+
+            const result = await resolver.editAlarm(ALARM_ID, new AlarmPartialInput(), requestContext);
+            expect(result.name).to.eq(ALARM_NAME);
+        });
+
+        it("should edit alarm with request user", async () => {
+            when(service.edit(ALARM_ID, anyOfClass(AlarmPartialInput))).thenResolve(Result.Success(new Alarm()));
+
+            await resolver.editAlarm(ALARM_ID, new AlarmPartialInput(), requestContext);
+
+            const [, input] = capture(service.edit).last();
+            expect(input.getOwner()).to.deep.eq(requestContext.user);
+        });
+
+        context("errors", () => {
+
+            it("should raise error when invalid alarm name", async () => {
+                when(service.edit(ALARM_ID, anyOfClass(AlarmPartialInput)))
+                    .thenResolve(Result.Error(AlarmNameValidation.ERROR));
+
+                await expect(resolver.editAlarm(ALARM_ID, new AlarmPartialInput(), requestContext))
+                    .to.eventually.be.rejectedWith(AlarmErrorHelper.INVALID_ALARM_NAME_MESSAGE);
+            });
+
+            it("should raise error when invalid alarm days", async () => {
+                when(service.edit(ALARM_ID, anyOfClass(AlarmPartialInput)))
+                    .thenResolve(Result.Error(AlarmDaysValidation.ERROR));
+
+                await expect(resolver.editAlarm(ALARM_ID, new AlarmPartialInput(), requestContext))
+                    .to.eventually.be.rejectedWith(AlarmErrorHelper.INVALID_ALARM_DAYS_MESSAGE);
+            });
+
+            it("should raise error when invalid alarm time range", async () => {
+                when(service.edit(ALARM_ID, anyOfClass(AlarmPartialInput)))
+                    .thenResolve(Result.Error(AlarmTimeValidation.ERROR));
+
+                await expect(resolver.editAlarm(ALARM_ID, new AlarmPartialInput(), requestContext))
+                    .to.eventually.be.rejectedWith(AlarmErrorHelper.INVALID_ALARM_TIME_RANGE_MESSAGE);
+            });
+
+            it("should raise error when invalid alarm subways", async () => {
+                when(service.edit(ALARM_ID, anyOfClass(AlarmPartialInput)))
+                    .thenResolve(Result.Error(AlarmSubwaysValidation.ERROR));
+
+                await expect(resolver.editAlarm(ALARM_ID, new AlarmPartialInput(), requestContext))
+                    .to.eventually.be.rejectedWith(AlarmErrorHelper.INVALID_ALARM_SUBWAYS_MESSAGE);
+            });
+
+            it("should raise error when invalid alarm owner", async () => {
+                when(service.edit(ALARM_ID, anyOfClass(AlarmPartialInput)))
+                    .thenResolve(Result.Error(AlarmOwnerValidation.ERROR));
+
+                await expect(resolver.editAlarm(ALARM_ID, new AlarmPartialInput(), requestContext))
+                    .to.eventually.be.rejectedWith(AlarmErrorHelper.INVALID_ALARM_OWNER_MESSAGE);
+            });
+
+            it("should raise error when select unexistant subways for alarm", async () => {
+                when(service.edit(ALARM_ID, anyOfClass(AlarmPartialInput)))
+                    .thenResolve(Result.Error(AlarmService.SUBWAY_NOT_FOUND_ERROR));
+
+                await expect(resolver.editAlarm(ALARM_ID, new AlarmPartialInput(), requestContext))
+                    .to.eventually.be.rejectedWith(AlarmErrorHelper.SUBWAY_NOT_FOUND_ERROR_MESSAGE);
+            });
+
+            it("should raise error when selected alarm does not exist", async () => {
+                when(service.edit(ALARM_ID, anyOfClass(AlarmPartialInput)))
+                    .thenResolve(Result.Error(AlarmService.ALARM_NOT_FOUND_ERROR));
+
+                await expect(resolver.editAlarm(ALARM_ID, new AlarmPartialInput(), requestContext))
+                    .to.eventually.be.rejectedWith(AlarmErrorHelper.ALARM_NOT_FOUND_ERROR_MESSAGE);
+            });
+
+            it("should raise default error when unknown error", async () => {
+                when(service.edit(ALARM_ID, anyOfClass(AlarmPartialInput)))
+                    .thenResolve(Result.Error("error"));
+
+                await expect(resolver.editAlarm(ALARM_ID, new AlarmPartialInput(), requestContext))
+                    .to.eventually.be.rejectedWith(ErrorHelper.DEFAULT_ERROR_MESSAGE);
             });
 
         });

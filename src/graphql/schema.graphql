@@ -35,6 +35,7 @@ scalar DateTime
 
 type Mutation {
   createAlarm(alarmInput: AlarmInput!): Alarm!
+  editAlarm(alarmInput: AlarmPartialInput!, id: ID!): Alarm!
   deleteAlarm(id: ID!): ID!
   registerUser(userInput: UserInput!): User!
 }

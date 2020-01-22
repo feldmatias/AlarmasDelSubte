@@ -4,6 +4,7 @@ import {Alarm} from "../entities/Alarm";
 import {AlarmInput} from "../entities/AlarmInput";
 import {RequestContext} from "../../graphql/RequestContext";
 import AlarmErrorHelper from "./AlarmErrorHelper";
+import {AlarmPartialInput} from "../entities/AlarmPartialInput";
 
 @Resolver()
 export class AlarmResolver {
@@ -17,6 +18,20 @@ export class AlarmResolver {
         alarmInput.setOwner(context.user);
 
         const result = await this.service.create(alarmInput);
+
+        if (!result.isSuccessful()) {
+            throw new Error(AlarmErrorHelper.getErrorMessage(result.getError()));
+        }
+        return result.getData();
+    }
+
+    @Mutation(_returns => Alarm)
+    public async editAlarm(@Arg("id", _type => ID) id: number,
+                           @Arg("alarmInput") alarmInput: AlarmPartialInput,
+                           @Ctx() context: RequestContext): Promise<Alarm> {
+        alarmInput.setOwner(context.user);
+
+        const result = await this.service.edit(id, alarmInput);
 
         if (!result.isSuccessful()) {
             throw new Error(AlarmErrorHelper.getErrorMessage(result.getError()));
