@@ -1,7 +1,7 @@
 export abstract class ErrorHelper {
 
-    public static DEFAULT_ERROR_MESSAGE = "Ocurrió un error";
-    public static AUTHORIZATION_ERROR_MESSAGE = "Es necesario estar logueado para realizar la operación";
+    public static readonly DEFAULT_ERROR_MESSAGE = "Ocurrió un error";
+    public static readonly AUTHORIZATION_ERROR_MESSAGE = "Es necesario estar logueado para realizar la operación";
 
     protected abstract errors: Map<string, string>;
 

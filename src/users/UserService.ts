@@ -3,20 +3,20 @@ import {UserRepository} from "./UserRepository";
 import {UserInput} from "./entities/UserInput";
 import {User} from "./entities/User";
 import {Result} from "../utils/Result";
-import {UserValidator} from "./UserValidator";
+import {UserValidator} from "./validation/UserValidator";
 
 @Service()
 export class UserService {
 
-    public static LOGIN_ERROR = "LOGIN_ERROR";
+    public static readonly LOGIN_ERROR = "LOGIN_ERROR";
 
-    constructor(private repository: UserRepository, private userValidator: UserValidator) {
+    public constructor(private repository: UserRepository, private userValidator: UserValidator) {
     }
 
-    async registerUser(userInput: UserInput): Promise<Result<User>> {
+    public async registerUser(userInput: UserInput): Promise<Result<User>> {
         const validation = await this.userValidator.validate(userInput);
         if (!validation.isSuccessful()) {
-            return Result.Error(validation.getError())
+            return Result.Error(validation.getError());
         }
 
         const user = new User(userInput);
@@ -24,7 +24,7 @@ export class UserService {
         return Result.Success(savedUser);
     }
 
-    async login(userInput: UserInput): Promise<Result<User>> {
+    public async login(userInput: UserInput): Promise<Result<User>> {
         const user = await this.repository.findByUsername(userInput.username);
 
         if (!user) {

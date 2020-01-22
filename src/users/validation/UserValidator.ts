@@ -1,15 +1,15 @@
 import {Service} from "typedi";
-import {UserRepository} from "./UserRepository";
-import {UserInput} from "./entities/UserInput";
-import {Validator} from "../utils/Validator";
-import {ValidationResult} from "../utils/ValidationResult";
+import {UserRepository} from "../UserRepository";
+import {UserInput} from "../entities/UserInput";
+import {Validator} from "../../utils/Validator";
+import {ValidationResult} from "../../utils/ValidationResult";
 
 @Service()
 export class UserValidator {
 
-    public static NOT_UNIQUE_USERNAME_ERROR = "NOT_UNIQUE_USERNAME";
+    public static readonly NOT_UNIQUE_USERNAME_ERROR = "NOT_UNIQUE_USERNAME";
 
-    constructor(private userRepository: UserRepository) {
+    public constructor(private userRepository: UserRepository) {
     }
 
     public async validate(userInput: UserInput): Promise<ValidationResult> {

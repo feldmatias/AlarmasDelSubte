@@ -9,17 +9,17 @@ import {Service} from "typedi";
 @Service()
 export class LoginRequiredMiddleware implements MiddlewareInterface<RequestContext> {
 
-    static EXCLUDED_QUERIES = ['login'];
-    static EXCLUDED_MUTATIONS = ['registerUser'];
+    public static readonly EXCLUDED_QUERIES = ['login'];
+    public static readonly EXCLUDED_MUTATIONS = ['registerUser'];
 
-    constructor(private userRepository: UserRepository) {
+    public constructor(private userRepository: UserRepository) {
     }
 
     /**
      * For queries and mutations that are not excluded, current logged user is set to the context.
      * If no logged user is found, it will throw an error.
      */
-    async use({context, info}: ResolverData<RequestContext>, next: NextFn): Promise<any> { // eslint-disable-line  @typescript-eslint/no-explicit-any
+    public async use({context, info}: ResolverData<RequestContext>, next: NextFn): Promise<any> { // eslint-disable-line  @typescript-eslint/no-explicit-any
         const queryType = info.schema.getQueryType();
         const mutationType = info.schema.getMutationType();
         if (![queryType, mutationType].includes(info.parentType)) {

@@ -9,21 +9,21 @@ import {TokenGenerator} from "ts-token-generator";
 export class User {
 
     @PrimaryGeneratedColumn()
-    @Field(() => ID)
-    id!: number;
+    @Field(_type => ID)
+    public id!: number;
 
     @Column({unique: true})
     @Field()
-    username!: string;
+    public username!: string;
 
     @Column()
     private password!: string;
 
     @Column()
     @Field()
-    token!: string;
+    public token!: string;
 
-    constructor(userInput?: UserInput) {
+    public constructor(userInput?: UserInput) {
         if (userInput) {
             this.initialize(userInput);
         }
@@ -37,5 +37,9 @@ export class User {
 
     public checkPassword(otherPassword: string): boolean {
         return this.password == Md5.hashStr(otherPassword) as string;
+    }
+
+    public equals(other: User): boolean {
+        return this.id === other.id;
     }
 }

@@ -8,22 +8,22 @@ export class Subway {
 
     @PrimaryColumn()
     @Field()
-    line!: string;
+    public line!: string;
 
     @Column()
     @Field()
-    icon!: string;
+    public icon!: string;
 
     @Column({default: SubwayStatusHelper.NORMAL_STATUS_MESSAGE})
     @Field()
-    status!: string;
+    public status!: string;
 
     @UpdateDateColumn()
     @Field()
-    updatedAt!: Date;
+    public updatedAt!: Date;
 
-    @Field(() => SubwayStatus)
-    statusType(): SubwayStatus {
+    @Field(_type => SubwayStatus)
+    public statusType(): SubwayStatus {
         return SubwayStatusHelper.getSubwayStatus(this.status);
     }
 }

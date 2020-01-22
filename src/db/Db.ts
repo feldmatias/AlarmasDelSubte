@@ -3,7 +3,7 @@ import {Config} from "../../config/config";
 import {Container} from "typedi";
 
 export class Db {
-    static async create(): Promise<void> {
+    public static async create(): Promise<void> {
         useContainer(Container);
         const dbType: any = Config.db.type; // eslint-disable-line  @typescript-eslint/no-explicit-any
         await createConnection({

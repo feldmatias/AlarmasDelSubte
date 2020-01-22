@@ -3,16 +3,46 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Alarm {
+  id: ID!
+  name: String!
+  days: [String!]!
+  start: String!
+  end: String!
+  subways: [Subway!]!
+}
+
+input AlarmInput {
+  name: String!
+  days: [String!]!
+  start: String!
+  end: String!
+  subwayLines: [String!]!
+}
+
+input AlarmPartialInput {
+  name: String
+  days: [String!]
+  start: String
+  end: String
+  subwayLines: [String!]
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
 
 type Mutation {
+  createAlarm(alarmInput: AlarmInput!): Alarm!
+  editAlarm(alarmInput: AlarmPartialInput!, id: ID!): Alarm!
+  deleteAlarm(id: ID!): ID!
   registerUser(userInput: UserInput!): User!
 }
 
 type Query {
+  getAlarm(id: ID!): Alarm!
+  getAlarms: [Alarm!]!
   getSubways: [Subway!]!
   login(userInput: UserInput!): User!
 }

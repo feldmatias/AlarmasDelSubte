@@ -1,19 +1,16 @@
 import {Field, InputType} from "type-graphql";
-import {IsNotEmpty, MinLength} from "class-validator";
+import {Validate} from "class-validator";
+import {UserUsernameValidation} from "../validation/UserUsernameValidation";
+import {UserPasswordValidation} from "../validation/UserPasswordValidation";
 
 @InputType()
 export class UserInput {
 
-    private static PASSWORD_MIN_LENGTH = 6;
-    public static INVALID_PASSWORD_ERROR = "INVALID_PASSWORD";
-
-    public static INVALID_USERNAME_ERROR = "INVALID_USERNAME";
+    @Field()
+    @Validate(UserUsernameValidation)
+    public username!: string;
 
     @Field()
-    @IsNotEmpty({message: UserInput.INVALID_USERNAME_ERROR})
-    username!: string;
-
-    @Field()
-    @MinLength(UserInput.PASSWORD_MIN_LENGTH, {message: UserInput.INVALID_PASSWORD_ERROR})
-    password!: string;
+    @Validate(UserPasswordValidation)
+    public password!: string;
 }

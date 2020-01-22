@@ -39,16 +39,16 @@ function getMockInfo(fieldName: string, type: GraphQLObjectType): GraphQLResolve
 }
 
 function getRequestContext(token = ""): RequestContext {
-    return new class implements RequestContext {
-        user?: User;
+    return new class implements Partial<RequestContext> {
+        public user?: User;
 
-        header(header: string): string {
+        public header(header: string): string {
             if (header != constants.HTTP2_HEADER_AUTHORIZATION) {
-                throw new Error("Tried to obtain invalid header. Only able to obtain header: " + constants.HTTP2_HEADER_AUTHORIZATION)
+                throw new Error("Tried to obtain invalid header. Only able to obtain header: " + constants.HTTP2_HEADER_AUTHORIZATION);
             }
             return token;
         }
-    }
+    } as RequestContext;
 }
 
 describe("Login Required Middleware", () => {
@@ -124,7 +124,7 @@ describe("Login Required Middleware", () => {
                 if (!requestContext.user) {
                     fail();
                 }
-                expect(requestContext.user.id).to.eq(user.id);
+                expect(requestContext.user.equals(user)).to.be.true;
                 expect(requestContext.user.token).to.eq(user.token);
             });
 

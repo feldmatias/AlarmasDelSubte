@@ -5,11 +5,11 @@ import {Subway} from "../entities/Subway";
 @Resolver()
 export class SubwayResolver {
 
-    constructor(private service: SubwayService) {
+    public constructor(private service: SubwayService) {
     }
 
-    @Query(() => [Subway])
-    async getSubways(): Promise<Array<Subway>> {
+    @Query(_returns => [Subway])
+    public async getSubways(): Promise<Array<Subway>> {
         return await this.service.getAll();
     }
 }
