@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "tsc": "tsc",
     "start": "cross-env NODE_ENV=development ts-node-dev --respawn --transpileOnly src/app.ts",
     "prod": "tsc && cross-env NODE_ENV=production node ./build/src/app.js",
     "pretest": "eslint --fix --max-warnings 0 src/**/*.ts tests/**/*.ts",
@@ -49,7 +48,7 @@
     "nyc": "^15.0.0",
     "sinon-chai": "^3.4.0",
     "ts-mockito": "^2.5.0",
-    "ts-node": "^8.5.4",
+    "ts-node": "^6.2.0",
     "ts-sinon": "^1.0.24"
   },
   "nyc": {
