@@ -6,15 +6,19 @@ import {getRepository} from "typeorm";
 
 export class AlarmFixture {
 
-    public static async getDefaultAlarmInput(withOwner = true): Promise<AlarmInput> {
-        const defaultSubway = await SubwayFixture.createSubway();
+    public static readonly ALARM_SUBWAY_LINE = "alarm";
 
+    public static async getDefaultAlarmInput(withOwner = true, withSubway = true): Promise<AlarmInput> {
         const alarm = new AlarmInput();
         alarm.name = "alarm";
         alarm.days = ["friday", "monday"];
         alarm.start = "10:30";
         alarm.end = "12:46";
-        alarm.subwayLines = [defaultSubway.line];
+
+        if (withSubway) {
+            const defaultSubway = await SubwayFixture.createSubway(AlarmFixture.ALARM_SUBWAY_LINE);
+            alarm.subwayLines = [defaultSubway.line];
+        }
 
         if (withOwner) {
             const defaultUser = await UserFixture.createUser();
@@ -25,7 +29,10 @@ export class AlarmFixture {
     };
 
     public static async createAlarm(): Promise<Alarm> {
-        const alarmInput = await this.getDefaultAlarmInput();
+        const alarmInput = await this.getDefaultAlarmInput(true, false);
+        const defaultSubway = await SubwayFixture.createSubway(AlarmFixture.ALARM_SUBWAY_LINE);
+        alarmInput.setSubways([defaultSubway]);
+
         const alarm = new Alarm(alarmInput);
         return await getRepository(Alarm).save(alarm);
     }

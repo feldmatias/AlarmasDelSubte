@@ -6,6 +6,7 @@ import {Validator} from "../utils/Validator";
 import {AlarmInput} from "./entities/AlarmInput";
 import {SubwayRepository} from "../subways/SubwayRepository";
 import {User} from "../users/entities/User";
+import {AlarmPartialInput} from "./entities/AlarmPartialInput";
 
 @Service()
 export class AlarmService {
@@ -29,14 +30,42 @@ export class AlarmService {
     }
 
     public async create(alarmInput: AlarmInput): Promise<Result<Alarm>> {
-        const subways = await this.subwayRepository.findByLines(alarmInput.subwayLines);
-        if (subways.length != alarmInput.subwayLines.length) {
-            return Result.Error(AlarmService.SUBWAY_NOT_FOUND_ERROR);
+        const inputInitialization = await this.initializeAlarmInput(alarmInput);
+        if (!inputInitialization.isSuccessful()) {
+            return Result.Error(inputInitialization.getError());
         }
-        alarmInput.setSubways(subways);
 
-        const alarm = new Alarm(alarmInput);
+        const alarm = new Alarm(inputInitialization.getData());
+        return await this.saveAlarm(alarm);
+    }
 
+    public async edit(alarmId: number, alarmInput: AlarmPartialInput): Promise<Result<Alarm>> {
+        const alarm = await this.get(alarmId, alarmInput.getOwner());
+        if (!alarm) {
+            return Result.Error(AlarmService.ALARM_NOT_FOUND_ERROR);
+        }
+
+        const inputInitialization = await this.initializeAlarmInput(alarmInput);
+        if (!inputInitialization.isSuccessful()) {
+            return Result.Error(inputInitialization.getError());
+        }
+
+        alarm.update(inputInitialization.getData());
+        return await this.saveAlarm(alarm);
+    }
+
+    private async initializeAlarmInput<T extends AlarmInput | AlarmPartialInput>(alarmInput: T): Promise<Result<T>> {
+        if (alarmInput.subwayLines) {
+            const subways = await this.subwayRepository.findByLines(alarmInput.subwayLines);
+            if (subways.length != alarmInput.subwayLines.length) {
+                return Result.Error(AlarmService.SUBWAY_NOT_FOUND_ERROR);
+            }
+            alarmInput.setSubways(subways);
+        }
+        return Result.Success(alarmInput);
+    }
+
+    private async saveAlarm(alarm: Alarm): Promise<Result<Alarm>> {
         const validation = await Validator.validate(alarm);
         if (!validation.isSuccessful()) {
             return Result.Error(validation.getError());
