@@ -175,7 +175,7 @@ describe("Alarm Service", () => {
             });
 
             ["1", "123", "60", "61", "-1", "-10", "69", "70"].forEach(minutes => {
-                it(`should not create alarm with invalid minutes '${minutes} in start time`, async () => {
+                it(`should not create alarm with invalid minutes '${minutes}' in start time`, async () => {
                     const alarm = await AlarmFixture.getDefaultAlarmInput();
                     alarm.start = `00:${minutes}`;
 
@@ -187,7 +187,7 @@ describe("Alarm Service", () => {
             });
 
             ["1", "123", "24", "25", "-1", "-10", "30"].forEach(hours => {
-                it(`should not create alarm with invalid hours '${hours} in start time`, async () => {
+                it(`should not create alarm with invalid hours '${hours}' in start time`, async () => {
                     const alarm = await AlarmFixture.getDefaultAlarmInput();
                     alarm.start = `${hours}:00`;
 
@@ -219,7 +219,7 @@ describe("Alarm Service", () => {
             });
 
             ["1", "123", "60", "61", "-1", "-10", "69", "70"].forEach(minutes => {
-                it(`should not create alarm with invalid minutes '${minutes} in end time`, async () => {
+                it(`should not create alarm with invalid minutes '${minutes}' in end time`, async () => {
                     const alarm = await AlarmFixture.getDefaultAlarmInput();
                     alarm.end = `23:${minutes}`;
 
@@ -231,7 +231,7 @@ describe("Alarm Service", () => {
             });
 
             ["1", "123", "24", "25", "-1", "-10", "30"].forEach(hours => {
-                it(`should not create alarm with invalid hours '${hours} in end time`, async () => {
+                it(`should not create alarm with invalid hours '${hours}' in end time`, async () => {
                     const alarm = await AlarmFixture.getDefaultAlarmInput();
                     alarm.end = `${hours}:59`;
 

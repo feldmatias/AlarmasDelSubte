@@ -235,7 +235,7 @@ describe("Alarm Service", () => {
             });
 
             ["1", "123", "60", "61", "-1", "-10", "69", "70"].forEach(minutes => {
-                it(`should not edit alarm with invalid minutes '${minutes} in start time`, async () => {
+                it(`should not edit alarm with invalid minutes '${minutes}' in start time`, async () => {
                     editAlarmInput.start = `00:${minutes}`;
                     const result = await service.edit(originalAlarm.id, editAlarmInput);
 
@@ -245,7 +245,7 @@ describe("Alarm Service", () => {
             });
 
             ["1", "123", "24", "25", "-1", "-10", "30"].forEach(hours => {
-                it(`should not edit alarm with invalid hours '${hours} in start time`, async () => {
+                it(`should not edit alarm with invalid hours '${hours}' in start time`, async () => {
                     editAlarmInput.start = `${hours}:00`;
                     const result = await service.edit(originalAlarm.id, editAlarmInput);
 
@@ -304,7 +304,7 @@ describe("Alarm Service", () => {
             });
 
             ["1", "123", "60", "61", "-1", "-10", "69", "70"].forEach(minutes => {
-                it(`should not edit alarm with invalid minutes '${minutes} in end time`, async () => {
+                it(`should not edit alarm with invalid minutes '${minutes}' in end time`, async () => {
                     editAlarmInput.end = `00:${minutes}`;
                     const result = await service.edit(originalAlarm.id, editAlarmInput);
 
@@ -314,7 +314,7 @@ describe("Alarm Service", () => {
             });
 
             ["1", "123", "24", "25", "-1", "-10", "30"].forEach(hours => {
-                it(`should not edit alarm with invalid hours '${hours} in end time`, async () => {
+                it(`should not edit alarm with invalid hours '${hours}' in end time`, async () => {
                     editAlarmInput.end = `${hours}:00`;
                     const result = await service.edit(originalAlarm.id, editAlarmInput);
 
