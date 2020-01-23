@@ -18,6 +18,7 @@ interface SrcConfig {
 
 interface Subways {
     realTimeUrl: string;
+    language: string
 }
 
 const appConfig = config.get('config') as Config;

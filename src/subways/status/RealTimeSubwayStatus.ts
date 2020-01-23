@@ -1,5 +1,6 @@
 import {UpdatedSubwayStatus} from "./UpdatedSubwayStatus";
 import {JsonProperty, Serializable} from "typescript-json-serializer";
+import {Config} from "../../../config/config";
 
 @Serializable()
 class TranslatedStatus {
@@ -15,7 +16,7 @@ class TranslatedStatus {
     }
 
     public checkLanguage(): boolean {
-        return this.language == "es";
+        return this.language == Config.subways.language;
     }
 }
 

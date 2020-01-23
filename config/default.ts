@@ -11,7 +11,8 @@ export default {
         },
 
         subways: {
-            realTimeUrl: "someurl.com"
+            realTimeUrl: "someurl.com",
+            language: "es"
         }
     }
 };

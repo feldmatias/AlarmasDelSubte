@@ -6,6 +6,33 @@ import {SubwayFixture} from "../SubwayFixture";
 import {SubwayService} from "../../../src/subways/SubwayService";
 import {Config} from "../../../config/config";
 
+const SUBWAY_NEW_STATUS = "new updated status";
+
+/* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-explicit-any */
+// Because i can't change external api
+function generateApiResponse(subways: string[]): any {
+    const apiResponse = {entity: Array<any>()};
+
+    subways.forEach(subway => {
+        apiResponse.entity.push(
+            {
+                alert: {
+                    informed_entity: [{
+                        route_id: subway
+                    }],
+                    description_text: {
+                        translation: [{
+                            language: Config.subways.language,
+                            text: SUBWAY_NEW_STATUS
+                        }]
+                    }
+                }
+            });
+    });
+    return apiResponse;
+}
+/* eslint-enable @typescript-eslint/camelcase, @typescript-eslint/no-explicit-any */
+
 describe("Subway Status Updater", () => {
 
     let statusUpdater: SubwayStatusUpdater;
@@ -24,34 +51,15 @@ describe("Subway Status Updater", () => {
 
     context("update subway status", () => {
 
-        /* eslint-disable @typescript-eslint/camelcase */
-        const apiResponse = {
-            entity: [{
-                alert: {
-                    informed_entity: [{
-                        route_id: "subway"
-                    }],
-                    description_text: {
-                        translation: [{
-                            language: "es",
-                            text: "new status"
-                        }]
-                    }
-                }
-            }]
-        };
-        /* eslint-enable @typescript-eslint/camelcase */
-
         it("should update subway status when api return status", async () => {
-            const subway = await SubwayFixture.createSubway("subway");
+            const subway = await SubwayFixture.createSubway();
 
-            MockApiService.mockGetRequest(apiUrl, apiResponse);
+            MockApiService.mockGetRequest(apiUrl, generateApiResponse([subway.line]));
 
             await statusUpdater.updateSubwayStatus();
 
             const subways = await service.getAll();
-            expect(subways[0].line).to.eq(subway.line);
-            expect(subways[0].status).to.eq("new status");
+            expect(subways[0].status).to.eq(SUBWAY_NEW_STATUS);
         });
 
     });

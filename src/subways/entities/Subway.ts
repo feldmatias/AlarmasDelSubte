@@ -1,6 +1,7 @@
 import {Column, Entity, PrimaryColumn, UpdateDateColumn} from "typeorm";
 import {Field, ObjectType} from "type-graphql";
 import {SubwayStatus, SubwayStatusHelper} from "../SubwayStatus";
+import {UpdatedSubwayStatus} from "../status/UpdatedSubwayStatus";
 
 @Entity()
 @ObjectType()
@@ -25,5 +26,9 @@ export class Subway {
     @Field(_type => SubwayStatus)
     public statusType(): SubwayStatus {
         return SubwayStatusHelper.getSubwayStatus(this.status);
+    }
+
+    public updateStatus(updatedStatus?: UpdatedSubwayStatus): void {
+        this.status = updatedStatus ? updatedStatus.status : SubwayStatusHelper.NORMAL_STATUS_MESSAGE;
     }
 }
