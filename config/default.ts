@@ -8,6 +8,10 @@ export default {
         src: {
             fileExtension: ".ts",
             folder: ""
+        },
+
+        subways: {
+            realTimeUrl: "someurl.com"
         }
     }
 };

@@ -22,4 +22,8 @@ export class SubwayRepository {
             where: {line: In(lines)}
         });
     }
+
+    public async update(subway: Subway): Promise<void> {
+        await this.repository.save(subway);
+    }
 }

@@ -3,6 +3,10 @@ export default {
         db: {
             type: "sqlite",
             name: ":memory:"
+        },
+
+        subways: {
+            realTimeUrl: "someurl.test.com"
         }
     }
 };
