@@ -1,20 +1,20 @@
 import {Axios, AXIOS_DI} from "../../src/utils/ApiService";
 import {Container} from "typedi";
-import {instance, mock, when} from "ts-mockito";
+import {instance, mock, reset, when} from "ts-mockito";
 import {AxiosInstance} from "axios";
 
 class MockApiService {
 
-    private axiosMock?: Axios;
+    private axiosMock: Axios = mock<AxiosInstance>();
     private realAxios?: Axios;
 
     public mock(): void {
         this.realAxios = Container.get(AXIOS_DI);
-        this.axiosMock = mock<AxiosInstance>();
         Container.set(AXIOS_DI, instance(this.axiosMock));
     }
 
     public reset(): void {
+        reset(this.axiosMock);
         Container.set(AXIOS_DI, this.realAxios);
     }
 

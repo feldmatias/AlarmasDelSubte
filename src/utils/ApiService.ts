@@ -19,7 +19,6 @@ export class ApiService {
             const data = deserialize(response.data, type);
             return Result.Success(data);
         } catch (error) {
-            console.log(error.message);
             return Result.Error(error.message);
         }
     }
