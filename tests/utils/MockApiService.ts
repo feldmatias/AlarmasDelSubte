@@ -18,7 +18,7 @@ class MockApiService {
         Container.set(AXIOS_DI, this.realAxios);
     }
 
-    public mockGetRequest(url: string, data: any): void {
+    public mockGetRequest(url: string, data: any): void { // eslint-disable-line  @typescript-eslint/no-explicit-any
         if (!this.axiosMock) {
             throw new Error("Api Service is not mocked");
         }

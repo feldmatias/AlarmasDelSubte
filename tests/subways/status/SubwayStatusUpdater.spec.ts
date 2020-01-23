@@ -24,6 +24,7 @@ describe("Subway Status Updater", () => {
 
     context("update subway status", () => {
 
+        /* eslint-disable @typescript-eslint/camelcase */
         const apiResponse = {
             entity: [{
                 alert: {
@@ -39,6 +40,7 @@ describe("Subway Status Updater", () => {
                 }
             }]
         };
+        /* eslint-enable @typescript-eslint/camelcase */
 
         it("should update subway status when api return status", async () => {
             const subway = await SubwayFixture.createSubway("subway");

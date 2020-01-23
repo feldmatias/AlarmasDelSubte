@@ -2,16 +2,16 @@ import {UpdatedSubwayStatus} from "./UpdatedSubwayStatus";
 import {JsonProperty, Serializable} from "typescript-json-serializer";
 
 @Serializable()
-class Translation {
+class TranslatedStatus {
 
-    @JsonProperty()
+    @JsonProperty({name: 'language'})
     private language!: string;
 
-    @JsonProperty()
-    private text!: string;
+    @JsonProperty({name: 'text'})
+    private status!: string;
 
     public getStatus(): string {
-        return this.text;
+        return this.status;
     }
 
     public checkLanguage(): boolean {
@@ -20,59 +20,59 @@ class Translation {
 }
 
 @Serializable()
-class DescriptionText {
+class AlertStatus {
 
-    @JsonProperty({type:Translation})
-    private translation!: Translation[];
+    @JsonProperty({type:TranslatedStatus, name: "translation"})
+    private translatedStatus!: TranslatedStatus[];
 
     public getSubwayStatus(): string {
-        return this.translation.find(translation => {
-            return translation.checkLanguage();
+        return this.translatedStatus.find(status => {
+            return status.checkLanguage();
         })?.getStatus() || "";
     }
 }
 
 @Serializable()
-class InformedEntity {
+class SubwayInfo {
 
-    @JsonProperty()
-    private route_id!: string;
+    @JsonProperty({name: "route_id"})
+    private subwayLine!: string;
 
     public getSubwayLine(): string {
-        return this.route_id;
+        return this.subwayLine;
     }
 }
 
 @Serializable()
-class Alert {
+class SubwayAlert {
 
-    @JsonProperty({type: InformedEntity})
-    private informed_entity!: InformedEntity[];
+    @JsonProperty({type: SubwayInfo, name: "informed_entity"})
+    private subways!: SubwayInfo[];
 
-    @JsonProperty({type: DescriptionText})
-    private description_text!: DescriptionText;
+    @JsonProperty({type: AlertStatus, name: "description_text"})
+    private alertStatus!: AlertStatus;
 
     public getSubwayLine(): string {
-        if (this.informed_entity.length == 0) {
+        if (this.subways.length == 0) {
             return "";
         }
-        return this.informed_entity[0].getSubwayLine();
+        return this.subways[0].getSubwayLine();
     }
 
     public getSubwayStatus(): string {
-        return this.description_text.getSubwayStatus();
+        return this.alertStatus.getSubwayStatus();
     }
 }
 
 @Serializable()
-class Entity {
+class SubwayEntity {
 
-    @JsonProperty({type: Alert})
-    private alert!: Alert;
+    @JsonProperty({type: SubwayAlert, name: "alert"})
+    private alert!: SubwayAlert;
 
     public getUpdatedSubwayStatus(): UpdatedSubwayStatus {
-        const line = this.alert?.getSubwayLine() || "";
-        const status = this.alert?.getSubwayStatus() || "";
+        const line = this.alert.getSubwayLine();
+        const status = this.alert.getSubwayStatus();
         return new UpdatedSubwayStatus(line, status);
     }
 }
@@ -80,12 +80,12 @@ class Entity {
 @Serializable()
 export class RealTimeSubwayStatus {
 
-    @JsonProperty({type: Entity})
-    private entity!: Entity[];
+    @JsonProperty({type: SubwayEntity, name: "entity"})
+    private subwayEntities!: SubwayEntity[];
 
     public getUpdatedSubwayStatus(): Array<UpdatedSubwayStatus> {
         const data = new Array<UpdatedSubwayStatus>();
-        this.entity.forEach(entity => {
+        this.subwayEntities.forEach(entity => {
             data.push(entity.getUpdatedSubwayStatus());
         });
         return data;
