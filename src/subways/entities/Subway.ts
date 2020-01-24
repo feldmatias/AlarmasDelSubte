@@ -29,6 +29,6 @@ export class Subway {
     }
 
     public updateStatus(updatedStatus?: UpdatedSubwayStatus): void {
-        this.status = updatedStatus && updatedStatus.status ? updatedStatus.status : SubwayStatusHelper.NORMAL_STATUS_MESSAGE;
+        this.status = updatedStatus?.status ? updatedStatus.status : SubwayStatusHelper.NORMAL_STATUS_MESSAGE;
     }
 }
