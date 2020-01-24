@@ -106,6 +106,7 @@ dist
 /.idea/
 /build/
 /config/Config.d.ts
+/config/development.ts
 /dev.db
 /test.db
 /prod.db
