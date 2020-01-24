@@ -5,10 +5,10 @@ import {Config} from "../../../config/config";
 @Serializable()
 class TranslatedStatus {
 
-    @JsonProperty({name: 'language'})
+    @JsonProperty({name: "language"})
     private language!: string;
 
-    @JsonProperty({name: 'text'})
+    @JsonProperty({name: "text"})
     private status!: string;
 
     public getStatus(): string {
@@ -36,11 +36,13 @@ class AlertStatus {
 @Serializable()
 class SubwayInfo {
 
+    private static readonly LINE_PREFIX = 'Linea';
+
     @JsonProperty({name: "route_id"})
     private subwayLine!: string;
 
     public getSubwayLine(): string {
-        return this.subwayLine;
+        return this.subwayLine.replace(SubwayInfo.LINE_PREFIX, "");
     }
 }
 

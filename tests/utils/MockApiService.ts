@@ -33,6 +33,13 @@ class MockApiService {
             });
     }
 
+    public mockGetRequestWithError(url: string): void {
+        if (!this.axiosMock) {
+            throw new Error("Api Service is not mocked");
+        }
+
+        when(this.axiosMock.get(url)).thenReject(new Error("error"));
+    }
 }
 
 export default new MockApiService();

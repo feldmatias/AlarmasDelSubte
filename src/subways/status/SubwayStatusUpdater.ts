@@ -17,11 +17,11 @@ export class SubwayStatusUpdater {
             this.subwayRealTimeRepository.getSubwaysUpdatedStatus()
         ]);
 
-        if (!updatedStatus.isSuccessful() || subways.length == 0) {
+        if (!updatedStatus.isSuccessful()) {
             return;
         }
 
-        for(let i = 0; i < subways.length; i++) {
+        for (let i = 0; i < subways.length; i++) {
             await this.updateSubway(subways[i], updatedStatus.getData());
         }
     }
