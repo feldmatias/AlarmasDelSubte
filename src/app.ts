@@ -3,6 +3,7 @@ import express from 'express';
 import {Db} from "./db/Db";
 import graphqlHTTP from "express-graphql";
 import {GraphQL} from "./graphql/GraphQL";
+import {registerCommandRoutes} from "./commands/routes";
 
 
 // Create a new express application instance
@@ -23,6 +24,8 @@ const bootstrap: () => Promise<void> = async () => {
             }
         }),
     );
+
+    registerCommandRoutes(app);
 
     app.listen(3000, function () {
         console.log('App listening on port 3000!');

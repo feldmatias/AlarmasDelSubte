@@ -9,7 +9,7 @@ export class SubwayStatusUpdaterController {
     }
 
     public async updateSubwayStatus(_req: Request, res: Response): Promise<void> {
-        this.service.updateSubwayStatus(); // No await. Will be handled in background.
+        this.service.updateSubwayStatus(); // No await. Should be handled in background.
         res.send();
     }
 
