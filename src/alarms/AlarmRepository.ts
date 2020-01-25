@@ -16,7 +16,7 @@ export class AlarmRepository {
     }
 
     public async get(alarmId: number): Promise<Alarm | undefined> {
-        return await this.repository.findOne({id: alarmId}, {relations: ["subways", "owner"]});
+        return await this.repository.findOne({id: alarmId}, {relations: ["subwayAlarms", "subwayAlarms.subway", "owner"]});
     }
 
     public async getForUser(user: User): Promise<Array<Alarm>> {
@@ -26,7 +26,7 @@ export class AlarmRepository {
                     id: user.id
                 }
             },
-            relations: ["subways"]
+            relations: ["subwayAlarms", "subwayAlarms.subway"]
         });
     }
 
