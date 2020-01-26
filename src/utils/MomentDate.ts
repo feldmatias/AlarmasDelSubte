@@ -21,4 +21,7 @@ export class MomentDate {
         return this.momentDate.format('HH:mm');
     }
 
+    public differenceInHours(other: Date): number {
+        return this.momentDate.diff(other, 'hours');
+    }
 }

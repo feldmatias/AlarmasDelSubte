@@ -11,9 +11,9 @@ const MOCK_TIME = "14:30";
 
 export class DateTestUtils {
 
-    public static now(): MomentDate {
+    public static now(now?: Date): MomentDate {
         const date = new MomentDate();
-        date["momentDate"] = DateTestUtils.mockNow();
+        date["momentDate"] = now ? moment(now).utcOffset(Config.alarms.utcOffset, true) : DateTestUtils.mockNow();
         return date;
     }
 

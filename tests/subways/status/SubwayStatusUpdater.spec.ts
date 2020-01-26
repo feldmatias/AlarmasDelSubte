@@ -188,6 +188,19 @@ describe("Subway Status Updater", () => {
             expect(subways[0].status).to.eq(subway.status);
         });
 
+        it("should update subway updatedAt when api return status", async () => {
+            const datePast = new Date();
+            datePast.setHours(datePast.getHours() - 5);
+            const subway = await SubwayFixture.createSubwayWithUpdatedAt("1", datePast);
+
+            MockApiService.mockGetRequest(apiUrl, subwaysApiResponse([subway.line]));
+
+            await statusUpdater.updateSubwayStatus();
+
+            const subways = await service.getAll();
+            expect(subways[0].updatedAt).to.be.greaterThan(datePast);
+        });
+
     });
 
 });
