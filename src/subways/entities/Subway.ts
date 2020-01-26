@@ -19,7 +19,7 @@ export class Subway {
     @Field()
     public status!: string;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({default: () => "CURRENT_TIMESTAMP"})
     @Field()
     public updatedAt!: Date;
 

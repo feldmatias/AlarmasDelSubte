@@ -21,10 +21,10 @@ export class DateTestUtils {
             .add({minutes: 5});
     }
 
-    public static beforeTime(time: string): Moment {
+    public static yesterday(time: string): Moment {
         return moment(MOCK_DATE + " " + time)
             .utcOffset(Config.alarms.utcOffset, true)
-            .subtract({minutes: 5});
+            .subtract({day: 1});
     }
 
     public static tomorrowDay(): string {

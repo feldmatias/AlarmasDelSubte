@@ -69,7 +69,9 @@ export class AlarmFixture {
         alarm.subwayAlarms.map(subwayAlarm => {
             subwayAlarm.lastAlarmSent = new LastAlarmSent();
             subwayAlarm.lastAlarmSent.status = lastStatus ? lastStatus : subway.status;
-            subwayAlarm.lastAlarmSent.date = lastAlarmSentAfterStart ? DateTestUtils.afterTime(start).toDate() : DateTestUtils.beforeTime(start).toDate();
+            subwayAlarm.lastAlarmSent.date = lastAlarmSentAfterStart ?
+                DateTestUtils.afterTime(start).utc(true).toDate() :
+                DateTestUtils.yesterday(start).utc(true).toDate();
         });
 
         return await getRepository(Alarm).save(alarm);

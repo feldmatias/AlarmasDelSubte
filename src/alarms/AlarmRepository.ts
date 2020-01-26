@@ -5,7 +5,6 @@ import {Alarm} from "./entities/Alarm";
 import {User} from "../users/entities/User";
 import {Subway} from "../subways/entities/Subway";
 import {Moment} from "moment";
-import {Config} from "../../config/config";
 
 
 @Service()
@@ -50,7 +49,7 @@ export class AlarmRepository {
             .andWhere("alarm.end >= :time", {time})
             .andWhere(new Brackets(qb => {
                 qb.where("subwayAlarm.lastAlarmSent.status != :status", {status: subway.status})
-                    .orWhere("datetime(subwayAlarm.lastAlarmSent.date) < datetime(:date || ' ' || alarm.start || ':00 ' || :timezone)", {date: date, timezone: Config.alarms.utcOffset});
+                    .orWhere("date(subwayAlarm.lastAlarmSent.date) < date(:date)", {date: date});
             }))
             .getMany();
     }

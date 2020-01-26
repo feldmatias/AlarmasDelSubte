@@ -22,6 +22,7 @@ export class SubwayAlarm {
         if (subway && alarm) {
             this.subway = subway;
             this.alarm = alarm;
+            this.lastAlarmSent = new LastAlarmSent();
         }
     }
 

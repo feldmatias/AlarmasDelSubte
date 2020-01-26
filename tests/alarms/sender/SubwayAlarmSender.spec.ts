@@ -30,7 +30,7 @@ describe("Subway Alarm Sender", () => {
 
         context("conditions to send alarm", () => {
 
-            it("should send to alarm which last sent status equals current status and last send date is before start", async () => {
+            it("should send to alarm which last sent status equals current status and last send date is before todays", async () => {
                 const alarm = await AlarmFixture.createAlarmWithLastSubwayAlarmSent(subway, false);
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
@@ -39,7 +39,7 @@ describe("Subway Alarm Sender", () => {
                 expect(capture(alarmSender.sendAlarm).first()[1].id).to.eq(alarm.id);
             });
 
-            it("should send to alarm which last sent status differs current status and last send date is before start", async () => {
+            it("should send to alarm which last sent status differs current status and last send date is before today", async () => {
                 const alarm = await AlarmFixture.createAlarmWithLastSubwayAlarmSent(subway, false, "other status");
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
@@ -48,7 +48,7 @@ describe("Subway Alarm Sender", () => {
                 expect(capture(alarmSender.sendAlarm).first()[1].id).to.eq(alarm.id);
             });
 
-            it("should send to alarm which last sent status differs current status and last send date is after start", async () => {
+            it("should send to alarm which last sent status differs current status and last send date is today", async () => {
                 const alarm = await AlarmFixture.createAlarmWithLastSubwayAlarmSent(subway, true, "other status");
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
@@ -168,7 +168,7 @@ describe("Subway Alarm Sender", () => {
                 verify(alarmSender.sendAlarm(anyOfClass(Subway), anyOfClass(Alarm))).never();
             });
 
-            it("should not send to alarm which last sent status equals current status and last send date is after start", async () => {
+            it("should not send to alarm which last sent status equals current status and last send date is today", async () => {
                 await AlarmFixture.createAlarmWithLastSubwayAlarmSent(subway, true);
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
