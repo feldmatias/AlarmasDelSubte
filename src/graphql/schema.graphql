@@ -37,6 +37,8 @@ type Mutation {
   createAlarm(alarmInput: AlarmInput!): Alarm!
   editAlarm(alarmInput: AlarmPartialInput!, id: ID!): Alarm!
   deleteAlarm(id: ID!): ID!
+  setFirebaseToken(token: String!): String!
+  removeFirebaseToken: ID!
   registerUser(userInput: UserInput!): User!
 }
 

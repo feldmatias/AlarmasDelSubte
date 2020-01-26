@@ -8,7 +8,8 @@ export class PushNotificationsTokenService {
 
     public static readonly INVALID_TOKEN_ERROR = "INVALID_TOKEN_ERROR";
 
-    public constructor(private userRepository: UserRepository) {}
+    public constructor(private userRepository: UserRepository) {
+    }
 
     public async setToken(token: string, user: User): Promise<Result<string>> {
         if (!token) {
