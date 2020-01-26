@@ -10,7 +10,7 @@ export class User {
 
     @PrimaryGeneratedColumn()
     @Field(_type => ID)
-    public id!: number;
+    private id!: number;
 
     @Column({unique: true})
     @Field()
@@ -41,5 +41,9 @@ export class User {
 
     public equals(other: User): boolean {
         return this.id === other.id;
+    }
+
+    public getId(): number {
+        return this.id;
     }
 }

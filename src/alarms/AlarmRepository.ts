@@ -5,6 +5,7 @@ import {Alarm} from "./entities/Alarm";
 import {User} from "../users/entities/User";
 import {Subway} from "../subways/entities/Subway";
 import {Moment} from "moment";
+import {SelectQueryBuilder} from "typeorm/query-builder/SelectQueryBuilder";
 
 
 @Service()
@@ -13,23 +14,27 @@ export class AlarmRepository {
     public constructor(@InjectRepository(Alarm) private repository: Repository<Alarm>) {
     }
 
-    public async save(alarm: Alarm): Promise<Alarm> {
-        return this.repository.save(alarm);
-    }
-
     public async get(alarmId: number): Promise<Alarm | undefined> {
-        return await this.repository.findOne({id: alarmId}, {relations: ["subwayAlarms", "subwayAlarms.subway", "owner"]});
+        return await this.alarmQueryBuilder()
+            .innerJoinAndSelect("alarm.owner", "owner")
+            .where("alarm.id = :id", {id: alarmId})
+            .getOne();
     }
 
     public async getForUser(user: User): Promise<Array<Alarm>> {
-        return await this.repository.find({
-            where: {
-                owner: {
-                    id: user.id
-                }
-            },
-            relations: ["subwayAlarms", "subwayAlarms.subway"]
-        });
+        return await this.alarmQueryBuilder()
+            .innerJoin("alarm.owner", "owner", "owner.id = :ownerId", {ownerId: user.getId()})
+            .getMany();
+    }
+
+    private alarmQueryBuilder(): SelectQueryBuilder<Alarm> {
+        return this.repository.createQueryBuilder("alarm")
+            .innerJoinAndSelect("alarm.subwayAlarms", "subwayAlarm")
+            .innerJoinAndSelect("subwayAlarm.subway", "subway");
+    }
+
+    public async save(alarm: Alarm): Promise<Alarm> {
+        return this.repository.save(alarm);
     }
 
     public async delete(alarm: Alarm): Promise<void> {
