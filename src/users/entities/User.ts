@@ -23,7 +23,7 @@ export class User {
     @Field()
     public token!: string;
 
-    @Column({nullable: true})
+    @Column({default: ""})
     public firebaseToken!: string;
 
     public constructor(userInput?: UserInput) {

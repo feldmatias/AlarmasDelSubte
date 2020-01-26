@@ -28,4 +28,13 @@ export class UserFixture {
 
         return await this.createUser(input);
     }
+
+    public static async createUserWithFirebaseToken(token?: string): Promise<User> {
+        const input = this.getDefaultUserInput();
+        const user = new User(input);
+        if (token) {
+            user.firebaseToken = token;
+        }
+        return await getConnection().getRepository(User).save(user);
+    }
 }

@@ -10,7 +10,7 @@ export class UserRepository {
     public constructor(@InjectRepository(User) private repository: Repository<User>) {
     }
 
-    public async createUser(user: User): Promise<User> {
+    public async saveUser(user: User): Promise<User> {
         return await this.repository.save(user);
     }
 
