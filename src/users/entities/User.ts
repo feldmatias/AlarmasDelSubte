@@ -23,6 +23,9 @@ export class User {
     @Field()
     public token!: string;
 
+    @Column({nullable: true})
+    public firebaseToken!: string;
+
     public constructor(userInput?: UserInput) {
         if (userInput) {
             this.initialize(userInput);
