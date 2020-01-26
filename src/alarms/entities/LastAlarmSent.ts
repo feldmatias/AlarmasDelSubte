@@ -1,11 +1,11 @@
-import {Column, UpdateDateColumn} from "typeorm";
+import {Column} from "typeorm";
 
 export class LastAlarmSent {
 
     @Column({default: ""})
     public status!: string;
 
-    @UpdateDateColumn()
+    @Column({default: () => `datetime('now')`})
     public date!: Date;
 
 }

@@ -1,8 +1,11 @@
 import {Service} from "typedi";
 import {InjectRepository} from "typeorm-typedi-extensions";
-import {Repository} from "typeorm";
+import {Brackets, Repository} from "typeorm";
 import {Alarm} from "./entities/Alarm";
 import {User} from "../users/entities/User";
+import {Subway} from "../subways/entities/Subway";
+import {Moment} from "moment";
+import {Config} from "../../config/config";
 
 
 @Service()
@@ -32,5 +35,23 @@ export class AlarmRepository {
 
     public async delete(alarm: Alarm): Promise<void> {
         await this.repository.remove(alarm);
+    }
+
+    public async getForSubway(subway: Subway, now: Moment): Promise<Array<Alarm>> {
+        const date = now.format("YYYY-MM-DD");
+        const day = now.format('dddd').toLowerCase();
+        const time = now.format('HH:mm');
+
+        return await this.repository.createQueryBuilder("alarm")
+            .innerJoinAndSelect("alarm.subwayAlarms", "subwayAlarm")
+            .innerJoinAndSelect("subwayAlarm.subway", "subway", "subway.line = :line", {line: subway.line})
+            .where("alarm.days like :day", {day: `%${day}%`})
+            .andWhere("alarm.start <= :time", {time})
+            .andWhere("alarm.end >= :time", {time})
+            .andWhere(new Brackets(qb => {
+                qb.where("subwayAlarm.lastAlarmSent.status != :status", {status: subway.status})
+                    .orWhere("datetime(subwayAlarm.lastAlarmSent.date) < datetime(:date || ' ' || alarm.start || ':00 ' || :timezone)", {date: date, timezone: Config.alarms.utcOffset});
+            }))
+            .getMany();
     }
 }

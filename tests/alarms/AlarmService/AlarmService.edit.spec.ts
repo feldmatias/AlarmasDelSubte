@@ -426,6 +426,26 @@ describe("Alarm Service", () => {
                 }
             });
 
+            it("should be able to edit alarm subways with multiple subways and curernt subway", async () => {
+                const count = 3;
+                const originalSubway = originalAlarm.subways()[0].line;
+                editAlarmInput.subwayLines = [originalSubway];
+
+                for (let i = 0; i < count; i++) {
+                    const subway = await SubwayFixture.createSubway(i.toString());
+                    editAlarmInput.subwayLines.push(subway.line);
+                }
+
+                const result = await service.edit(originalAlarm.id, editAlarmInput);
+
+                expect(result.getData().subways()).to.have.length(count + 1);
+                const subwayLines = result.getData().subways().map(subway => subway.line);
+                for (let i = 0; i < count; i++) {
+                    expect(subwayLines).to.include(i.toString());
+                }
+                expect(subwayLines).to.include(originalSubway);
+            });
+
             it("get alarm should return edited subways", async () => {
                 const count = 3;
                 editAlarmInput.subwayLines = [];
