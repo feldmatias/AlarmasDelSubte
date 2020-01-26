@@ -5,6 +5,7 @@ interface Config {
     src: SrcConfig
     subways: SubwaysConfig
     alarms: AlarmsConfig
+    notifications: NotificationsConfig
 }
 
 interface DbConfig {
@@ -24,6 +25,10 @@ interface SubwaysConfig {
 
 interface AlarmsConfig {
     utcOffset: string
+}
+
+interface NotificationsConfig {
+    configFile: string
 }
 
 const appConfig = config.get('config') as Config;

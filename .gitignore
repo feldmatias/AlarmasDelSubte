@@ -110,3 +110,4 @@ dist
 /dev.db
 /test.db
 /prod.db
+/config/push_notifications/firebase_config.json

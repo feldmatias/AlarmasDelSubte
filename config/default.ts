@@ -17,6 +17,10 @@ export default {
 
         alarms: {
             utcOffset: "-03:00"
+        },
+
+        notifications: {
+            configFile: "Set correct firebase config file, included in config/push_notifications"
         }
     }
 };

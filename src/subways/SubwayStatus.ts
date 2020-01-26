@@ -8,7 +8,7 @@ export class SubwayStatusHelper {
 
     public static readonly NORMAL_STATUS_MESSAGE = "Normal";
 
-    private static readonly NORMAL_STATUS_OPTIONS = ["normal", "habitual", "completo"];
+    public static readonly NORMAL_STATUS_OPTIONS = ["normal", "habitual", "completo"];
     private static readonly LIMITED_STATUS_OPTIONS = ["limitado", "demora", "no se detienen"];
 
     public static getSubwayStatus(status: string): SubwayStatus {

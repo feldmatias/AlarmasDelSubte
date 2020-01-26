@@ -26,4 +26,7 @@ export class SubwayAlarm {
         }
     }
 
+    public updateStatus(status: string): void {
+        this.lastAlarmSent.setStatus(status);
+    }
 }

@@ -20,7 +20,7 @@ export class UserService {
         }
 
         const user = new User(userInput);
-        const savedUser = await this.repository.createUser(user);
+        const savedUser = await this.repository.saveUser(user);
         return Result.Success(savedUser);
     }
 

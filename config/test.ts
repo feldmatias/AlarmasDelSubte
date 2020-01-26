@@ -7,6 +7,11 @@ export default {
 
         subways: {
             realTimeUrl: "someurl.test.com"
+        },
+
+        notifications: {
+            configFile: "firebase_config.example.json"
         }
+
     }
 };

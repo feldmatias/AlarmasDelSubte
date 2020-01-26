@@ -25,4 +25,9 @@ export class MomentDate {
         const otherMoment = moment(other).utcOffset(Config.alarms.utcOffset);
         return this.momentDate.diff(otherMoment, 'hours');
     }
+
+    public isSameDate(other: Date): boolean {
+        const otherMoment = moment(other).utcOffset(Config.alarms.utcOffset);
+        return this.momentDate.isSame(otherMoment, 'day');
+    }
 }
