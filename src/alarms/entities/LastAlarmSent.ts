@@ -18,4 +18,9 @@ export class LastAlarmSent {
         // Workaround to save dates in utc offset instead of utc
         this.date = moment().utcOffset(Config.alarms.utcOffset).utc(true).toDate();
     }
+
+    public setStatus(status: string): void {
+        this.status = status;
+        this.updateDate();
+    }
 }

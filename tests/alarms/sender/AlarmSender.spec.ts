@@ -8,6 +8,7 @@ import {expect} from "chai";
 import {AlarmNotification} from "../../../src/alarms/sender/notifications/AlarmNotification";
 import {SubwayStatusHelper} from "../../../src/subways/SubwayStatus";
 import {DateTestUtils} from "../../utils/DateTestUtils";
+import {AlarmService} from "../../../src/alarms/AlarmService";
 
 describe("Alarm Sender", () => {
 
@@ -120,6 +121,39 @@ describe("Alarm Sender", () => {
                 await alarmSender.sendAlarm(alarm, subway, now);
 
                 MockPushNotificationsService.verifyNoNotificationSent();
+            });
+
+        });
+
+        context("update last alarm sent", () => {
+
+            let alarmService: AlarmService;
+            beforeEach(() => {
+                alarmService = Container.get(AlarmService);
+            });
+
+            const OLD_STATUS = "old status";
+            const NEW_STATUS = "new status";
+
+            it("when alarm sent should set new last status", async () => {
+                const subway = await SubwayFixture.createSubway("subway", NEW_STATUS);
+                const alarm = await AlarmFixture.createAlarmWithLastAlarmSentAndNotificationToken(subway, NOTIFICATIONS_TOKEN, true, OLD_STATUS);
+
+                await alarmSender.sendAlarm(alarm, subway, now);
+
+                const result = await alarmService.get(alarm.id, alarm.owner);
+                expect(result?.getSubwayAlarm(subway)?.lastAlarmSent.status).to.eq(NEW_STATUS);
+            });
+
+            it("when alarm sent should set new last date", async () => {
+                const subway = await SubwayFixture.createSubway("subway", NEW_STATUS);
+                const alarm = await AlarmFixture.createAlarmWithLastAlarmSentAndNotificationToken(subway, NOTIFICATIONS_TOKEN, false, OLD_STATUS);
+                const lastSentDate = alarm.getSubwayAlarm(subway)?.lastAlarmSent.date as Date;
+
+                await alarmSender.sendAlarm(alarm, subway, now);
+
+                const result = await alarmService.get(alarm.id, alarm.owner);
+                expect(result?.getSubwayAlarm(subway)?.lastAlarmSent.date).to.be.greaterThan(lastSentDate);
             });
 
         });
