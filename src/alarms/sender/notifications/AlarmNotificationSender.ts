@@ -14,9 +14,7 @@ export class AlarmNotificationSender {
         const token = alarm.owner.firebaseToken;
         const notification = new AlarmNotification(subway);
 
-        if (token) {
-            await this.pushNotificationsService.sendNotification(notification, token);
-        }
+        await this.pushNotificationsService.sendNotification(notification, token);
     }
 
 }

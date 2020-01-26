@@ -1,6 +1,8 @@
 import {Container} from "typedi";
-import {instance, mock, reset} from "ts-mockito";
+import {anything, capture, instance, mock, reset, verify} from "ts-mockito";
 import {FirebaseNotifications, PUSH_NOTIFICATIONS_DI} from "../../src/push_notifications/Firebase";
+import admin from "firebase-admin";
+import Message = admin.messaging.Message;
 
 class MockPushNotificationsService {
 
@@ -15,6 +17,19 @@ class MockPushNotificationsService {
     public reset(): void {
         reset(this.firebaseMock);
         Container.set(PUSH_NOTIFICATIONS_DI, this.realFirebase);
+    }
+
+    public getLastNotificationSent(): Message {
+        this.verifyNotificationSent();
+        return capture(this.firebaseMock.send).last()[0];
+    }
+
+    public verifyNotificationSent(): void {
+        verify(this.firebaseMock.send(anything())).called();
+    }
+
+    public verifyNoNotificationSent(): void {
+        verify(this.firebaseMock.send(anything())).never();
     }
 }
 

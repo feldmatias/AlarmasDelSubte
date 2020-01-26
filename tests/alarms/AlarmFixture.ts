@@ -65,15 +65,28 @@ export class AlarmFixture {
         alarmInput.setSubways([subway]);
 
         const alarm = new Alarm(alarmInput);
+        const lastAlarmSent = lastAlarmSentAfterStart ?
+            DateTestUtils.afterTime(start).utc(true).toDate() :
+            DateTestUtils.yesterday(start).utc(true).toDate();
 
         alarm.subwayAlarms.map(subwayAlarm => {
             subwayAlarm.lastAlarmSent = new LastAlarmSent();
             subwayAlarm.lastAlarmSent.status = lastStatus ? lastStatus : subway.status;
-            subwayAlarm.lastAlarmSent.date = lastAlarmSentAfterStart ?
-                DateTestUtils.afterTime(start).utc(true).toDate() :
-                DateTestUtils.yesterday(start).utc(true).toDate();
+            subwayAlarm.lastAlarmSent.date = lastAlarmSent;
         });
 
-        return await getRepository(Alarm).save(alarm);
+        await getRepository(Alarm).save(alarm);
+
+        alarm.subwayAlarms.map(subwayAlarm => {
+            subwayAlarm.lastAlarmSent.date = lastAlarmSent; //Because it is redefined in constructor.
+        });
+
+        return alarm;
+    }
+
+    public static async createAlarmWithLastAlarmSentAndNotificationToken(subway: Subway, token: string, lastAlarmSentAfterStart = true, lastStatus?: string): Promise<Alarm> {
+        const alarm = await AlarmFixture.createAlarmWithLastSubwayAlarmSent(subway, lastAlarmSentAfterStart, lastStatus);
+        alarm.owner.firebaseToken = token;
+        return alarm;
     }
 }

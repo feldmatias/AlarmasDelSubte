@@ -9,7 +9,12 @@ export class PushNotificationService {
     }
 
     public async sendNotification(notification: Notification, token: string): Promise<void> {
-        await this.firebase.send({
+        if (!token) {
+            return;
+        }
+
+        // No await. Send notification in background.
+        this.firebase.send({
             notification: {
                 title: notification.title,
                 body: notification.body,

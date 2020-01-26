@@ -3,7 +3,7 @@ import {Subway} from "../../../subways/entities/Subway";
 
 export class AlarmNotification implements Notification {
 
-    private static readonly TITLE_PREFIX = "Línea ";
+    public static readonly TITLE_PREFIX = "Línea ";
 
     public title: string;
 

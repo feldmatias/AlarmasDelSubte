@@ -85,4 +85,8 @@ export class Alarm {
     public subways(): Subway[] {
         return this.subwayAlarms.map(subwayAlarm => subwayAlarm.subway);
     }
+
+    public getSubwayAlarm(subway: Subway): SubwayAlarm | undefined {
+        return this.subwayAlarms.find(alarm => alarm.subway.equals(subway));
+    }
 }

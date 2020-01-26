@@ -14,7 +14,7 @@ export class SubwayAlarmSender {
         const alarms = await this.alarmRepository.getForSubway(subway, now);
 
         alarms.forEach(alarm => {
-            this.alarmSender.sendAlarm(subway, alarm); //No await. Expected to be handled in background.
+            this.alarmSender.sendAlarm(alarm, subway, now); //No await. Expected to be handled in background.
         });
     }
 
