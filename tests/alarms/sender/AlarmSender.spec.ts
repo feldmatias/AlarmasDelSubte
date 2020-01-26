@@ -145,6 +145,16 @@ describe("Alarm Sender", () => {
                 expect(result?.getSubwayAlarm(subway)?.lastAlarmSent.status).to.eq(NEW_STATUS);
             });
 
+            it("when alarm not sent should not set new last status", async () => {
+                const subway = await SubwayFixture.createSubway("subway", SubwayStatusHelper.NORMAL_STATUS_MESSAGE);
+                const alarm = await AlarmFixture.createAlarmWithLastAlarmSentAndNotificationToken(subway, NOTIFICATIONS_TOKEN, false, OLD_STATUS);
+
+                await alarmSender.sendAlarm(alarm, subway, now);
+
+                const result = await alarmService.get(alarm.id, alarm.owner);
+                expect(result?.getSubwayAlarm(subway)?.lastAlarmSent.status).to.eq(OLD_STATUS);
+            });
+
             it("when alarm sent should set new last date", async () => {
                 const subway = await SubwayFixture.createSubway("subway", NEW_STATUS);
                 const alarm = await AlarmFixture.createAlarmWithLastAlarmSentAndNotificationToken(subway, NOTIFICATIONS_TOKEN, false, OLD_STATUS);
@@ -154,6 +164,17 @@ describe("Alarm Sender", () => {
 
                 const result = await alarmService.get(alarm.id, alarm.owner);
                 expect(result?.getSubwayAlarm(subway)?.lastAlarmSent.date).to.be.greaterThan(lastSentDate);
+            });
+
+            it("when alarm not sent should not set new last date", async () => {
+                const subway = await SubwayFixture.createSubway("subway", SubwayStatusHelper.NORMAL_STATUS_MESSAGE);
+                const alarm = await AlarmFixture.createAlarmWithLastAlarmSentAndNotificationToken(subway, NOTIFICATIONS_TOKEN, false, OLD_STATUS);
+                const lastSentDate = alarm.getSubwayAlarm(subway)?.lastAlarmSent.date as Date;
+
+                await alarmSender.sendAlarm(alarm, subway, now);
+
+                const result = await alarmService.get(alarm.id, alarm.owner);
+                expect(result?.getSubwayAlarm(subway)?.lastAlarmSent.date).to.deep.eq(lastSentDate);
             });
 
         });
