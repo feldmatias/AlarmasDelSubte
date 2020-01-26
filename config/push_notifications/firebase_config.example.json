@@ -1,12 +1,12 @@
 {
   "type": "Check 'https://firebase.google.com/docs/admin/setup' to download this file",
-  "project_id": "",
-  "private_key_id": "",
-  "private_key": "",
-  "client_email": "",
-  "client_id": "",
-  "auth_uri": "",
-  "token_uri": "",
-  "auth_provider_x509_cert_url": "",
-  "client_x509_cert_url": ""
+  "project_id": "test",
+  "private_key_id": "test",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKphmggjiVgqMLXy\nzvI7cKphscIIQ+wcv7Dld6MD4aKv7Jqr8ltujMxBUeY4LFEKw8Terb01snYpDotf\nilaG6NxpF/GfVVmMalzwWp0mT8+HyzyPj89mRcozu17RwuooR6n1ofXjGcBE86lq\nC21UhA3WVgjPOLqB42rlE9gPnZLBAgMBAAECgYAwZ7g2FbqAZMQf/RKUORTiIw04\nXdbGLsi6/gZGNuUUrjxfGPiqxzaTFP+qk0zr3U4PEWB0v9uqvDFYoVURDhT7isxm\nH5bc6dxwvBRIy8tLtvxo0jMTotJaBhEHP3YMKxbC7lxo3PV5HLIve5nf9ChOypKp\n4zbP4d1IJjpu8ggrbQJBANoPCrJyXjsDgh8WAEpALAsgM4ugyJwdk8AHJUTy3IeJ\niYYB/RLVpYW8LI1dmqN5NPKbyKE+dsdSiiEpclsocl8CQQDIBt5DbO+tEGr5BGsk\nBi+P3E1M3KVV2eJv+inlgYkYeS/cdd5CJczCDwxeDk8DXsKvmOp0LCHeU2sCKjSy\nF07fAkB86KLjB1ptCZxu/CZcYhgYo3CDai2gJ90r4av6q/eheCqb5eW29UUkr18B\n932OaO7ojk5F90cI9IIFbv1/tFKXAkEAnrXUZWtqQMdmGW+IE21VD7CdJP9tsFDR\nekfkNlYxkVmWwDZFw/Z6IQAPsBFqYCIwF2Qdo0/hD6bgoTcb2LLlwQJATqOMr7yr\neYKLJ+edhwMHx4U5ZIT8l/MjDv4/6L6FgGYVo7gNjjIIsDXUOo3PlBOWe6fxb5+f\ntFlwxZNz+g9ONg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "test",
+  "client_id": "test",
+  "auth_uri": "test",
+  "token_uri": "test",
+  "auth_provider_x509_cert_url": "test",
+  "client_x509_cert_url": "test"
 }
