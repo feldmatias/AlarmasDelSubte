@@ -22,6 +22,7 @@ export class MomentDate {
     }
 
     public differenceInHours(other: Date): number {
-        return this.momentDate.diff(other, 'hours');
+        const otherMoment = moment(other).utcOffset(Config.alarms.utcOffset);
+        return this.momentDate.diff(otherMoment, 'hours');
     }
 }

@@ -13,7 +13,7 @@ export class DateTestUtils {
 
     public static now(now?: Date): MomentDate {
         const date = new MomentDate();
-        date["momentDate"] = now ? moment(now).utcOffset(Config.alarms.utcOffset, true) : DateTestUtils.mockNow();
+        date["momentDate"] = now ? moment(now).utcOffset(Config.alarms.utcOffset) : DateTestUtils.mockNow();
         return date;
     }
 
