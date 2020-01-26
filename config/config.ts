@@ -3,7 +3,8 @@ import config from 'config';
 interface Config {
     db: DbConfig
     src: SrcConfig
-    subways: Subways
+    subways: SubwaysConfig
+    alarms: AlarmsConfig
 }
 
 interface DbConfig {
@@ -16,9 +17,13 @@ interface SrcConfig {
     folder: string
 }
 
-interface Subways {
-    realTimeUrl: string;
+interface SubwaysConfig {
+    realTimeUrl: string
     language: string
+}
+
+interface AlarmsConfig {
+    utcOffset: string
 }
 
 const appConfig = config.get('config') as Config;

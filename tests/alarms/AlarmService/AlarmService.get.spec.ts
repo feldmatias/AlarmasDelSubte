@@ -67,7 +67,7 @@ describe("Alarm Service", () => {
             const alarm = await service.get(id, alarmInput.getOwner());
 
             expect(alarm).to.not.be.undefined;
-            expect(alarm?.subways).to.deep.eq(expected.subways);
+            expect(alarm?.subways()).to.deep.eq(expected.subways());
         });
     });
 
@@ -147,7 +147,7 @@ describe("Alarm Service", () => {
             const alarms = await service.getAll(alarmInput.getOwner());
 
             expect(alarms).to.have.length(1);
-            expect(alarms[0].subways).to.deep.eq(created.getData().subways);
+            expect(alarms[0].subways()).to.deep.eq(created.getData().subways());
         });
     });
 

@@ -5,7 +5,6 @@ import graphqlHTTP from "express-graphql";
 import {GraphQL} from "./graphql/GraphQL";
 import {registerCommandRoutes} from "./commands/routes";
 
-
 // Create a new express application instance
 const app: express.Application = express();
 

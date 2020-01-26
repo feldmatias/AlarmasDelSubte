@@ -13,6 +13,10 @@ export default {
         subways: {
             realTimeUrl: "Set url in correct environment. Example: https://apitransporte.buenosaires.gob.ar/subtes/serviceAlerts?json=1&client_id=<clientId>&client_secret=<clientSecret>",
             language: "es"
+        },
+
+        alarms: {
+            utcOffset: "-03:00"
         }
     }
 };

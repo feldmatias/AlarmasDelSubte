@@ -13,17 +13,19 @@ describe("Subway Status Updater Controller", () => {
         controller = new SubwayStatusUpdaterController(instance(service));
     });
 
-    it("should call service", async () => {
-        await controller.updateSubwayStatus(mockRequest(), mockResponse());
+    context("update subway status", () => {
+        it("should call service", async () => {
+            await controller.updateSubwayStatus(mockRequest(), mockResponse());
 
-        verify(service.updateSubwayStatus()).called();
-    });
+            verify(service.updateSubwayStatus()).called();
+        });
 
-    it("should call send in response", async () => {
-        const response = mockResponse();
-        await controller.updateSubwayStatus(mockRequest(), response);
+        it("should call send in response", async () => {
+            const response = mockResponse();
+            await controller.updateSubwayStatus(mockRequest(), response);
 
-        expect(response.send.called).to.be.true;
+            expect(response.send.called).to.be.true;
+        });
     });
 
 });

@@ -9,6 +9,7 @@ import {UserFixture} from "../../users/UserFixture";
 import {Alarm} from "../../../src/alarms/entities/Alarm";
 import {AlarmPartialInput} from "../../../src/alarms/entities/AlarmPartialInput";
 import {SubwayFixture} from "../../subways/SubwayFixture";
+import {AlarmAssert} from "../AlarmAssert";
 
 describe("Alarm Service", () => {
 
@@ -45,14 +46,15 @@ describe("Alarm Service", () => {
 
         it("edit with empty input should not change anything", async () => {
             const result = await service.edit(originalAlarm.id, editAlarmInput);
+
             expect(result.isSuccessful()).to.be.true;
-            expect(result.getData()).to.deep.eq(originalAlarm);
+            AlarmAssert.assertAlarmEquals(result.getData(), originalAlarm);
         });
 
         it("get alarm after edit with empty input should not change anything", async () => {
             await service.edit(originalAlarm.id, editAlarmInput);
             const alarm = await service.get(originalAlarm.id, originalAlarm.owner);
-            expect(alarm).to.deep.eq(originalAlarm);
+            AlarmAssert.assertAlarmEquals(alarm, originalAlarm);
         });
 
         it("should be able to edit all properties at once", async () => {
@@ -70,7 +72,7 @@ describe("Alarm Service", () => {
             expect(result.getData().days).to.deep.eq(editAlarmInput.days);
             expect(result.getData().start).to.eq(editAlarmInput.start);
             expect(result.getData().end).to.eq(editAlarmInput.end);
-            expect(result.getData().subways[0].line).to.eq(newSubway.line);
+            expect(result.getData().subways()[0].line).to.eq(newSubway.line);
         });
 
         it("edit alarm does not change id", async () => {
@@ -402,8 +404,8 @@ describe("Alarm Service", () => {
                 const result = await service.edit(originalAlarm.id, editAlarmInput);
 
                 expect(result.isSuccessful()).to.be.true;
-                expect(result.getData().subways).to.have.length(1);
-                expect(result.getData().subways[0].line).to.eq(subway.line);
+                expect(result.getData().subways()).to.have.length(1);
+                expect(result.getData().subways()[0].line).to.eq(subway.line);
             });
 
             it("should be able to edit alarm subways with multiple subways", async () => {
@@ -417,11 +419,31 @@ describe("Alarm Service", () => {
 
                 const result = await service.edit(originalAlarm.id, editAlarmInput);
 
-                expect(result.getData().subways).to.have.length(count);
-                const subwayLines = result.getData().subways.map(subway => subway.line);
+                expect(result.getData().subways()).to.have.length(count);
+                const subwayLines = result.getData().subways().map(subway => subway.line);
                 for (let i = 0; i < count; i++) {
                     expect(subwayLines).to.include(i.toString());
                 }
+            });
+
+            it("should be able to edit alarm subways with multiple subways and current subway", async () => {
+                const count = 3;
+                const originalSubway = originalAlarm.subways()[0].line;
+                editAlarmInput.subwayLines = [originalSubway];
+
+                for (let i = 0; i < count; i++) {
+                    const subway = await SubwayFixture.createSubway(i.toString());
+                    editAlarmInput.subwayLines.push(subway.line);
+                }
+
+                const result = await service.edit(originalAlarm.id, editAlarmInput);
+
+                expect(result.getData().subways()).to.have.length(count + 1);
+                const subwayLines = result.getData().subways().map(subway => subway.line);
+                for (let i = 0; i < count; i++) {
+                    expect(subwayLines).to.include(i.toString());
+                }
+                expect(subwayLines).to.include(originalSubway);
             });
 
             it("get alarm should return edited subways", async () => {
@@ -437,8 +459,8 @@ describe("Alarm Service", () => {
 
                 const alarm = await service.get(originalAlarm.id, originalAlarm.owner);
 
-                expect(alarm?.subways).to.have.length(count);
-                const subwayLines = alarm?.subways.map(subway => subway.line);
+                expect(alarm?.subways()).to.have.length(count);
+                const subwayLines = alarm?.subways().map(subway => subway.line);
                 for (let i = 0; i < count; i++) {
                     expect(subwayLines).to.include(i.toString());
                 }
@@ -480,7 +502,7 @@ describe("Alarm Service", () => {
 
                 const alarm = await service.get(originalAlarm.id, originalAlarm.owner);
 
-                expect(alarm?.subways).to.deep.eq(originalAlarm.subways);
+                expect(alarm?.subways()).to.deep.eq(originalAlarm.subways());
             });
 
         });

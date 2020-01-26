@@ -40,8 +40,8 @@ describe("Alarm Service", () => {
 
             const result = await service.create(alarm);
 
-            expect(result.getData().subways).to.have.length(1);
-            expect(result.getData().subways[0].line).to.eq(AlarmFixture.ALARM_SUBWAY_LINE);
+            expect(result.getData().subways()).to.have.length(1);
+            expect(result.getData().subways()[0].line).to.eq(AlarmFixture.ALARM_SUBWAY_LINE);
         });
 
         it("should create alarm with multiple subways", async () => {
@@ -56,8 +56,8 @@ describe("Alarm Service", () => {
 
             const result = await service.create(alarm);
 
-            expect(result.getData().subways).to.have.length(count);
-            const subwayLines = result.getData().subways.map(subway => subway.line);
+            expect(result.getData().subways()).to.have.length(count);
+            const subwayLines = result.getData().subways().map(subway => subway.line);
             for (let i = 0; i < count; i++) {
                 expect(subwayLines).to.include(i.toString());
             }
@@ -80,8 +80,8 @@ describe("Alarm Service", () => {
 
             const alarm = await service.get(id, alarmInput.getOwner());
 
-            expect(alarm?.subways).to.have.length(1);
-            expect(alarm?.subways[0].line).to.eq(AlarmFixture.ALARM_SUBWAY_LINE);
+            expect(alarm?.subways()).to.have.length(1);
+            expect(alarm?.subways()[0].line).to.eq(AlarmFixture.ALARM_SUBWAY_LINE);
         });
 
         context("validations", () => {

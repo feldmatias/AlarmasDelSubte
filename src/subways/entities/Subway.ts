@@ -19,7 +19,7 @@ export class Subway {
     @Field()
     public status!: string;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({default: () => "CURRENT_TIMESTAMP"})
     @Field()
     public updatedAt!: Date;
 
@@ -30,5 +30,9 @@ export class Subway {
 
     public updateStatus(updatedStatus?: UpdatedSubwayStatus): void {
         this.status = updatedStatus?.status ? updatedStatus.status : SubwayStatusHelper.NORMAL_STATUS_MESSAGE;
+    }
+
+    public equals(other: Subway): boolean {
+        return this.line == other.line;
     }
 }
