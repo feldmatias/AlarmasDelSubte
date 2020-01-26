@@ -39,7 +39,7 @@ describe("Subway Alarm Controller", () => {
             const now = new MomentDate();
             const nowDate = `${now.date()} ${now.time()}`;
 
-            expect(moment(nowDate).diff(moment(date), "minutes")).to.be.lessThan(1);
+            expect(moment(nowDate).diff(moment(date), "minutes")).to.eq(0);
         });
     });
 

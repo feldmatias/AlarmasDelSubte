@@ -426,7 +426,7 @@ describe("Alarm Service", () => {
                 }
             });
 
-            it("should be able to edit alarm subways with multiple subways and curernt subway", async () => {
+            it("should be able to edit alarm subways with multiple subways and current subway", async () => {
                 const count = 3;
                 const originalSubway = originalAlarm.subways()[0].line;
                 editAlarmInput.subwayLines = [originalSubway];

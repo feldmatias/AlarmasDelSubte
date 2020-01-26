@@ -40,7 +40,7 @@ export class AlarmFixture {
         return await getRepository(Alarm).save(alarm);
     }
 
-    public static async createAlarmWithRange(start: string, end: string, days: string[], subways: Subway[], username?: string): Promise<Alarm> {
+    public static async createAlarmWithTimeRange(start: string, end: string, days: string[], subways: Subway[], username?: string): Promise<Alarm> {
         const alarmInput = await this.getDefaultAlarmInput(username == "", false);
         alarmInput.start = start;
         alarmInput.end = end;
