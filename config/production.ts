@@ -8,6 +8,14 @@ export default {
         src: {
             fileExtension: ".js",
             folder: "/build"
+        },
+
+        subways: {
+            realTimeUrl: "url",
+        },
+
+        notifications: {
+            configFile: "file"
         }
     }
 };
