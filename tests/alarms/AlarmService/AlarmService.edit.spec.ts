@@ -24,7 +24,7 @@ describe("Alarm Service", () => {
         let originalAlarm: Alarm;
         let editAlarmInput: AlarmPartialInput;
         beforeEach(async () => {
-            originalAlarm = await AlarmFixture.createAlarm();
+            originalAlarm = await new AlarmFixture().createAlarm();
             editAlarmInput = new AlarmPartialInput();
             editAlarmInput.setOwner(originalAlarm.owner);
         });

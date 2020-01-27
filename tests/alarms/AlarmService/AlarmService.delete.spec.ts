@@ -15,7 +15,7 @@ describe("Alarm Service", () => {
     context("delete alarm", () => {
 
         it("should delete alarm successfully", async () => {
-            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const alarmInput = await new AlarmFixture().getAlarmInput();
             const created = await service.create(alarmInput);
             const id = created.getData().id;
 
@@ -26,7 +26,7 @@ describe("Alarm Service", () => {
         });
 
         it("should not be able to get deleted alarm", async () => {
-            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const alarmInput = await new AlarmFixture().getAlarmInput();
             const created = await service.create(alarmInput);
             const id = created.getData().id;
 
@@ -38,7 +38,7 @@ describe("Alarm Service", () => {
         });
 
         it("should not be able to get deleted alarm in getAll", async () => {
-            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const alarmInput = await new AlarmFixture().getAlarmInput();
             const created = await service.create(alarmInput);
             const id = created.getData().id;
 
@@ -58,7 +58,7 @@ describe("Alarm Service", () => {
         });
 
         it("should not be able to delete other user's alarm", async () => {
-            const alarm = await AlarmFixture.createAlarm();
+            const alarm = await new AlarmFixture().createAlarm();
             const otherUser = await UserFixture.createUserWithUsername("other user");
 
             const result = await service.delete(alarm.id, otherUser);

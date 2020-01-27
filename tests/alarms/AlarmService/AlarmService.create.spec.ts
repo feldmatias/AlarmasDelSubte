@@ -20,7 +20,7 @@ describe("Alarm Service", () => {
     context("create alarm", () => {
 
         it("should create valid alarm successfully", async () => {
-            const alarm = await AlarmFixture.getDefaultAlarmInput();
+            const alarm = await new AlarmFixture().getAlarmInput();
 
             const result = await service.create(alarm);
 
@@ -28,7 +28,7 @@ describe("Alarm Service", () => {
         });
 
         it("should return alarm with an id", async () => {
-            const alarm = await AlarmFixture.getDefaultAlarmInput();
+            const alarm = await new AlarmFixture().getAlarmInput();
 
             const result = await service.create(alarm);
 
@@ -36,7 +36,7 @@ describe("Alarm Service", () => {
         });
 
         it("should return alarm with correct subway", async () => {
-            const alarm = await AlarmFixture.getDefaultAlarmInput();
+            const alarm = await new AlarmFixture().getAlarmInput();
 
             const result = await service.create(alarm);
 
@@ -46,7 +46,7 @@ describe("Alarm Service", () => {
 
         it("should create alarm with multiple subways", async () => {
             const count = 3;
-            const alarm = await AlarmFixture.getDefaultAlarmInput(true, false);
+            const alarm = await new AlarmFixture().withoutSubways().getAlarmInput();
             alarm.subwayLines = [];
 
             for (let i = 0; i < count; i++) {
@@ -64,7 +64,7 @@ describe("Alarm Service", () => {
         });
 
         it("should be able to get created alarm", async () => {
-            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const alarmInput = await new AlarmFixture().getAlarmInput();
             const created = await service.create(alarmInput);
             const id = created.getData().id;
 
@@ -74,7 +74,7 @@ describe("Alarm Service", () => {
         });
 
         it("should be able to get created alarm with subways", async () => {
-            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const alarmInput = await new AlarmFixture().getAlarmInput();
             const created = await service.create(alarmInput);
             const id = created.getData().id;
 
@@ -87,7 +87,7 @@ describe("Alarm Service", () => {
         context("validations", () => {
 
             it('should not create alarm without name', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.name = "";
 
                 const result = await service.create(alarm);
@@ -97,7 +97,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm without days', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.days = [];
 
                 const result = await service.create(alarm);
@@ -107,7 +107,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm with invalid day', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.days = ["invalid"];
 
                 const result = await service.create(alarm);
@@ -117,7 +117,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm with invalid days', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.days = ["invalid", "invalid2"];
 
                 const result = await service.create(alarm);
@@ -127,7 +127,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm with valid and invalid day', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.days = [AlarmDaysValidation.VALID_DAYS[0], "invalid"];
 
                 const result = await service.create(alarm);
@@ -137,7 +137,7 @@ describe("Alarm Service", () => {
             });
 
             it('should create alarm with all valid days', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.days = AlarmDaysValidation.VALID_DAYS;
 
                 const result = await service.create(alarm);
@@ -146,7 +146,7 @@ describe("Alarm Service", () => {
             });
 
             it('should create alarm with some valid days', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.days = AlarmDaysValidation.VALID_DAYS.slice(0, 3);
 
                 const result = await service.create(alarm);
@@ -155,7 +155,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm with empty start time', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.start = "";
 
                 const result = await service.create(alarm);
@@ -165,7 +165,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm with no start time', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.start = "1234";
 
                 const result = await service.create(alarm);
@@ -176,7 +176,7 @@ describe("Alarm Service", () => {
 
             ["1", "123", "60", "61", "-1", "-10", "69", "70"].forEach(minutes => {
                 it(`should not create alarm with invalid minutes '${minutes}' in start time`, async () => {
-                    const alarm = await AlarmFixture.getDefaultAlarmInput();
+                    const alarm = await new AlarmFixture().getAlarmInput();
                     alarm.start = `00:${minutes}`;
 
                     const result = await service.create(alarm);
@@ -188,7 +188,7 @@ describe("Alarm Service", () => {
 
             ["1", "123", "24", "25", "-1", "-10", "30"].forEach(hours => {
                 it(`should not create alarm with invalid hours '${hours}' in start time`, async () => {
-                    const alarm = await AlarmFixture.getDefaultAlarmInput();
+                    const alarm = await new AlarmFixture().getAlarmInput();
                     alarm.start = `${hours}:00`;
 
                     const result = await service.create(alarm);
@@ -199,7 +199,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm with empty end time', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.end = "";
 
                 const result = await service.create(alarm);
@@ -209,7 +209,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm with no end time', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.end = "1643";
 
                 const result = await service.create(alarm);
@@ -220,7 +220,7 @@ describe("Alarm Service", () => {
 
             ["1", "123", "60", "61", "-1", "-10", "69", "70"].forEach(minutes => {
                 it(`should not create alarm with invalid minutes '${minutes}' in end time`, async () => {
-                    const alarm = await AlarmFixture.getDefaultAlarmInput();
+                    const alarm = await new AlarmFixture().getAlarmInput();
                     alarm.end = `23:${minutes}`;
 
                     const result = await service.create(alarm);
@@ -232,7 +232,7 @@ describe("Alarm Service", () => {
 
             ["1", "123", "24", "25", "-1", "-10", "30"].forEach(hours => {
                 it(`should not create alarm with invalid hours '${hours}' in end time`, async () => {
-                    const alarm = await AlarmFixture.getDefaultAlarmInput();
+                    const alarm = await new AlarmFixture().getAlarmInput();
                     alarm.end = `${hours}:59`;
 
                     const result = await service.create(alarm);
@@ -243,7 +243,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm with end time before start time', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.start = "12:00";
                 alarm.end = "11:00";
 
@@ -254,7 +254,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm with end time equal start time', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.start = "12:00";
                 alarm.end = alarm.start;
 
@@ -265,7 +265,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm without subways', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.subwayLines = [];
 
                 const result = await service.create(alarm);
@@ -275,7 +275,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm with unexistant subways', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.subwayLines = ["4"];
 
                 const result = await service.create(alarm);
@@ -285,7 +285,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm with existant and unexistant subways', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput();
+                const alarm = await new AlarmFixture().getAlarmInput();
                 alarm.subwayLines.push("5");
 
                 const result = await service.create(alarm);
@@ -295,7 +295,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm without owner', async () => {
-                const alarm = await AlarmFixture.getDefaultAlarmInput(false);
+                const alarm = await new AlarmFixture().withOwner("").getAlarmInput();
 
                 const result = await service.create(alarm);
 

@@ -16,6 +16,7 @@ export class AlarmFixture {
     private owner: string;
     private ownerFirebaseToken: string;
     private lastAlarmSent?: LastAlarmSent;
+    private hasSubways = true;
 
     public constructor() {
         this.alarmInput = new AlarmInput();
@@ -35,6 +36,11 @@ export class AlarmFixture {
 
     public withSubways(subways: Subway[]): AlarmFixture {
         this.subways = subways;
+        return this;
+    }
+
+    public withoutSubways(): AlarmFixture {
+        this.hasSubways = false;
         return this;
     }
 
@@ -79,7 +85,7 @@ export class AlarmFixture {
     }
 
     public async getAlarmInput(): Promise<AlarmInput> {
-        if (this.subways.length == 0) {
+        if (this.subways.length == 0 && this.hasSubways) {
             const defaultSubway = await SubwayFixture.createSubway(AlarmFixture.ALARM_SUBWAY_LINE);
             this.withSubway(defaultSubway);
         }
@@ -126,33 +132,4 @@ export class AlarmFixture {
         return alarm;
     }
 
-
-    public static async getDefaultAlarmInput(withOwner = true, withSubway = true): Promise<AlarmInput> {
-        const alarm = new AlarmInput();
-        alarm.name = "alarm";
-        alarm.days = ["friday", "monday"];
-        alarm.start = "10:30";
-        alarm.end = "12:46";
-
-        if (withSubway) {
-            const defaultSubway = await SubwayFixture.createSubway(AlarmFixture.ALARM_SUBWAY_LINE);
-            alarm.subwayLines = [defaultSubway.line];
-        }
-
-        if (withOwner) {
-            const defaultUser = await UserFixture.createUser();
-            alarm.setOwner(defaultUser);
-        }
-
-        return alarm;
-    };
-
-    public static async createAlarm(): Promise<Alarm> {
-        const alarmInput = await this.getDefaultAlarmInput(true, false);
-        const defaultSubway = await SubwayFixture.createSubway(AlarmFixture.ALARM_SUBWAY_LINE);
-        alarmInput.setSubways([defaultSubway]);
-
-        const alarm = new Alarm(alarmInput);
-        return await getRepository(Alarm).save(alarm);
-    }
 }

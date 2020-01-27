@@ -22,7 +22,7 @@ describe("Alarm Service", () => {
         });
 
         it("should return undefined if is not alarm's owner ", async () => {
-            const created = await AlarmFixture.createAlarm();
+            const created = await new AlarmFixture().createAlarm();
             const id = created.id;
 
             const otherUser = await UserFixture.createUserWithUsername("other user");
@@ -33,7 +33,7 @@ describe("Alarm Service", () => {
         });
 
         it("should return alarm with correct id ", async () => {
-            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const alarmInput = await new AlarmFixture().getAlarmInput();
             const created = await service.create(alarmInput);
             const id = created.getData().id;
 
@@ -44,7 +44,7 @@ describe("Alarm Service", () => {
         });
 
         it("should return alarm with correct properties ", async () => {
-            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const alarmInput = await new AlarmFixture().getAlarmInput();
             const created = await service.create(alarmInput);
             const id = created.getData().id;
             const expected = created.getData();
@@ -59,7 +59,7 @@ describe("Alarm Service", () => {
         });
 
         it("should return alarm with correct subways", async () => {
-            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const alarmInput = await new AlarmFixture().getAlarmInput();
             const created = await service.create(alarmInput);
             const id = created.getData().id;
             const expected = created.getData();
@@ -79,7 +79,7 @@ describe("Alarm Service", () => {
         });
 
         it("should return one alarm if one alarm exists for that user", async () => {
-            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const alarmInput = await new AlarmFixture().getAlarmInput();
             await service.create(alarmInput);
 
             const alarms = await service.getAll(alarmInput.getOwner());
@@ -90,7 +90,7 @@ describe("Alarm Service", () => {
 
         it("should return n alarms if they exist for that user", async () => {
             const count = 10;
-            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const alarmInput = await new AlarmFixture().getAlarmInput();
 
             for (let i = 0; i < count; i++) {
                 alarmInput.name = i.toString();
@@ -107,7 +107,7 @@ describe("Alarm Service", () => {
         });
 
         it("should not return alarms that belong to other user", async () => {
-            await AlarmFixture.createAlarm();
+            await new AlarmFixture().createAlarm();
 
             const otherUser = await UserFixture.createUserWithUsername("other user");
 
@@ -120,7 +120,7 @@ describe("Alarm Service", () => {
             const user = await UserFixture.createUserWithUsername("user");
             const otherUser = await UserFixture.createUserWithUsername("other user");
 
-            const alarmInput = await AlarmFixture.getDefaultAlarmInput(false);
+            const alarmInput = await new AlarmFixture().withOwner("").getAlarmInput();
 
             alarmInput.setOwner(user);
             alarmInput.name = user.username;
@@ -141,7 +141,7 @@ describe("Alarm Service", () => {
         });
 
         it("should return alarms with subways", async () => {
-            const alarmInput = await AlarmFixture.getDefaultAlarmInput();
+            const alarmInput = await new AlarmFixture().getAlarmInput();
             const created = await service.create(alarmInput);
 
             const alarms = await service.getAll(alarmInput.getOwner());
