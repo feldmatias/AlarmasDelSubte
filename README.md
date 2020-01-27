@@ -20,3 +20,8 @@ Check `config/default.ts` for missing configuration values, they need to be set 
 Important values:
 - `subways.realTimeUrl`: url where to fetch subways status.
 - `notifications.configFile`: json file with firebase configuration (needs to be in `config/push_notifications/`)
+
+### Git hooks
+Copy all files in `/hooks` to `.git/hooks/`
+
+They will run the linter for every commit, and tests before a push.
