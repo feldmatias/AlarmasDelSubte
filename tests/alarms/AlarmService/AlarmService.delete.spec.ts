@@ -50,7 +50,7 @@ describe("Alarm Service", () => {
         });
 
         it("should not be able to delete unexistant alarm", async () => {
-            const user = await UserFixture.createUser();
+            const user = await new UserFixture().createUser();
             const result = await service.delete(123, user);
 
             expect(result.isSuccessful()).to.be.false;
@@ -59,7 +59,7 @@ describe("Alarm Service", () => {
 
         it("should not be able to delete other user's alarm", async () => {
             const alarm = await new AlarmFixture().createAlarm();
-            const otherUser = await UserFixture.createUserWithUsername("other user");
+            const otherUser = await new UserFixture().withUsername("other user").createUser();
 
             const result = await service.delete(alarm.id, otherUser);
 

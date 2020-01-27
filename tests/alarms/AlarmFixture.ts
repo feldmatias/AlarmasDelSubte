@@ -49,9 +49,24 @@ export class AlarmFixture {
         return this;
     }
 
-    public withTimeRange(start: string, end: string): AlarmFixture {
+    public withStart(start: string): AlarmFixture {
         this.alarmInput.start = start;
+        return this;
+    }
+
+    public withEnd(end: string): AlarmFixture {
         this.alarmInput.end = end;
+        return this;
+    }
+
+    public withTimeRange(start: string, end: string): AlarmFixture {
+        this.withStart(start);
+        this.withEnd(end);
+        return this;
+    }
+
+    public withName(name: string): AlarmFixture {
+        this.alarmInput.name = name;
         return this;
     }
 
@@ -93,7 +108,7 @@ export class AlarmFixture {
         this.alarmInput.subwayLines = this.subways.map(subway => subway.line);
 
         if (this.owner) {
-            const owner = await UserFixture.createUserWithUsername(this.owner);
+            const owner = await new UserFixture().withUsername(this.owner).createUser();
             owner.firebaseToken = this.ownerFirebaseToken;
             this.alarmInput.setOwner(owner);
         }

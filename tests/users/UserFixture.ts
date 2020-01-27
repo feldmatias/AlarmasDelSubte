@@ -7,33 +7,43 @@ export class UserFixture {
     public static readonly USERNAME = "username";
     public static readonly PASSWORD = "password";
 
-    public static getDefaultUserInput(index?: number): UserInput {
-        const user = new UserInput();
-        user.username = UserFixture.USERNAME + (index ? index : "");
-        user.password = UserFixture.PASSWORD;
-        return user;
-    };
+    private input: UserInput;
+    private firebaseToken?: string;
 
-    public static async createUser(input?: UserInput): Promise<User> {
-        if (!input) {
-            input = this.getDefaultUserInput();
-        }
-        const user = new User(input);
-        return await getConnection().getRepository(User).save(user);
+    public constructor() {
+        this.input = new UserInput();
+        this.input.username = UserFixture.USERNAME;
+        this.input.password = UserFixture.PASSWORD;
     }
 
-    public static async createUserWithUsername(username: string): Promise<User> {
-        const input = this.getDefaultUserInput();
-        input.username = username;
-
-        return await this.createUser(input);
+    public withUsername(username: string): UserFixture {
+        this.input.username = username;
+        return this;
     }
 
-    public static async createUserWithFirebaseToken(token?: string): Promise<User> {
-        const input = this.getDefaultUserInput();
-        const user = new User(input);
-        if (token) {
-            user.firebaseToken = token;
+    public withPassword(password: string): UserFixture {
+        this.input.password = password;
+        return this;
+    }
+
+    public withInput(input: UserInput): UserFixture {
+        this.input = input;
+        return this;
+    }
+
+    public withFirebaseToken(token: string): UserFixture {
+        this.firebaseToken = token;
+        return this;
+    }
+
+    public getUserInput(): UserInput {
+        return this.input;
+    }
+
+    public async createUser(): Promise<User> {
+        const user = new User(this.input);
+        if (this.firebaseToken) {
+            user.firebaseToken = this.firebaseToken;
         }
         return await getConnection().getRepository(User).save(user);
     }

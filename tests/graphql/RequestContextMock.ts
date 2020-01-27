@@ -4,10 +4,10 @@ import {UserFixture} from "../users/UserFixture";
 
 export class RequestContextMock {
 
-    public static readonly REQUEST_USER_USERNAME = "request username";
+    private static readonly REQUEST_USER_USERNAME = "request username";
 
     public static async mock(): Promise<RequestContext> {
-        const user = await UserFixture.createUserWithUsername(RequestContextMock.REQUEST_USER_USERNAME);
+        const user = await new UserFixture().withUsername(RequestContextMock.REQUEST_USER_USERNAME).createUser();
 
         return new class implements RequestContext {
             public user: User = user;

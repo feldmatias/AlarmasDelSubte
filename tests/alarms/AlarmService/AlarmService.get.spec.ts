@@ -16,7 +16,7 @@ describe("Alarm Service", () => {
     context("get alarm", () => {
 
         it("should return undefined if alarm does not exist", async () => {
-            const user = await UserFixture.createUser();
+            const user = await new UserFixture().createUser();
             const alarm = await service.get(123, user);
             expect(alarm).to.be.undefined;
         });
@@ -25,7 +25,7 @@ describe("Alarm Service", () => {
             const created = await new AlarmFixture().createAlarm();
             const id = created.id;
 
-            const otherUser = await UserFixture.createUserWithUsername("other user");
+            const otherUser = await new UserFixture().withUsername("other user").createUser();
 
             const alarm = await service.get(id, otherUser);
 
@@ -109,7 +109,7 @@ describe("Alarm Service", () => {
         it("should not return alarms that belong to other user", async () => {
             await new AlarmFixture().createAlarm();
 
-            const otherUser = await UserFixture.createUserWithUsername("other user");
+            const otherUser = await new UserFixture().withUsername("other user").createUser();
 
             const alarms = await service.getAll(otherUser);
 
@@ -117,8 +117,8 @@ describe("Alarm Service", () => {
         });
 
         it("should return only user's alarms", async () => {
-            const user = await UserFixture.createUserWithUsername("user");
-            const otherUser = await UserFixture.createUserWithUsername("other user");
+            const user = await new UserFixture().withUsername("user").createUser();
+            const otherUser = await new UserFixture().withUsername("other user").createUser();
 
             const alarmInput = await new AlarmFixture().withOwner("").getAlarmInput();
 

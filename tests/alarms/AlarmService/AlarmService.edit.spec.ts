@@ -36,7 +36,7 @@ describe("Alarm Service", () => {
         });
 
         it("should not be able to edit other user's alarm", async () => {
-            const otherUser = await UserFixture.createUserWithUsername("other user");
+            const otherUser = await new UserFixture().withUsername("other user").createUser();
             editAlarmInput.setOwner(otherUser);
 
             const result = await service.edit(originalAlarm.id, editAlarmInput);

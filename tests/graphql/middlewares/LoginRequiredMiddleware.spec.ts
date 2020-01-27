@@ -114,7 +114,7 @@ describe("Login Required Middleware", () => {
 
         [QUERY_TYPE, MUTATION_TYPE].forEach(type => {
             it(`should add user to context if token is valid and operation is a ${type.name}`, async () => {
-                const user = await UserFixture.createUser();
+                const user = await new UserFixture().createUser();
                 const requestContext = getRequestContext(user.token);
                 const info = getMockInfo("some query", type);
 
