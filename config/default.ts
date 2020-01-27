@@ -20,7 +20,7 @@ export default {
         },
 
         notifications: {
-            configFile: "Set correct firebase config file, included in config/push_notifications"
+            configFile: "Set correct firebase config file, needs to be in config/push_notifications/"
         }
     }
 };
