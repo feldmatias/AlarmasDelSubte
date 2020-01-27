@@ -31,7 +31,7 @@ describe("Subway Alarm Sender", () => {
         context("conditions to send alarm", () => {
 
             it("should send to alarm which last sent status equals current status and last send date is before todays", async () => {
-                const alarm = await AlarmFixture.createAlarmWithLastSubwayAlarmSent(subway, false);
+                const alarm = await new AlarmFixture().withSubway(subway).withLastAlarmSent(false).createAlarm();
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
 
@@ -40,7 +40,7 @@ describe("Subway Alarm Sender", () => {
             });
 
             it("should send to alarm which last sent status differs current status and last send date is before today", async () => {
-                const alarm = await AlarmFixture.createAlarmWithLastSubwayAlarmSent(subway, false, "other status");
+                const alarm = await new AlarmFixture().withSubway(subway).withLastAlarmSent(false, "other status").createAlarm();
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
 
@@ -49,7 +49,7 @@ describe("Subway Alarm Sender", () => {
             });
 
             it("should send to alarm which last sent status differs current status and last send date is today", async () => {
-                const alarm = await AlarmFixture.createAlarmWithLastSubwayAlarmSent(subway, true, "other status");
+                const alarm = await new AlarmFixture().withSubway(subway).withLastAlarmSent(true, "other status").createAlarm();
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
 
@@ -60,7 +60,7 @@ describe("Subway Alarm Sender", () => {
             it("should send to alarm which has today in days array", async () => {
                 const [start, end, today] = DateTestUtils.getTimeRangeWithNowInside();
                 const days = [DateTestUtils.yesterdayDay(), today, DateTestUtils.tomorrowDay()];
-                const alarm = await AlarmFixture.createAlarmWithTimeRange(start, end, days, [subway]);
+                const alarm = await new AlarmFixture().withSubway(subway).withTimeRange(start, end).withDays(days).createAlarm();
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
 
@@ -71,7 +71,7 @@ describe("Subway Alarm Sender", () => {
             it("should send to alarm which has today first in days array", async () => {
                 const [start, end, today] = DateTestUtils.getTimeRangeWithNowInside();
                 const days = [today, DateTestUtils.yesterdayDay(), DateTestUtils.tomorrowDay()];
-                const alarm = await AlarmFixture.createAlarmWithTimeRange(start, end, days, [subway]);
+                const alarm = await new AlarmFixture().withSubway(subway).withTimeRange(start, end).withDays(days).createAlarm();
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
 
@@ -82,7 +82,7 @@ describe("Subway Alarm Sender", () => {
             it("should send to alarm which has today last in days array", async () => {
                 const [start, end, today] = DateTestUtils.getTimeRangeWithNowInside();
                 const days = [DateTestUtils.yesterdayDay(), DateTestUtils.tomorrowDay(), today];
-                const alarm = await AlarmFixture.createAlarmWithTimeRange(start, end, days, [subway]);
+                const alarm = await new AlarmFixture().withSubway(subway).withTimeRange(start, end).withDays(days).createAlarm();
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
 
@@ -93,7 +93,8 @@ describe("Subway Alarm Sender", () => {
             it("should send to alarm which has other subways too", async () => {
                 const otherSubway = await SubwayFixture.createSubway("other");
                 const [start, end, today] = DateTestUtils.getTimeRangeWithNowInside();
-                const alarm = await AlarmFixture.createAlarmWithTimeRange(start, end, [today], [subway, otherSubway]);
+                const alarm = await new AlarmFixture().withSubways([subway, otherSubway])
+                    .withTimeRange(start, end).withDay(today).createAlarm();
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
 
@@ -103,9 +104,12 @@ describe("Subway Alarm Sender", () => {
 
             it("should send to multiple alarms", async () => {
                 const [start, end, today] = DateTestUtils.getTimeRangeWithNowInside();
-                const alarm1 = await AlarmFixture.createAlarmWithTimeRange(start, end, [today], [subway], "1");
-                const alarm2 = await AlarmFixture.createAlarmWithTimeRange(start, end, [today], [subway], "2");
-                const alarm3 = await AlarmFixture.createAlarmWithTimeRange(start, end, [today], [subway], "3");
+                const alarm1 = await new AlarmFixture().withSubway(subway)
+                    .withTimeRange(start, end).withDay(today).withOwner("1").createAlarm();
+                const alarm2 = await new AlarmFixture().withSubway(subway)
+                    .withTimeRange(start, end).withDay(today).withOwner("2").createAlarm();
+                const alarm3 = await new AlarmFixture().withSubway(subway)
+                    .withTimeRange(start, end).withDay(today).withOwner("3").createAlarm();
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
 
@@ -121,7 +125,7 @@ describe("Subway Alarm Sender", () => {
 
             it("should not send to alarm outside range, before start", async () => {
                 const [start, end, today] = DateTestUtils.getTimeRangeBeforeNow();
-                await AlarmFixture.createAlarmWithTimeRange(start, end, [today], [subway]);
+                await new AlarmFixture().withSubway(subway).withTimeRange(start, end).withDay(today).createAlarm();
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
 
@@ -130,7 +134,7 @@ describe("Subway Alarm Sender", () => {
 
             it("should not send to alarm outside range, after end", async () => {
                 const [start, end, today] = DateTestUtils.getTimeRangeAfterNow();
-                await AlarmFixture.createAlarmWithTimeRange(start, end, [today], [subway]);
+                await new AlarmFixture().withSubway(subway).withTimeRange(start, end).withDay(today).createAlarm();
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
 
@@ -140,7 +144,7 @@ describe("Subway Alarm Sender", () => {
             it("should not send to alarm from other day, after today", async () => {
                 const [start, end] = DateTestUtils.getTimeRangeWithNowInside();
                 const afterToday = DateTestUtils.tomorrowDay();
-                await AlarmFixture.createAlarmWithTimeRange(start, end, [afterToday], [subway]);
+                await new AlarmFixture().withSubway(subway).withTimeRange(start, end).withDay(afterToday).createAlarm();
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
 
@@ -150,7 +154,7 @@ describe("Subway Alarm Sender", () => {
             it("should not send to alarm from other day, before today", async () => {
                 const [start, end] = DateTestUtils.getTimeRangeWithNowInside();
                 const beforeToday = DateTestUtils.yesterdayDay();
-                await AlarmFixture.createAlarmWithTimeRange(start, end, [beforeToday], [subway]);
+                await new AlarmFixture().withSubway(subway).withTimeRange(start, end).withDay(beforeToday).createAlarm();
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
 
@@ -159,7 +163,7 @@ describe("Subway Alarm Sender", () => {
 
             it("should not send to alarm for other subway", async () => {
                 const [start, end, today] = DateTestUtils.getTimeRangeWithNowInside();
-                await AlarmFixture.createAlarmWithTimeRange(start, end, [today], [subway]);
+                await new AlarmFixture().withSubway(subway).withTimeRange(start, end).withDay(today).createAlarm();
 
                 const otherSubway = await SubwayFixture.createSubway("other");
 
@@ -169,7 +173,7 @@ describe("Subway Alarm Sender", () => {
             });
 
             it("should not send to alarm which last sent status equals current status and last send date is today", async () => {
-                await AlarmFixture.createAlarmWithLastSubwayAlarmSent(subway, true);
+                await new AlarmFixture().withSubway(subway).withLastAlarmSent(true).createAlarm();
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);
 
