@@ -58,7 +58,7 @@ describe("Alarm Service", () => {
         });
 
         it("should be able to edit all properties at once", async () => {
-            const newSubway = await SubwayFixture.createSubway("new subway");
+            const newSubway = await new SubwayFixture().withLine("new subway").createSubway();
             editAlarmInput.name = "new name";
             editAlarmInput.days = ["sunday"];
             editAlarmInput.start = "00:01";
@@ -398,7 +398,7 @@ describe("Alarm Service", () => {
         context("edit alarm subways", () => {
 
             it("should be able to edit alarm subways with one subway", async () => {
-                const subway = await SubwayFixture.createSubway();
+                const subway = await new SubwayFixture().createSubway();
                 editAlarmInput.subwayLines = [subway.line];
 
                 const result = await service.edit(originalAlarm.id, editAlarmInput);
@@ -413,7 +413,7 @@ describe("Alarm Service", () => {
                 editAlarmInput.subwayLines = [];
 
                 for (let i = 0; i < count; i++) {
-                    const subway = await SubwayFixture.createSubway(i.toString());
+                    const subway = await new SubwayFixture().withLine(i.toString()).createSubway();
                     editAlarmInput.subwayLines.push(subway.line);
                 }
 
@@ -432,7 +432,7 @@ describe("Alarm Service", () => {
                 editAlarmInput.subwayLines = [originalSubway];
 
                 for (let i = 0; i < count; i++) {
-                    const subway = await SubwayFixture.createSubway(i.toString());
+                    const subway = await new SubwayFixture().withLine(i.toString()).createSubway();
                     editAlarmInput.subwayLines.push(subway.line);
                 }
 
@@ -451,7 +451,7 @@ describe("Alarm Service", () => {
                 editAlarmInput.subwayLines = [];
 
                 for (let i = 0; i < count; i++) {
-                    const subway = await SubwayFixture.createSubway(i.toString());
+                    const subway = await new SubwayFixture().withLine(i.toString()).createSubway();
                     editAlarmInput.subwayLines.push(subway.line);
                 }
 
@@ -485,7 +485,7 @@ describe("Alarm Service", () => {
             });
 
             it("should not be able to edit alarm subways with existant and unexistant subway", async () => {
-                const subway = await SubwayFixture.createSubway();
+                const subway = await new SubwayFixture().createSubway();
                 editAlarmInput.subwayLines = ["invalid", subway.line];
 
                 const result = await service.edit(originalAlarm.id, editAlarmInput);

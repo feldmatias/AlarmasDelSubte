@@ -8,14 +8,16 @@ describe("User", () => {
     context("user password security", () => {
 
         it("password is not plain text when creating model", () => {
-            const user = new User(new UserFixture().getUserInput());
+            const password = "password";
+            const user = new User(new UserFixture().withPassword(password).getUserInput());
             expect(user).to.have.property("password");
-            expect(user).to.not.have.property("password", UserFixture.PASSWORD);
+            expect(user).to.not.have.property("password", password);
         });
 
         it("password is hashed when creating model", () => {
-            const user = new User(new UserFixture().getUserInput());
-            const hash = Md5.hashStr(UserFixture.PASSWORD);
+            const password = "password";
+            const user = new User(new UserFixture().withPassword(password).getUserInput());
+            const hash = Md5.hashStr(password);
             expect(user).to.have.property("password", hash);
         });
     });

@@ -3,29 +3,42 @@ import {getConnection} from "typeorm";
 
 export class SubwayFixture {
 
-    public static async createSubway(line = "subway", status = "status"): Promise<Subway> {
-        const subway = new Subway();
-        subway.line = line;
-        subway.icon = "icon";
-        subway.status = status;
+    private subway: Subway;
 
-        return await getConnection().getRepository(Subway).save(subway);
+    public constructor() {
+        this.subway = new Subway();
+        this.subway.line = "subway";
+        this.subway.icon = "icon";
+        this.subway.status = "status";
     }
 
-    public static async createSubwayWithUpdatedAt(line = "subway", updatedAt = new Date()): Promise<Subway> {
-        const subway = new Subway();
-        subway.line = line;
-        subway.icon = "icon";
-        subway.status = "status";
-        subway.updatedAt = updatedAt;
+    public withLine(line: string): SubwayFixture {
+        this.subway.line = line;
+        return this;
+    }
 
-        await getConnection()
-            .createQueryBuilder()
-            .insert()
-            .into(Subway)
-            .values({...subway})
-            .execute();
+    public withStatus(status: string): SubwayFixture {
+        this.subway.status = status;
+        return this;
+    }
 
-        return subway;
+    public withUpdatedAt(updatedAt = new Date()): SubwayFixture {
+        this.subway.updatedAt = updatedAt;
+        return this;
+    }
+
+    public async createSubway(): Promise<Subway> {
+        if (this.subway.updatedAt) {
+            await getConnection()
+                .createQueryBuilder()
+                .insert()
+                .into(Subway)
+                .values({...this.subway})
+                .execute();
+
+            return this.subway;
+        }
+
+        return await getConnection().getRepository(Subway).save(this.subway);
     }
 }

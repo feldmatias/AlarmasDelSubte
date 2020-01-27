@@ -19,15 +19,15 @@ describe("Subway Service", () => {
         });
 
         it("returns 1 subway if exists", async () => {
-            await SubwayFixture.createSubway();
+            await new SubwayFixture().createSubway();
 
             const subways = await service.getAll();
             expect(subways).to.have.length(1);
         });
 
         it("returns 2 subways if exist", async () => {
-            await SubwayFixture.createSubway("A");
-            await SubwayFixture.createSubway("B");
+            await new SubwayFixture().withLine("1").createSubway();
+            await new SubwayFixture().withLine("2").createSubway();
 
             const subways = await service.getAll();
             expect(subways).to.have.length(2);
@@ -37,7 +37,7 @@ describe("Subway Service", () => {
             const count = 10;
 
             for (let i = 0; i < count; i++) {
-                await SubwayFixture.createSubway(i.toString());
+                await new SubwayFixture().withLine(i.toString()).createSubway();
             }
 
             const subways = await service.getAll();
@@ -53,9 +53,9 @@ describe("Subway Service", () => {
         });
 
         it("returns 3 subways ordered by line", async () => {
-            await SubwayFixture.createSubway("2");
-            await SubwayFixture.createSubway("1");
-            await SubwayFixture.createSubway("3");
+            await new SubwayFixture().withLine("2").createSubway();
+            await new SubwayFixture().withLine("1").createSubway();
+            await new SubwayFixture().withLine("3").createSubway();
 
             const subways = await service.getAll();
 

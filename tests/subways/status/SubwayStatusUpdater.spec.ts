@@ -60,7 +60,7 @@ describe("Subway Status Updater", () => {
     context("update subway status", () => {
 
         it("should update subway status when api return status", async () => {
-            const subway = await SubwayFixture.createSubway();
+            const subway = await new SubwayFixture().createSubway();
 
             MockApiService.mockGetRequest(apiUrl, subwaysApiResponse([subway.line]));
 
@@ -71,8 +71,8 @@ describe("Subway Status Updater", () => {
         });
 
         it("should update all subways status when api return status", async () => {
-            const subway1 = await SubwayFixture.createSubway("1");
-            const subway2 = await SubwayFixture.createSubway("2");
+            const subway1 = await new SubwayFixture().withLine("1").createSubway();
+            const subway2 = await new SubwayFixture().withLine("2").createSubway();
 
             MockApiService.mockGetRequest(apiUrl, subwaysApiResponse([subway1.line, subway2.line]));
 
@@ -84,9 +84,9 @@ describe("Subway Status Updater", () => {
         });
 
         it("should update all subways status when api return status no matter the order", async () => {
-            const subway1 = await SubwayFixture.createSubway("1");
-            const subway2 = await SubwayFixture.createSubway("2");
-            const subway3 = await SubwayFixture.createSubway("3");
+            const subway1 = await new SubwayFixture().withLine("1").createSubway();
+            const subway2 = await new SubwayFixture().withLine("2").createSubway();
+            const subway3 = await new SubwayFixture().withLine("3").createSubway();
 
             MockApiService.mockGetRequest(apiUrl, subwaysApiResponse([subway2.line, subway1.line, subway3.line]));
 
@@ -99,8 +99,8 @@ describe("Subway Status Updater", () => {
         });
 
         it("should update all subways status to normal when api returns empty", async () => {
-            const subway1 = await SubwayFixture.createSubway("1");
-            const subway2 = await SubwayFixture.createSubway("2");
+            const subway1 = await new SubwayFixture().withLine("1").createSubway();
+            const subway2 = await new SubwayFixture().withLine("2").createSubway();
 
             MockApiService.mockGetRequest(apiUrl, subwaysApiResponse([]));
 
@@ -112,8 +112,8 @@ describe("Subway Status Updater", () => {
         });
 
         it("should update subway status when api returns it, and subway status to normal when not", async () => {
-            const subway1 = await SubwayFixture.createSubway("1");
-            const subway2 = await SubwayFixture.createSubway("2");
+            const subway1 = await new SubwayFixture().withLine("1").createSubway();
+            const subway2 = await new SubwayFixture().withLine("2").createSubway();
 
             MockApiService.mockGetRequest(apiUrl, subwaysApiResponse([subway1.line]));
 
@@ -125,7 +125,7 @@ describe("Subway Status Updater", () => {
         });
 
         it("should not fail when api returns status for unknown subway", async () => {
-            const subway = await SubwayFixture.createSubway();
+            const subway = await new SubwayFixture().createSubway();
 
             MockApiService.mockGetRequest(apiUrl, subwaysApiResponse([subway.line, "othersubway"]));
 
@@ -136,7 +136,7 @@ describe("Subway Status Updater", () => {
         });
 
         it("should not update status if it is in another language", async () => {
-            const subway = await SubwayFixture.createSubway();
+            const subway = await new SubwayFixture().createSubway();
 
             const apiResponse = subwaysApiResponse([subway.line]);
             apiResponse.entity[0].alert.description_text.translation[0].language = "other language";
@@ -150,7 +150,7 @@ describe("Subway Status Updater", () => {
         });
 
         it("should not update if alert comes without subway line", async () => {
-            const subway = await SubwayFixture.createSubway();
+            const subway = await new SubwayFixture().createSubway();
 
             const apiResponse = subwaysApiResponse([subway.line]);
             apiResponse.entity[0].alert["informed_entity"] = [];
@@ -164,7 +164,7 @@ describe("Subway Status Updater", () => {
         });
 
         it("should not update if alert comes without subway status", async () => {
-            const subway = await SubwayFixture.createSubway();
+            const subway = await new SubwayFixture().createSubway();
 
             const apiResponse = subwaysApiResponse([subway.line]);
             apiResponse.entity[0].alert["description_text"].translation = [];
@@ -178,7 +178,7 @@ describe("Subway Status Updater", () => {
         });
 
         it("should do nothing when api fails", async () => {
-            const subway = await SubwayFixture.createSubway();
+            const subway = await new SubwayFixture().createSubway();
 
             MockApiService.mockGetRequestWithError(apiUrl);
 
@@ -191,7 +191,7 @@ describe("Subway Status Updater", () => {
         it("should update subway updatedAt when api return status", async () => {
             const datePast = new Date();
             datePast.setHours(datePast.getHours() - 5);
-            const subway = await SubwayFixture.createSubwayWithUpdatedAt("1", datePast);
+            const subway = await new SubwayFixture().withUpdatedAt(datePast).createSubway();
 
             MockApiService.mockGetRequest(apiUrl, subwaysApiResponse([subway.line]));
 

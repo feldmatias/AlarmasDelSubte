@@ -23,7 +23,7 @@ describe("Subway Alarm Manager", () => {
         context("conditions to send alarms", () => {
 
             it("should send alarms for subway updated now", async () => {
-                const subway = await SubwayFixture.createSubway();
+                const subway = await new SubwayFixture().createSubway();
                 const now = DateTestUtils.now(subway.updatedAt);
 
                 await alarmManager.sendAlarms(now);
@@ -33,7 +33,7 @@ describe("Subway Alarm Manager", () => {
             });
 
             it("should send alarms for subway updated 59 minutes ago", async () => {
-                const subway = await SubwayFixture.createSubway();
+                const subway = await new SubwayFixture().createSubway();
                 subway.updatedAt.setMinutes(subway.updatedAt.getMinutes() + 59);
                 const now = DateTestUtils.now(subway.updatedAt);
 
@@ -44,9 +44,9 @@ describe("Subway Alarm Manager", () => {
             });
 
             it("should send alarms for multiple subways", async () => {
-                const subway1 = await SubwayFixture.createSubway("1");
-                const subway2 = await SubwayFixture.createSubway("2");
-                const subway3 = await SubwayFixture.createSubway("3");
+                const subway1 = await new SubwayFixture().withLine("1").createSubway();
+                const subway2 = await new SubwayFixture().withLine("2").createSubway();
+                const subway3 = await new SubwayFixture().withLine("3").createSubway();
                 const now = DateTestUtils.now(subway1.updatedAt);
 
                 await alarmManager.sendAlarms(now);
@@ -58,13 +58,13 @@ describe("Subway Alarm Manager", () => {
             });
 
             it("should send alarms for subways updated less than an hour ago", async () => {
-                const subway1 = await SubwayFixture.createSubwayWithUpdatedAt("1", new Date());
+                const subway1 = await new SubwayFixture().withLine("1").withUpdatedAt(new Date()).createSubway();
 
                 const updatedHourAgo = subway1.updatedAt;
                 updatedHourAgo.setHours(updatedHourAgo.getHours() - 1);
-                await SubwayFixture.createSubwayWithUpdatedAt("2", updatedHourAgo);
+                await new SubwayFixture().withLine("2").withUpdatedAt(updatedHourAgo).createSubway();
 
-                const subway3 = await SubwayFixture.createSubwayWithUpdatedAt("3", new Date());
+                const subway3 = await new SubwayFixture().withLine("3").withUpdatedAt(new Date()).createSubway();
                 const now = DateTestUtils.now(new Date());
 
                 await alarmManager.sendAlarms(now);
@@ -79,7 +79,7 @@ describe("Subway Alarm Manager", () => {
         context("conditions to not send alarms", () => {
 
             it("should not send alarms for subway updated an hour ago", async () => {
-                const subway = await SubwayFixture.createSubway();
+                const subway = await new SubwayFixture().createSubway();
                 subway.updatedAt.setHours(subway.updatedAt.getHours() + 1);
                 const now = DateTestUtils.now(subway.updatedAt);
 

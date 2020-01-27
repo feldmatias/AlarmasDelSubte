@@ -4,16 +4,13 @@ import {getConnection} from "typeorm";
 
 export class UserFixture {
 
-    public static readonly USERNAME = "username";
-    public static readonly PASSWORD = "password";
-
     private input: UserInput;
     private firebaseToken?: string;
 
     public constructor() {
         this.input = new UserInput();
-        this.input.username = UserFixture.USERNAME;
-        this.input.password = UserFixture.PASSWORD;
+        this.input.username = "username";
+        this.input.password = "password";
     }
 
     public withUsername(username: string): UserFixture {

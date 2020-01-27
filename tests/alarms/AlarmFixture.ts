@@ -101,7 +101,7 @@ export class AlarmFixture {
 
     public async getAlarmInput(): Promise<AlarmInput> {
         if (this.subways.length == 0 && this.hasSubways) {
-            const defaultSubway = await SubwayFixture.createSubway(AlarmFixture.ALARM_SUBWAY_LINE);
+            const defaultSubway = await new SubwayFixture().withLine(AlarmFixture.ALARM_SUBWAY_LINE).createSubway();
             this.withSubway(defaultSubway);
         }
 

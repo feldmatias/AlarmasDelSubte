@@ -25,7 +25,7 @@ describe("Subway Alarm Sender", () => {
         let subway: Subway;
         const now = DateTestUtils.now();
         beforeEach(async () => {
-            subway = await SubwayFixture.createSubway();
+            subway = await new SubwayFixture().createSubway();
         });
 
         context("conditions to send alarm", () => {
@@ -91,7 +91,7 @@ describe("Subway Alarm Sender", () => {
             });
 
             it("should send to alarm which has other subways too", async () => {
-                const otherSubway = await SubwayFixture.createSubway("other");
+                const otherSubway = await new SubwayFixture().withLine("other").createSubway();
                 const [start, end, today] = DateTestUtils.getTimeRangeWithNowInside();
                 const alarm = await new AlarmFixture().withSubways([subway, otherSubway])
                     .withTimeRange(start, end).withDay(today).createAlarm();
@@ -165,7 +165,7 @@ describe("Subway Alarm Sender", () => {
                 const [start, end, today] = DateTestUtils.getTimeRangeWithNowInside();
                 await new AlarmFixture().withSubway(subway).withTimeRange(start, end).withDay(today).createAlarm();
 
-                const otherSubway = await SubwayFixture.createSubway("other");
+                const otherSubway = await new SubwayFixture().withLine("other").createSubway();
 
                 await subwayAlarmSender.sendSubwayAlarms(otherSubway, now);
 

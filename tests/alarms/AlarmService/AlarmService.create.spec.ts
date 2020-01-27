@@ -50,7 +50,7 @@ describe("Alarm Service", () => {
             alarm.subwayLines = [];
 
             for (let i = 0; i < count; i++) {
-                const subway = await SubwayFixture.createSubway(i.toString());
+                const subway = await new SubwayFixture().withLine(i.toString()).createSubway();
                 alarm.subwayLines.push(subway.line);
             }
 
