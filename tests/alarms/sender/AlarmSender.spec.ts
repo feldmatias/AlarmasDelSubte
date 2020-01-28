@@ -27,14 +27,15 @@ describe("Alarm Sender", () => {
     context("send alarm", () => {
 
         const now = DateTestUtils.now();
+        const NORMAL_STATUS = SubwayStatusHelper.NORMAL_STATUS_MESSAGE;
 
         context("conditions to send alarm", () => {
 
             SubwayStatusHelper.NORMAL_STATUS_OPTIONS.forEach(status => {
-                it(`should send alarm if status is normal '${status}' and last sent date is today`, async () => {
+                it(`should send alarm if status is normal '${status}' and last sent date is today and last status is not normal`, async () => {
                     const subway = await new SubwayFixture().withStatus(status).createSubway();
                     const alarm = await new AlarmFixture().withSubway(subway)
-                        .withOwnerFirebaseToken(NOTIFICATIONS_TOKEN).withLastAlarmSent(true).createAlarm();
+                        .withOwnerFirebaseToken(NOTIFICATIONS_TOKEN).withLastAlarmSent(true, "status").createAlarm();
 
                     await alarmSender.sendAlarm(alarm, subway, now);
 
@@ -45,7 +46,8 @@ describe("Alarm Sender", () => {
             it("should send alarm if status is not normal and last sent date is today", async () => {
                 const subway = await new SubwayFixture().withStatus("limited").createSubway();
                 const alarm = await new AlarmFixture().withSubway(subway)
-                    .withOwnerFirebaseToken(NOTIFICATIONS_TOKEN).withLastAlarmSent(true).createAlarm();
+                    .withOwnerFirebaseToken(NOTIFICATIONS_TOKEN)
+                    .withLastAlarmSent(true, NORMAL_STATUS).createAlarm();
 
                 await alarmSender.sendAlarm(alarm, subway, now);
 
@@ -55,7 +57,29 @@ describe("Alarm Sender", () => {
             it("should send alarm if status is not normal and last sent date is not today", async () => {
                 const subway = await new SubwayFixture().createSubway();
                 const alarm = await new AlarmFixture().withSubway(subway)
-                    .withOwnerFirebaseToken(NOTIFICATIONS_TOKEN).withLastAlarmSent(false).createAlarm();
+                    .withOwnerFirebaseToken(NOTIFICATIONS_TOKEN)
+                    .withLastAlarmSent(false, NORMAL_STATUS).createAlarm();
+
+                await alarmSender.sendAlarm(alarm, subway, now);
+
+                MockPushNotificationsService.verifyNotificationSent();
+            });
+
+            it("should send alarm if status is not normal and last status is normal", async () => {
+                const subway = await new SubwayFixture().withStatus("limited").createSubway();
+                const alarm = await new AlarmFixture().withSubway(subway)
+                    .withOwnerFirebaseToken(NOTIFICATIONS_TOKEN)
+                    .withLastAlarmSent(true, NORMAL_STATUS).createAlarm();
+
+                await alarmSender.sendAlarm(alarm, subway, now);
+
+                MockPushNotificationsService.verifyNotificationSent();
+            });
+
+            it("should send alarm if status is not normal and last status is not normal", async () => {
+                const subway = await new SubwayFixture().createSubway();
+                const alarm = await new AlarmFixture().withSubway(subway)
+                    .withOwnerFirebaseToken(NOTIFICATIONS_TOKEN).withLastAlarmSent(true, "limited").createAlarm();
 
                 await alarmSender.sendAlarm(alarm, subway, now);
 
@@ -75,6 +99,18 @@ describe("Alarm Sender", () => {
                     await alarmSender.sendAlarm(alarm, subway, now);
 
                     MockPushNotificationsService.verifyNoNotificationSent();
+                });
+
+                SubwayStatusHelper.NORMAL_STATUS_OPTIONS.forEach(otherStatus => {
+                    it(`should not send alarm if status is normal '${status}' and last sent status is other normal status '${otherStatus}'`, async () => {
+                        const subway = await new SubwayFixture().withStatus(status).createSubway();
+                        const alarm = await new AlarmFixture().withSubway(subway)
+                            .withOwnerFirebaseToken(NOTIFICATIONS_TOKEN).withLastAlarmSent(true, otherStatus).createAlarm();
+
+                        await alarmSender.sendAlarm(alarm, subway, now);
+
+                        MockPushNotificationsService.verifyNoNotificationSent();
+                    });
                 });
             });
 
@@ -154,15 +190,15 @@ describe("Alarm Sender", () => {
                 expect(result?.getSubwayAlarm(subway)?.lastAlarmSent.status).to.eq(NEW_STATUS);
             });
 
-            it("when alarm not sent should not set new last status", async () => {
-                const subway = await new SubwayFixture().withStatus(SubwayStatusHelper.NORMAL_STATUS_MESSAGE).createSubway();
+            it("when alarm not sent should set new last status", async () => {
+                const subway = await new SubwayFixture().withStatus(NORMAL_STATUS).createSubway();
                 const alarm = await new AlarmFixture().withSubway(subway)
                     .withOwnerFirebaseToken(NOTIFICATIONS_TOKEN).withLastAlarmSent(false, OLD_STATUS).createAlarm();
 
                 await alarmSender.sendAlarm(alarm, subway, now);
 
                 const result = await alarmService.get(alarm.id, alarm.owner);
-                expect(result?.getSubwayAlarm(subway)?.lastAlarmSent.status).to.eq(OLD_STATUS);
+                expect(result?.getSubwayAlarm(subway)?.lastAlarmSent.status).to.eq(NORMAL_STATUS);
             });
 
             it("when alarm sent should set new last date", async () => {
@@ -177,8 +213,8 @@ describe("Alarm Sender", () => {
                 expect(result?.getSubwayAlarm(subway)?.lastAlarmSent.date).to.be.greaterThan(lastSentDate);
             });
 
-            it("when alarm not sent should not set new last date", async () => {
-                const subway = await new SubwayFixture().withStatus(SubwayStatusHelper.NORMAL_STATUS_MESSAGE).createSubway();
+            it("when alarm not sent should set new last date", async () => {
+                const subway = await new SubwayFixture().withStatus(NORMAL_STATUS).createSubway();
                 const alarm = await new AlarmFixture().withSubway(subway)
                     .withOwnerFirebaseToken(NOTIFICATIONS_TOKEN).withLastAlarmSent(false, OLD_STATUS).createAlarm();
                 const lastSentDate = alarm.getSubwayAlarm(subway)?.lastAlarmSent.date as Date;
@@ -186,7 +222,7 @@ describe("Alarm Sender", () => {
                 await alarmSender.sendAlarm(alarm, subway, now);
 
                 const result = await alarmService.get(alarm.id, alarm.owner);
-                expect(result?.getSubwayAlarm(subway)?.lastAlarmSent.date).to.deep.eq(lastSentDate);
+                expect(result?.getSubwayAlarm(subway)?.lastAlarmSent.date).to.be.greaterThan(lastSentDate);
             });
 
         });

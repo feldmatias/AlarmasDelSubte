@@ -133,7 +133,6 @@ export class AlarmFixture {
         const alarm = new Alarm(this.alarmInput);
 
         alarm.subwayAlarms.map(subwayAlarm => {
-            subwayAlarm.lastAlarmSent = new LastAlarmSent();
             subwayAlarm.lastAlarmSent.status = lastAlarmSent.status;
             subwayAlarm.lastAlarmSent.date = lastAlarmSent.date;
         });

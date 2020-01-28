@@ -1,6 +1,7 @@
 import {Column} from "typeorm";
 import moment from "moment";
 import {Config} from "../../../config/config";
+import {SubwayStatus, SubwayStatusHelper} from "../../subways/SubwayStatus";
 
 export class LastAlarmSent {
 
@@ -22,5 +23,9 @@ export class LastAlarmSent {
     public setStatus(status: string): void {
         this.status = status;
         this.updateDate();
+    }
+
+    public getStatusStype(): SubwayStatus {
+        return SubwayStatusHelper.getSubwayStatus(this.status);
     }
 }

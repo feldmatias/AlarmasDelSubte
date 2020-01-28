@@ -22,7 +22,7 @@ export class SubwayFixture {
         return this;
     }
 
-    public withUpdatedAt(updatedAt = new Date()): SubwayFixture {
+    public withUpdatedAt(updatedAt: Date): SubwayFixture {
         this.subway.updatedAt = updatedAt;
         return this;
     }

@@ -20,16 +20,19 @@ export class AlarmSender {
             return;
         }
 
-        if (this.shouldSendAlarm(subwayAlarm, now)) {
-            subwayAlarm.updateStatus(subway.status);
-            await this.alarmRepository.save(alarm);
+        const shouldSendAlarm = this.shouldSendAlarm(subwayAlarm, now);
+        subwayAlarm.updateStatus(subway.status);
+        await this.alarmRepository.save(alarm);
+
+        if (shouldSendAlarm) {
             await this.notificationSender.sendNotification(alarm, subway);
         }
     }
 
     private shouldSendAlarm(subwayAlarm: SubwayAlarm, now: MomentDate): boolean {
         if (subwayAlarm.subway.statusType() == SubwayStatus.Normal) {
-            return now.isSameDate(subwayAlarm.lastAlarmSent.date);
+            return subwayAlarm.lastAlarmSent.getStatusStype() != SubwayStatus.Normal
+                && now.isSameDate(subwayAlarm.lastAlarmSent.date);
         }
 
         return true;
