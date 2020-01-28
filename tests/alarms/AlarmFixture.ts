@@ -119,31 +119,16 @@ export class AlarmFixture {
     public async createAlarm(): Promise<Alarm> {
         this.alarmInput = await this.getAlarmInput();
         this.alarmInput.setSubways(this.subways);
+        const alarm = new Alarm(this.alarmInput);
 
         const lastAlarmSent = this.lastAlarmSent;
         if (lastAlarmSent) {
-            return await this.createAlarmWithLastAlarmSent(lastAlarmSent);
+            alarm.subwayAlarms.map(subwayAlarm => {
+                subwayAlarm.lastAlarmSent.status = lastAlarmSent.status;
+                subwayAlarm.lastAlarmSent.date = lastAlarmSent.date;
+            });
         }
-
-        const alarm = new Alarm(this.alarmInput);
         return await getRepository(Alarm).save(alarm);
-    }
-
-    private async createAlarmWithLastAlarmSent(lastAlarmSent: LastAlarmSent): Promise<Alarm> {
-        const alarm = new Alarm(this.alarmInput);
-
-        alarm.subwayAlarms.map(subwayAlarm => {
-            subwayAlarm.lastAlarmSent.status = lastAlarmSent.status;
-            subwayAlarm.lastAlarmSent.date = lastAlarmSent.date;
-        });
-
-        await getRepository(Alarm).save(alarm);
-
-        alarm.subwayAlarms.map(subwayAlarm => {
-            subwayAlarm.lastAlarmSent.date = lastAlarmSent.date; //Because it is redefined in constructor.
-        });
-
-        return alarm;
     }
 
 }

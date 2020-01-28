@@ -30,7 +30,7 @@ describe("Subway Alarm Sender", () => {
 
         context("conditions to send alarm", () => {
 
-            it("should send to alarm which last sent status equals current status and last send date is before todays", async () => {
+            it("should send to alarm which last sent status equals current status and last send date is before today", async () => {
                 const alarm = await new AlarmFixture().withSubway(subway).withLastAlarmSent(false).createAlarm();
 
                 await subwayAlarmSender.sendSubwayAlarms(subway, now);

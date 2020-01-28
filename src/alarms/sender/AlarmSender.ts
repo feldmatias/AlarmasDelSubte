@@ -31,7 +31,7 @@ export class AlarmSender {
 
     private shouldSendAlarm(subwayAlarm: SubwayAlarm, now: MomentDate): boolean {
         if (subwayAlarm.subway.statusType() == SubwayStatus.Normal) {
-            return subwayAlarm.lastAlarmSent.getStatusStype() != SubwayStatus.Normal
+            return subwayAlarm.lastAlarmSent.getStatusType() != SubwayStatus.Normal
                 && now.isSameDate(subwayAlarm.lastAlarmSent.date);
         }
 
