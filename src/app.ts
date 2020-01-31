@@ -26,7 +26,9 @@ const bootstrap: () => Promise<void> = async () => {
         graphqlHTTP({
             schema: schema,
             graphiql: false,
-            customFormatErrorFn: error => error.message
+            customFormatErrorFn: error => {
+                return {message: error.message};
+            }
         }),
     );
 

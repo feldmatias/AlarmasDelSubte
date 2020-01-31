@@ -69,26 +69,6 @@ describe("Login Required Middleware", () => {
 
     context("Excluded queries or mutations", () => {
 
-        LoginRequiredMiddleware.EXCLUDED_QUERIES.forEach(query => {
-            it(`should exclude query '${query}' when operation type is query`, async () => {
-                const requestContext = getRequestContext();
-                const info = getMockInfo(query, QUERY_TYPE);
-
-                const result = await callMiddleware(requestContext, info);
-
-                expect(result).to.eq(MIDDLEWARE_RESULT);
-                expect(requestContext.user).to.be.undefined;
-            });
-
-            it(`should not exclude query '${query}' when operation type is mutation`, async () => {
-                const requestContext = getRequestContext();
-                const info = getMockInfo(query, MUTATION_TYPE);
-
-                await expect(callMiddleware(requestContext, info))
-                    .to.eventually.be.rejectedWith(ErrorHelper.AUTHORIZATION_ERROR_MESSAGE);
-            });
-        });
-
         LoginRequiredMiddleware.EXCLUDED_MUTATIONS.forEach(mutation => {
             it(`should exclude mutation '${mutation}' when operation type is mutation`, async () => {
                 const requestContext = getRequestContext();

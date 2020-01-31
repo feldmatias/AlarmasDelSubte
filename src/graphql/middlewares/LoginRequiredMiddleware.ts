@@ -9,8 +9,7 @@ import {Service} from "typedi";
 @Service()
 export class LoginRequiredMiddleware implements MiddlewareInterface<RequestContext> {
 
-    public static readonly EXCLUDED_QUERIES = ['login'];
-    public static readonly EXCLUDED_MUTATIONS = ['registerUser'];
+    public static readonly EXCLUDED_MUTATIONS: string[] = ['registerUser', 'login'];
 
     public constructor(private userRepository: UserRepository) {
     }
@@ -23,10 +22,6 @@ export class LoginRequiredMiddleware implements MiddlewareInterface<RequestConte
         const queryType = info.schema.getQueryType();
         const mutationType = info.schema.getMutationType();
         if (![queryType, mutationType].includes(info.parentType)) {
-            return next();
-        }
-
-        if (info.parentType == queryType && LoginRequiredMiddleware.EXCLUDED_QUERIES.includes(info.fieldName)) {
             return next();
         }
 

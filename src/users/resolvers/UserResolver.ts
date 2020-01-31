@@ -1,5 +1,5 @@
 import {User} from "../entities/User";
-import {Arg, Mutation, Query, Resolver} from "type-graphql";
+import {Arg, Mutation, Resolver} from "type-graphql";
 import {UserInput} from "../entities/UserInput";
 import {UserService} from "../UserService";
 import UserErrorHelper from "./UserErrorHelper";
@@ -10,7 +10,7 @@ export class UserResolver {
     public constructor(private service: UserService) {
     }
 
-    @Query(_returns => User, {nullable: true})
+    @Mutation(_returns => User, {nullable: true})
     public async login(@Arg("userInput") userInput: UserInput): Promise<User> {
         const result = await this.service.login(userInput);
         if (!result.isSuccessful()) {

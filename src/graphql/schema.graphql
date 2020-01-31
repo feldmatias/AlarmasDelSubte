@@ -39,6 +39,7 @@ type Mutation {
   deleteAlarm(id: ID!): ID
   setFirebaseToken(token: String!): String
   removeFirebaseToken: ID
+  login(userInput: UserInput!): User
   registerUser(userInput: UserInput!): User
 }
 
@@ -46,7 +47,6 @@ type Query {
   getAlarm(id: ID!): Alarm
   getAlarms: [Alarm!]
   getSubways: [Subway!]
-  login(userInput: UserInput!): User
 }
 
 type Subway {
