@@ -12,9 +12,9 @@ export class AlarmResolver {
     public constructor(private service: AlarmService) {
     }
 
-    @Mutation(_returns => Alarm)
+    @Mutation(_returns => Alarm, {nullable: true})
     public async createAlarm(@Arg("alarmInput") alarmInput: AlarmInput,
-                      @Ctx() context: RequestContext): Promise<Alarm> {
+                             @Ctx() context: RequestContext): Promise<Alarm> {
         alarmInput.setOwner(context.user);
 
         const result = await this.service.create(alarmInput);
@@ -25,7 +25,7 @@ export class AlarmResolver {
         return result.getData();
     }
 
-    @Mutation(_returns => Alarm)
+    @Mutation(_returns => Alarm, {nullable: true})
     public async editAlarm(@Arg("id", _type => ID) id: number,
                            @Arg("alarmInput") alarmInput: AlarmPartialInput,
                            @Ctx() context: RequestContext): Promise<Alarm> {
@@ -39,9 +39,9 @@ export class AlarmResolver {
         return result.getData();
     }
 
-    @Query(_returns => Alarm)
+    @Query(_returns => Alarm, {nullable: true})
     public async getAlarm(@Arg("id", _type => ID) id: number,
-                   @Ctx() context: RequestContext): Promise<Alarm> {
+                          @Ctx() context: RequestContext): Promise<Alarm> {
         const alarm = await this.service.get(id, context.user);
         if (!alarm) {
             throw new Error(AlarmErrorHelper.getErrorMessage(AlarmService.ALARM_NOT_FOUND_ERROR));
@@ -49,14 +49,14 @@ export class AlarmResolver {
         return alarm;
     }
 
-    @Query(_returns => [Alarm])
+    @Query(_returns => [Alarm], {nullable: true})
     public async getAlarms(@Ctx() context: RequestContext): Promise<Array<Alarm>> {
         return await this.service.getAll(context.user);
     }
 
-    @Mutation(_returns => ID)
+    @Mutation(_returns => ID, {nullable: true})
     public async deleteAlarm(@Arg("id", _type => ID) id: number,
-                      @Ctx() context: RequestContext): Promise<number> {
+                             @Ctx() context: RequestContext): Promise<number> {
         const result = await this.service.delete(id, context.user);
 
         if (!result.isSuccessful()) {

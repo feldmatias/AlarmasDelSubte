@@ -25,14 +25,15 @@ const bootstrap: () => Promise<void> = async () => {
     app.use('/graphql',
         graphqlHTTP({
             schema: schema,
-            graphiql: false
+            graphiql: false,
+            customFormatErrorFn: error => error.message
         }),
     );
 
     registerCommandRoutes(app);
 
     app.listen(3000, function () {
-        console.log('App listening on port 3000!');
+        console.log('App listening on port 3000');
     });
 };
 

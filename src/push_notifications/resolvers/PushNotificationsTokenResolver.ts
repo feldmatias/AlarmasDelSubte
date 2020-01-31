@@ -9,7 +9,7 @@ export class PushNotificationsTokenResolver {
     public constructor(private service: PushNotificationsTokenService) {
     }
 
-    @Mutation(_returns => String)
+    @Mutation(_returns => String, {nullable: true})
     public async setFirebaseToken(@Arg("token") token: string,
                                   @Ctx() context: RequestContext): Promise<string> {
         const result = await this.service.setToken(token, context.user);
@@ -19,7 +19,7 @@ export class PushNotificationsTokenResolver {
         return result.getData();
     }
 
-    @Mutation(_returns => ID)
+    @Mutation(_returns => ID, {nullable: true})
     public async removeFirebaseToken(@Ctx() context: RequestContext): Promise<number> {
         await this.service.removeToken(context.user);
         return context.user.getId();

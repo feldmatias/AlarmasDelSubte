@@ -34,19 +34,19 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 type Mutation {
-  createAlarm(alarmInput: AlarmInput!): Alarm!
-  editAlarm(alarmInput: AlarmPartialInput!, id: ID!): Alarm!
-  deleteAlarm(id: ID!): ID!
-  setFirebaseToken(token: String!): String!
-  removeFirebaseToken: ID!
-  registerUser(userInput: UserInput!): User!
+  createAlarm(alarmInput: AlarmInput!): Alarm
+  editAlarm(alarmInput: AlarmPartialInput!, id: ID!): Alarm
+  deleteAlarm(id: ID!): ID
+  setFirebaseToken(token: String!): String
+  removeFirebaseToken: ID
+  registerUser(userInput: UserInput!): User
 }
 
 type Query {
-  getAlarm(id: ID!): Alarm!
-  getAlarms: [Alarm!]!
-  getSubways: [Subway!]!
-  login(userInput: UserInput!): User!
+  getAlarm(id: ID!): Alarm
+  getAlarms: [Alarm!]
+  getSubways: [Subway!]
+  login(userInput: UserInput!): User
 }
 
 type Subway {
