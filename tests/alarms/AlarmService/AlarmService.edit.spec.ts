@@ -10,6 +10,7 @@ import {Alarm} from "../../../src/alarms/entities/Alarm";
 import {AlarmPartialInput} from "../../../src/alarms/entities/AlarmPartialInput";
 import {SubwayFixture} from "../../subways/SubwayFixture";
 import {AlarmAssert} from "../AlarmAssert";
+import {DateUtils} from "../../../src/utils/DateUtils";
 
 describe("Alarm Service", () => {
 
@@ -135,14 +136,14 @@ describe("Alarm Service", () => {
 
         context("edit alarm days", () => {
 
-            const NEW_DAYS = AlarmDaysValidation.VALID_DAYS.slice(0, 3);
+            const NEW_DAYS = DateUtils.DAYS.slice(0, 3);
 
             it("should be able to edit alarm days with all valid days", async () => {
-                editAlarmInput.days = AlarmDaysValidation.VALID_DAYS;
+                editAlarmInput.days = DateUtils.DAYS;
                 const result = await service.edit(originalAlarm.id, editAlarmInput);
 
                 expect(result.isSuccessful()).to.be.true;
-                expect(result.getData().days).to.deep.eq(AlarmDaysValidation.VALID_DAYS);
+                expect(result.getData().days).to.deep.eq(DateUtils.DAYS);
             });
 
             it("should be able to edit alarm days with some valid days", async () => {
@@ -195,6 +196,18 @@ describe("Alarm Service", () => {
                 const alarm = await service.get(originalAlarm.id, originalAlarm.owner);
 
                 expect(alarm?.days).to.deep.eq(originalAlarm.days);
+            });
+
+            it("should edit alarm days ordered", async () => {
+                const days = ['sunday' ,'monday', 'friday', 'tuesday'];
+                const orderedDays = ['monday', 'tuesday', 'friday', 'sunday'];
+
+                editAlarmInput.days = days;
+                await service.edit(originalAlarm.id, editAlarmInput);
+
+                const alarm = await service.get(originalAlarm.id, originalAlarm.owner);
+
+                expect(alarm?.days).to.deep.eq(orderedDays);
             });
 
         });

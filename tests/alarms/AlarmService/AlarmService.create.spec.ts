@@ -8,6 +8,7 @@ import {AlarmSubwaysValidation} from "../../../src/alarms/validation/AlarmSubway
 import {AlarmOwnerValidation} from "../../../src/alarms/validation/AlarmOwnerValidation";
 import {AlarmFixture} from "../AlarmFixture";
 import {SubwayFixture} from "../../subways/SubwayFixture";
+import {DateUtils} from "../../../src/utils/DateUtils";
 
 describe("Alarm Service", () => {
 
@@ -84,6 +85,19 @@ describe("Alarm Service", () => {
             expect(alarm?.subways()[0].line).to.eq(AlarmFixture.ALARM_SUBWAY_LINE);
         });
 
+        it("should save alarm days ordered", async () => {
+            const days = ['sunday', 'monday', 'friday', 'tuesday'];
+            const orderedDays = ['monday', 'tuesday', 'friday', 'sunday'];
+
+            const alarmInput = await new AlarmFixture().withDays(days).getAlarmInput();
+            const created = await service.create(alarmInput);
+            const id = created.getData().id;
+
+            const alarm = await service.get(id, alarmInput.getOwner());
+
+            expect(alarm?.days).to.deep.eq(orderedDays);
+        });
+
         context("validations", () => {
 
             it('should not create alarm without name', async () => {
@@ -123,7 +137,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm with valid and invalid day', async () => {
-                const days = [AlarmDaysValidation.VALID_DAYS[0], "invalid"];
+                const days = [DateUtils.DAYS[0], "invalid"];
                 const alarm = await new AlarmFixture().withDays(days).getAlarmInput();
 
                 const result = await service.create(alarm);
@@ -133,7 +147,7 @@ describe("Alarm Service", () => {
             });
 
             it('should create alarm with all valid days', async () => {
-                const alarm = await new AlarmFixture().withDays(AlarmDaysValidation.VALID_DAYS).getAlarmInput();
+                const alarm = await new AlarmFixture().withDays(DateUtils.DAYS).getAlarmInput();
 
                 const result = await service.create(alarm);
 
@@ -141,7 +155,7 @@ describe("Alarm Service", () => {
             });
 
             it('should create alarm with some valid days', async () => {
-                const alarm = await new AlarmFixture().withDays(AlarmDaysValidation.VALID_DAYS.slice(0, 3)).getAlarmInput();
+                const alarm = await new AlarmFixture().withDays(DateUtils.DAYS.slice(0, 3)).getAlarmInput();
 
                 const result = await service.create(alarm);
 
@@ -242,7 +256,7 @@ describe("Alarm Service", () => {
             });
 
             it('should not create alarm with end time equal start time', async () => {
-                const alarm = await new AlarmFixture().withTimeRange( "12:00",  "12:00").getAlarmInput();
+                const alarm = await new AlarmFixture().withTimeRange("12:00", "12:00").getAlarmInput();
 
                 const result = await service.create(alarm);
 

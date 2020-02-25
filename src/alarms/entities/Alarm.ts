@@ -12,6 +12,7 @@ import {AlarmOwnerValidation} from "../validation/AlarmOwnerValidation";
 import {AlarmInput} from "./AlarmInput";
 import {AlarmPartialInput} from "./AlarmPartialInput";
 import {SubwayAlarm} from "./SubwayAlarm";
+import {DateUtils} from "../../utils/DateUtils";
 
 @Entity()
 @ObjectType()
@@ -62,6 +63,7 @@ export class Alarm {
         this.end = alarmInput.end ? alarmInput.end : this.end;
         this.setSubways(alarmInput.getSubways());
         this.owner = alarmInput.getOwner();
+        this.sortDays();
     }
 
     private setSubways(subways?: Subway[]): void {
@@ -88,5 +90,13 @@ export class Alarm {
 
     public getSubwayAlarm(subway: Subway): SubwayAlarm | undefined {
         return this.subwayAlarms.find(alarm => alarm.subway.equals(subway));
+    }
+
+    private sortDays(): void {
+        this.days = this.days.slice().sort((day1, day2) => {
+            const dayNumber1 = DateUtils.dayToNumber(day1);
+            const dayNumber2 = DateUtils.dayToNumber(day2);
+            return dayNumber1 < dayNumber2 ? -1 : 1;
+        });
     }
 }
