@@ -24,6 +24,6 @@ export class SubwayRepository {
     }
 
     public async update(subway: Subway): Promise<void> {
-        await this.repository.save(subway);
+        await this.repository.update(subway.line, subway);
     }
 }
