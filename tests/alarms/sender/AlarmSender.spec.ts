@@ -101,6 +101,16 @@ describe("Alarm Sender", () => {
                     MockPushNotificationsService.verifyNoNotificationSent();
                 });
 
+                it(`should not send alarm if status is normal '${status}' and last sent status is empty`, async () => {
+                    const subway = await new SubwayFixture().withStatus(status).createSubway();
+                    const alarm = await new AlarmFixture().withSubway(subway)
+                        .withOwnerFirebaseToken(NOTIFICATIONS_TOKEN).withLastAlarmSent(true, '').createAlarm();
+
+                    await alarmSender.sendAlarm(alarm, subway, now);
+
+                    MockPushNotificationsService.verifyNoNotificationSent();
+                });
+
                 SubwayStatusHelper.NORMAL_STATUS_OPTIONS.forEach(otherStatus => {
                     it(`should not send alarm if status is normal '${status}' and last sent status is other normal status '${otherStatus}'`, async () => {
                         const subway = await new SubwayFixture().withStatus(status).createSubway();

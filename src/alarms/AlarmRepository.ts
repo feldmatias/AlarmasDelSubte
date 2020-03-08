@@ -43,6 +43,7 @@ export class AlarmRepository {
 
     public async getForSubway(subway: Subway, now: MomentDate): Promise<Array<Alarm>> {
         return await this.repository.createQueryBuilder("alarm")
+            .innerJoinAndSelect("alarm.owner", "owner")
             .innerJoinAndSelect("alarm.subwayAlarms", "subwayAlarm")
             .innerJoinAndSelect("subwayAlarm.subway", "subway", "subway.line = :line", {line: subway.line})
             .where("alarm.days like :day", {day: `%${now.day()}%`})
