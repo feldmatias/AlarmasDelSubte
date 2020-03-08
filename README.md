@@ -21,7 +21,7 @@ Install node.js and npm, then run `npm install`
 - Run linter: `npm run pretest`
 
 ### Migrations
--Generate: `npm run migrations:generate -- -n \<migration name\>`
+-Generate: `npm run migrations:generate -- -n <migration name>`
 
 ### Config for development
 Check `config/default.ts` for missing configuration values, they need to be set in a file named `config/development.ts`
