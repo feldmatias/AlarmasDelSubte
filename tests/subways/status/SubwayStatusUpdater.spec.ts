@@ -59,8 +59,8 @@ describe("Subway Status Updater", () => {
 
     context("update subway status", () => {
 
-        it("should update subway status when api return status", async () => {
-            const subway = await new SubwayFixture().createSubway();
+        it("should update subway status when api return status", async () => 
+            const subway = await new SubwayFixture().withLine("6").createSubway();
 
             MockApiService.mockGetRequest(apiUrl, subwaysApiResponse([subway.line]));
 
@@ -125,7 +125,7 @@ describe("Subway Status Updater", () => {
         });
 
         it("should not fail when api returns status for unknown subway", async () => {
-            const subway = await new SubwayFixture().createSubway();
+            const subway = await new SubwayFixture().withLine("6").createSubway();
 
             MockApiService.mockGetRequest(apiUrl, subwaysApiResponse([subway.line, "othersubway"]));
 
