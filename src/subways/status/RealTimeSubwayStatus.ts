@@ -42,7 +42,7 @@ class SubwayInfo {
     private subwayLine!: string;
 
     public getSubwayLine(): string {
-        return this.subwayLine.replace(SubwayInfo.LINE_PREFIX, "");
+        return this.subwayLine.replace(SubwayInfo.LINE_PREFIX, "").charAt(0);
     }
 }
 
