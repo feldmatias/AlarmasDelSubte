@@ -52,7 +52,7 @@
     "coveralls": "^3.0.9",
     "cross-env": "^6.0.3",
     "eslint": "^6.8.0",
-    "mocha": "^6.2.2",
+    "mocha": "^10.2.0",
     "mock-req-res": "^1.1.4",
     "nyc": "^15.0.0",
     "sinon": "^8.1.1",
